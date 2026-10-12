@@ -188,13 +188,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-031 — olc-explore skill (P1) or OLC-032 — intent.md/plan.md workflow (P0).
 
 ### OLC-031 — Implement `olc-explore` skill
-- **Status:** TODO
+- **Status:** REVIEW
 - **Priority:** P1
 - **Depends on:** OLC-023, OLC-030
 - **Goal:** Clarify complex/uncertain tasks before planning.
 - **Work:** Explore source and user request, record findings/evidence/questions in one current report, preserve important revision reasoning.
 - **Acceptance criteria:** Explore is optional; produces no app code changes; report is saved in correct project vault; user can choose direct Plan instead.
 - **Verification:** Scenario test for complex request and a simple task selecting direct Plan.
+- **Date:** 2026-10-12
+- **Implemented:** New `skills/olc-explore/SKILL.md` (frontmatter `name`+`description` for discovery): when-to-use vs direct Plan (user choice wins), hard rules (read-only on app source — no drive-by fixes; single current report at `tasks/<task-id>/explore/report.md` in the validated vault; evidence required per finding; revisions appended as dated sections, reasoning preserved), flow (validate identity → read minimal context → render `explore-report` template → revise in place → hand off to `draftTaskDocs`), self-check (`git status` clean, no `{{...}}` left). Deleted now-redundant `skills/.gitkeep`. Permission-level edit-deny for explore mode deferred (same standing issue as OLC-030).
+- **Verification commands/results:** `npm test` → 67 pass / 0 fail incl. new `tests/explore.test.ts` (complex-request scenario: report rendered+written, revision preserves original findings, fixture repo `git status` empty; simple-task scenario: no explore report, `draftTaskDocs` works directly). Discovery smoke (OLC-030 precedent): fixture `/tmp/opencode/olc31` + persistent `opencode serve --port 14102` + `opencode api --server URL get /api/skill --param 'location={...}'` → `olc-explore` listed among skills. Fixture server killed (`kill -9` after `pkill -f` kept matching our own shell — lesson: self-matching pattern), fixtures removed. `npm run typecheck` clean, `npm run build` OK. No publish.
+- **Evidence/files/commit:** Not yet committed. Files: `skills/olc-explore/SKILL.md` (new), `tests/explore.test.ts` (new), `skills/.gitkeep` (deleted).
+- **Remaining issues:** Skill enforcement is instruction-level (agent must obey SKILL.md); hard read-only enforcement deferred with OLC-030's permission note.
+- **Next task:** OLC-041 — test/report/escalation behavior (M4).
 
 ### OLC-032 — Implement `intent.md` and `plan.md` workflow
 - **Status:** DONE (confirmed per standing instruction 2026-10-12)
