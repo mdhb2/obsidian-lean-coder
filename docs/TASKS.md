@@ -43,7 +43,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-002 — npm package and TypeScript tooling skeleton.
 
 ### OLC-002 — Establish npm package and TypeScript tooling
-- **Status:** REVIEW
+- **Status:** DONE (confirmed by user 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-001
 - **Goal:** Provide a buildable npm package skeleton.
@@ -53,7 +53,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Date:** 2026-10-12
 - **Implemented:** Added `package.json` (name `obsidian-lean-coder`, matches GitHub repo name — placeholder `olc` was already taken on npm, switched per user correction; `private: true` as a publish guard), `tsconfig.json` (NodeNext ESM, strict, `rootDir: src` / `outDir: dist`), `src/index.ts` as the thin runtime entrypoint (exports `OLC_VERSION`), replacing `src/.gitkeep`. Scripts: `build` (tsc), `typecheck` (tsc --noEmit), `test` (placeholder echo, real suite is OLC-003), `prepublishOnly` (runs build). `files` allowlist: `dist`, `agents`, `skills`, `templates`. `engines.node >=18.18.0`. Devdependency: `typescript@^5.6.3`. Updated `.gitignore`: added `dist/` (already present) and de-duplicated a repeated `*.tgz` line; also removed a stray `olc-0.0.1.tgz` produced by the dry-run pack.
 - **Verification commands/results:** `npm install` → installed 1 package (typescript), 0 vulnerabilities. `npm run build` → `tsc -p tsconfig.json` succeeded, produced `dist/index.js` + `dist/index.d.ts`. `npm run typecheck` → `tsc --noEmit` succeeded, no errors. `npm test` → placeholder passes (exit 0), real test baseline deferred to OLC-003 per milestone order. `npm pack --dry-run` → succeeded, tarball contents: `README.md`, `agents/.gitkeep`, `dist/index.d.ts`, `dist/index.js`, `package.json`, `skills/.gitkeep`, `templates/.gitkeep` (7 files, 1.4 kB packed / 2.5 kB unpacked). No publish performed.
-- **Evidence/files/commit:** `package.json`, `package-lock.json`, `tsconfig.json`, `src/index.ts` (new; replaces `src/.gitkeep`), `.gitignore` (deduped). Not yet committed — left for user/OLC-checkpoint flow per safety rules (same as OLC-001).
+- **Evidence/files/commit:** `package.json`, `package-lock.json`, `tsconfig.json`, `src/index.ts` (new; replaces `src/.gitkeep`), `.gitignore` (deduped). Committed in `f95b759` "OLC-002: npm package and TypeScript tooling skeleton".
 - **Remaining issues:** Package name `olc` was unavailable on npm; renamed to `obsidian-lean-coder` to match the GitHub repo name (confirmed via `npm pack --dry-run` re-run, no actual publish/registry check performed — availability for `obsidian-lean-coder` still needs confirming before any real publish, tracked in `docs/DECISIONS.md` #1). No lint tool chosen yet (optional per task Work description); left unset. Real test runner/suite deferred to OLC-003.
 - **Next task:** OLC-003 — add CI and test baseline (or proceed to OLC-010 per "first execution batch" ordering, pending user direction).
 
