@@ -359,7 +359,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-061 — resume and checkpoint summary.
 
 ### OLC-061 — Implement resume and checkpoint summary
-- **Status:** REVIEW
+- **Status:** DONE (auto-continue instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-033, OLC-060
 - **Goal:** Rebuild enough context after interruption.
@@ -369,7 +369,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Date:** 2026-10-12
 - **Implemented:** New `src/resume/index.ts`: `buildResumeContext({projectRoot, config, lastEventsLimit?})` — validates identity FIRST (unavailable vault/mismatch throws before any read); returns `{branch, head, staged, unstaged, untracked}` from real git, `currentState` (`current-state.md`, null when absent), `openTasks` (non-terminal, newest first), `recommendedTaskId` + note via OLC-033 `recommendResume`, `taskDocs` (intent/plan statuses, `missing`-tolerant via OLC-032 `getDocStatuses`), `lastEvents` (newest-first, default 5, surfaces last verification), `lastCheckpoint` (newest `kind:checkpoint` event with `gitSha`), `needsConfirmation: true` always, `blocked` message on ambiguity. Detached HEAD does not nuke the context: vault-side checks still apply (registry must match this repo), branch reported null, result marked blocked. Block conditions: detached HEAD; open tasks exist but none on current branch; two tasks equally recent on one branch. Read-only — zero writes by construction. `tests/resume.test.ts`: 6 real-fixture tests covering all five verification scenarios (clean interruption incl. checkpoint SHA cross-check, uncommitted changes surfaced, detached HEAD blocked-with-context, most-recent-of-two recommended, tie blocks, unavailable vault throws before reads).
 - **Verification commands/results:** `npm run typecheck` clean; `npm test` → 112 pass / 0 fail (106 prior + 6 new); `npm run build` OK; `npm pack --dry-run` → 48 files. No publish.
-- **Evidence/files/commit:** Not yet committed. Files: `src/resume/index.ts` (new), `tests/resume.test.ts` (new), `docs/TASKS.md` (this entry).
+- **Evidence/files/commit:** Committed in `2bac0be` "OLC-061: read-only resume context with confirmation gate" (`src/resume/index.ts`, `tests/resume.test.ts`, `docs/TASKS.md`).
 - **Remaining issues:** None. Resume is a library function returning a context object — rendering it as the agent-facing plain-language summary belongs to OLC-063 (which consumes this).
 - **Next task:** OLC-062 — `olc-memory` progressive retrieval.
 
