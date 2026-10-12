@@ -126,13 +126,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-021 — project and vault identity checks.
 
 ### OLC-021 — Implement project and vault identity checks
-- **Status:** TODO
+- **Status:** DONE (auto-continue instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-020
 - **Goal:** Prevent memory from the wrong project being read or modified.
 - **Work:** Resolve repository root and branch; validate project_id against vault registry; check path accessibility before important operations.
 - **Acceptance criteria:** Identity mismatch or unavailable vault blocks OLC-dependent operation with actionable message; no fallback storage is created.
 - **Verification:** Tests for wrong project ID, duplicate ID, missing vault, missing registry, and permission error.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/core/project-identity.ts` (PRD §8 layout): `resolveRepoRoot` (walks up to `.git`, dir or worktree file; else NOT_A_REPO), `resolveBranch` (`git rev-parse --abbrev-ref HEAD`; detached → DETACHED_HEAD with sha, unborn → GIT_FAILED), `assertVaultAccessible` (readdir probe; ENOENT/EACCES → VAULT_UNAVAILABLE, never creates anything), `readRegistry` + `validateIdentity` against vault registry convention `OLC/registry.json` (`{"projects": {"<id>": {"repoRoot": "<abs>"}}}`; missing → MISSING_REGISTRY, bad shape/JSON → INVALID_REGISTRY, unknown id → UNREGISTERED_PROJECT, id mapped to another root → PROJECT_MISMATCH with explicit refusal). `src/index.ts` untouched (thin entrypoint). `tests/identity.test.ts`: 11 tests with real temp git repos/vaults (no mocks for git).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 25 pass / 0 fail (14 OLC-020 + 11 new: happy path, subdir, NOT_A_REPO, detached, unregistered id, duplicate id→mismatch, missing vault (+`existsSync` proves nothing created), missing/corrupt registry, chmod-000 permission message, relative repoRoot compare); `npm run build` OK; `npm pack --dry-run` → 13 files. Test bug caught during run: first version of the missing-vault test used a fixed `/tmp` path and its own buggy assertion line created the dir, so a rerun reported MISSING_REGISTRY instead of VAULT_UNAVAILABLE — fixed with unique mkdtemp-based path + leftover dir removed.
+- **Evidence/files/commit:** Committed in `COMMIT` "OLC-021: project and vault identity gate with fixture tests" (`src/core/project-identity.ts`, `tests/identity.test.ts`, `docs/TASKS.md`).
+- **Remaining issues:** Registry convention `OLC/registry.json` is new (PRD only says "registry proyek di vault") — `olc-init` (OLC-022) must write exactly this shape. Unborn-HEAD repos and non-git projects are hard-blocked for now (documented limitation; revisit only if a use case demands it).
+- **Next task:** OLC-022 — safe, idempotent `olc-init`.
 
 ### OLC-022 — Implement safe, idempotent `olc-init`
 - **Status:** TODO
