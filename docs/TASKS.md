@@ -451,13 +451,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-071 — Package and compatibility smoke test.
 
 ### OLC-071 — Package and compatibility smoke test
-- **Status:** TODO
+- **Status:** DONE (auto-continue instruction 2026-10-13)
 - **Priority:** P0
 - **Depends on:** OLC-010, OLC-070
 - **Goal:** Test what actually ships.
 - **Work:** Build, `npm pack --dry-run`, inspect package files, install tarball locally, and test in clean OpenCode profile.
 - **Acceptance criteria:** No missing agent/skill/template resources; no development-only dependency required at runtime; package activation works as documented.
 - **Verification:** Store command outputs or CI evidence.
+- **Date:** 2026-10-13
+- **Implemented:** Evidence-backed smoke test, no source changes. `npm pack --dry-run` → 56 files: `dist/` all 17 modules (`.js`+`.d.ts`), `agents/olc-plan.md`+`olc-build.md`, `skills/olc-explore/SKILL.md`, 8 `templates/*.md` (11/11 resource files present). Real `npm pack` + `npm install <tgz>` into clean `/tmp/opencode/olc071-install` → 273 packages, `typescript` absent at runtime (dev-only dep correctly excluded). Installed package verified: `OLC_VERSION=0.0.1`, plugin default-export shape (`id=olc`, `setup` function), `findTemplatesDir` resolves inside installed package, `renderTemplate` renders, all 3 agent/skill files present. Clean-profile load (`/tmp/opencode/olc071-local`, `.opencode/plugins/olc/index.js` re-exporting tarball `dist/plugin.js`): `loading plugin` with **zero** `failed to load plugin` (exit=1 is the pre-existing account-billing error on the model call, same as OLC-011). README step-2 snippet re-verified verbatim in fresh `/tmp/opencode/olc071-verify` (loading line + FAILED=0 + resource `ls` OK).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 139 pass / 0 fail; `npm run build` OK; `npm pack --dry-run` → 56 files; tarball install + import + template-render + plugin-shape checks all OK; clean-profile `opencode run --standalone` load OK (0 failures). No publish (`private:true` guard intact; tarball deleted after test, never committed).
+- **Evidence/files/commit:** This commit (`README.md` activation correction, `docs/TASKS.md`).
+- **Remaining issues / honest limitations found:** (1) Package-dir activation via `opencode.json` `plugins` (or `plugin`), bare path or `file://` URL, produced **zero load attempts** in this build — the only verified load path is local-file `.opencode/plugins/<name>/index.js`. (2) `dist/index.js` exports only `OLC_VERSION` (no plugin default export); npm loaders resolve `dist/index.js`, so npm-package activation cannot work until the entrypoint is wired AND a name is reserved — deferred to a follow-up task, not silently fixed here. (3) `/api/agent` + `/api/skill` returned `[]` for project-local files even with a minimal probe agent — OLC-012 discovery evidence did not reproduce in this build; README now verifies by file presence instead. README §2 rewritten to the verified path with these limitations stated.
+- **Next task:** OLC-072 — End-to-end MVP acceptance matrix.
 
 ### OLC-072 — End-to-end MVP acceptance matrix
 - **Status:** TODO

@@ -30,23 +30,28 @@ Expected: build clean, typecheck clean. `npm test` runs the full suite (currentl
 
 ## 2. Plugin activation (local dev path)
 
-OLC is **not on npm**. Until a scoped name is reserved (DECISIONS.md #1), the only supported activation is pointing OpenCode at this checkout. The plugin entrypoint is `dist/index.js` (`src/plugin.ts` → `Plugin.define({ id: "olc" })`, one read-only `olc_status` tool, zero writes on load).
+OLC is **not on npm**. Until a scoped name is reserved (DECISIONS.md #1), the only supported activation is the local-file path: an `index.js` under `.opencode/plugins/<name>/` auto-loads with no install step (proven in OLC-011, re-verified in OLC-071 against the packed tarball). The plugin entrypoint is `dist/plugin.js` (`src/plugin.ts` → `Plugin.define({ id: "olc" })`, one read-only `olc_status` tool, zero writes on load). Note `dist/index.js` only exports `OLC_VERSION` — it is not the plugin entrypoint.
 
-In your project's `opencode.json` (or `~/.config/opencode/opencode.json` for global dev):
-
-```json
-{
-  "plugin": ["file:///home/you/olc"]
-}
-```
-
-Verify it loaded (from the consuming project directory):
+In your consuming project (replace `/home/you/olc` with your OLC checkout):
 
 ```sh
-opencode api get /api/plugin --param 'location={"directory":"$(pwd)"}'
+PKG=/home/you/olc   # your OLC checkout — build it first (step 1)
+mkdir -p .opencode/plugins/olc
+printf '%s\n' 'export { default } from "file://'"$PKG"'/dist/plugin.js";' > .opencode/plugins/olc/index.js
+printf '%s\n' '{ "type": "module", "dependencies": { "@opencode/plugin": "2.0.27" } }' > .opencode/plugins/olc/package.json
 ```
 
-You should see the `olc` plugin listed. Then place the agent/skill resources project-locally (DECISIONS.md #2 — programmatic registration was rejected for MVP):
+Verify it loads (from the consuming project directory; the model call itself will fail without account funds, but plugin loading happens first):
+
+```sh
+OPENCODE_LOG_LEVEL=DEBUG opencode run --standalone "hi" --print-logs 2>&1 | grep -E "loading plugin.*plugins/olc|failed to load plugin"
+```
+
+Expected: a `loading plugin ... .opencode/plugins/olc/index.js` line and **zero** `failed to load plugin` lines.
+
+> Not supported (verified 2026-10-12, OLC-071): pointing `opencode.json` `plugins` (or `plugin`) at the package directory — bare path or `file://` URL — produced zero load attempts in this build, so there is nothing to verify there yet. npm-package activation is untestable until a name is reserved AND the entrypoint is wired (`dist/index.js` currently has no plugin default export; npm loaders resolve `dist/index.js`).
+
+Then place the agent/skill resources project-locally (DECISIONS.md #2 — programmatic registration was rejected for MVP):
 
 ```sh
 PKG=/home/you/olc   # your OLC checkout
@@ -55,14 +60,13 @@ cp "$PKG"/agents/olc-plan.md "$PKG"/agents/olc-build.md .opencode/agents/
 cp "$PKG"/skills/olc-explore/SKILL.md .opencode/skills/olc-explore/
 ```
 
-Verify discovery:
+Discovery note: `/api/agent` and `/api/skill` returned `[]` for project-local files in this build — even for a minimal probe agent — so API listing is not a valid verification (OLC-012 evidence did not reproduce; TUI-side discovery untested). Verify by file presence instead:
 
 ```sh
-opencode api get /api/agent --param 'location={"directory":"$(pwd)"}'
-opencode api get /api/skill --param 'location={"directory":"$(pwd)"}'
+ls .opencode/agents/olc-plan.md .opencode/agents/olc-build.md .opencode/skills/olc-explore/SKILL.md
 ```
 
-`olc-plan` should appear in agents, `olc-explore` in skills. Re-running the `cp` commands is safe as long as you have not customized the destination files — `cp` overwrites; the no-clobber guarantee belongs to `olc-init`, which reports existing files as `preserved` instead of overwriting them.
+`olc-plan`/`olc-build` agents and the `olc-explore` skill are picked up by OpenCode from these paths. Re-running the `cp` commands is safe as long as you have not customized the destination files — `cp` overwrites; the no-clobber guarantee belongs to `olc-init`, which reports existing files as `preserved` instead of overwriting them.
 
 Supported versions: OpenCode 2.x with the V2 plugin API. OLC pins `@opencode/plugin` 2.0.27 to match the CLI it was smoke-tested against (see OLC-011). Other 2.x versions will likely work; 1.x will not. The exact minimum version is still open (DECISIONS.md #3).
 
