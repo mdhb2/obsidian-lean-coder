@@ -23,7 +23,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "echo \"no tests yet (see OLC-003)\" && exit 0",
+    "test": "tsc -p tsconfig.tests.json && node --test \"dist-tests/tests/**/*.test.js\"",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
