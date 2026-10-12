@@ -94,13 +94,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-012 — define resource delivery and activation (after OLC-011 confirmed DONE).
 
 ### OLC-012 — Define resource delivery and activation
-- **Status:** TODO
+- **Status:** REVIEW
 - **Priority:** P0
 - **Depends on:** OLC-010
 - **Goal:** Deliver agents/skills in a way OpenCode can actually discover.
 - **Work:** Choose and test strategy: supported plugin-exposed tools/resources, safe install/copy to supported locations, or explicit user configuration. Do not assume arbitrary folders auto-load.
 - **Acceptance criteria:** Setup path is deterministic, idempotent, preserves user files, and documented with copy-paste commands/config.
 - **Verification:** New-user install fixture and repeat-install fixture.
+- **Date:** 2026-10-12
+- **Implemented:** DECISION (research/fixture task, no repo source code changed): project-local file placement `.opencode/agents/<name>.md` + `.opencode/skills/<id>/SKILL.md`, installed by a safe idempotent copy owned by `olc-init` (OLC-022's job). Programmatic registration via `ctx.agent.transform`/`ctx.skill.transform` rejected for MVP: decompiled binary shows `AgentEditor` exposes only list/get/default/update/remove (NO `add`), while `SkillEditor` has `add()` — with no agent-add API there is no single programmatic path, and two parallel mechanisms would double the surface to test. Static files are also the documented user-visible discovery path (Agents docs: `~/.config/opencode/agents/<name>.md` global, `.opencode/agents/<name>.md` project, or `agents` config; Skills docs: `~/.config/opencode/skills`, `.opencode/skills` root `*.md` or nested `SKILL.md`, or `skills` config array). Project-local (not global) chosen so OLC never touches files outside the project.
+- **Verification commands/results:** Fixture A (new user) `/tmp/opencode/olc12-new`: fresh dir + fixture `.opencode/agents/olc-plan.md` + `.opencode/skills/olc-memory/SKILL.md` → persistent `opencode serve --port 14099` + `opencode api --server URL get /api/skill --param 'location={"directory":...}'` shows `olc-memory`, and `... get /api/agent ...` shows `olc-plan` (note: `opencode api --server` flag goes AFTER the `api` subcommand; server prints `server password <pw>` in its log, pass via `OPENCODE_PASSWORD`; list endpoints need deepObject param `location={directory}`). Fixture B (repeat install) `/tmp/opencode/olc12-repeat`: pre-existing `my-reviewer.md`, `my-notes/SKILL.md`, `opencode.json` + repeat `cp` install → pre-existing files byte-identical (`sha256sum -c` OK), discovery via `serve --port 14100` shows agents `[.., my-reviewer, olc-plan]` and skills incl. `my-notes` + `olc-memory`, no duplicates, no clobbering. Both fixture servers killed after use; user's own `serve --service` instance untouched. Rejected alternative: driving `ctx.agent/ctx.skill.list()` from inside plugin `setup` — abandoned because those list calls default to a non-project location and race async discovery (timestamps/subagents).
+- **Evidence/files/commit:** Not yet committed. Evidence: `docs/DECISIONS.md` row #2 resolved with this decision + copy-paste setup snippet; this TASKS.md entry. No `src/`/`agents/`/`skills/` changes yet — real fixture resources and the `olc-init` copy logic belong to OLC-022/OLC-030/OLC-070.
+- **Remaining issues:** Minimum OpenCode version still unpinned (proven against 2.0.27 only). Actual `agents/*.md` + `skills/*/SKILL.md` content and `olc-init` installer land in later tasks.
+- **Next task:** OLC-050 — Git checkpoint safety spike (per first-execution-batch order), or OLC-020 — config schema.
 
 ## M2 — Config, identity, vault, init
 
