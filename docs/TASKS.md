@@ -312,7 +312,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-052 — safe restore-to-checkpoint.
 
 ### OLC-052 — Implement restore-to-checkpoint safely
-- **Status:** REVIEW
+- **Status:** DONE (auto-continue instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-051
 - **Goal:** Restore code contents to an earlier checkpoint without deleting later history.
@@ -322,7 +322,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Date:** 2026-10-12
 - **Implemented:** New `src/git/restore.ts` (`restoreCheckpoint`): OLC-021 `validateIdentity` → normalize paths (`PATH_OUTSIDE_REPO`) → resolve SHA via `rev-parse --verify <sha>^{commit}` (`UNKNOWN_CHECKPOINT`) → `merge-base --is-ancestor` against HEAD (`NOT_ANCESTOR`; status-code check via spawnSync so exit-1 vs real error are distinguished) → read each intended path's bytes at the checkpoint (`PATH_NOT_IN_CHECKPOINT`; MVP never deletes/creates files) → abort on any risk to intended paths (`RESTORE_PATH_PRESTAGED` / `UNSTAGED_RISK` / `UNTRACKED_RISK`, exact paths listed; no force flag — the agent surfaces the list to the user as the confirmation step) → write checkpoint bytes (Buffer, binary-safe) → `git add --` → re-verify staged bytes via `git show :<path>` (race guard, `STAGE_MISMATCH`) → empty stage returns `already-matches` (no commit, no record) → `git commit -m "olc restore: <task> (<paths>) to <short>" -- <paths>` (pathspec; foreign staged changes elsewhere survive) → append record with BOTH shas via `appendCheckpointRecord` (extracted from `createCheckpoint` into an exported helper; `checkpoint.ts` behavior unchanged). Same bans as OLC-051 plus `reset --hard`, `checkout <sha> -- .`, any reset-to-older-commit. `tests/restore.test.ts`: 8 real-git-fixture tests.
 - **Verification commands/results:** `npm run typecheck` clean (after fixing a self-inflicted edit that dropped the `createCheckpoint` signature line); `npm test` → 90 pass / 0 fail (82 prior + 8 new: 3-checkpoint restore with history-reachable + user files intact + commit file list exact + dual-SHA record; unknown SHA; non-ancestor side-branch; absent-at-checkpoint; unstaged-risk preserves content; prestaged; untracked-shadow preserves scratch; foreign-staged-survives + already-matches no-op); `npm run build` OK; `npm pack --dry-run` → 42 files. No publish. Test-caught fixture bugs: fixture wrote HEAD-identical content (→ `clean`); restore-to-current-HEAD is correctly `already-matches`, not `restored`.
-- **Evidence/files/commit:** Not yet committed. Files: `src/git/restore.ts` (new), `src/git/checkpoint.ts` (append-helper extract only), `tests/restore.test.ts` (new), this TASKS.md entry.
+- **Evidence/files/commit:** Committed in `525df80` "OLC-052: safe restore-to-checkpoint as new commit" (`src/git/restore.ts`, `src/git/checkpoint.ts` helper extract, `tests/restore.test.ts`, `docs/TASKS.md`).
 - **Remaining issues:** Restore cannot delete files created after the checkpoint or recreate deleted ones (aborts with explicit code) — symmetric with OLC-051's deletion limit. Snapshots compared as bytes on restore (binary-safe write path; OLC-051's write-time snapshots remain UTF-8 strings).
 - **Next task:** OLC-053 — pre-switch and task-final checkpoint policy.
 
