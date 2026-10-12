@@ -24,7 +24,7 @@ npm test         # tsc -p tsconfig.tests.json && node --test "dist-tests/tests/*
 npm run typecheck
 ```
 
-Expected: build clean, typecheck clean. `npm test` runs the full suite (currently 139 tests). `npm pack --dry-run` shows what would ship (`dist/`, `agents/`, `skills/`, `templates/`).
+Expected: build clean, typecheck clean. `npm test` runs the full suite (currently 140 tests). `npm pack --dry-run` shows what would ship (`dist/`, `agents/`, `skills/`, `templates/`).
 
 > npm publish is blocked: `package.json` has `"private": true`. Removing that flag needs a separate explicit approval — never publish by accident.
 

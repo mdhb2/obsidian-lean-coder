@@ -481,13 +481,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-073 — Prepare MVP pre-release.
 
 ### OLC-073 — Prepare MVP pre-release
-- **Status:** TODO
+- **Status:** DONE (auto-continue instruction 2026-10-13)
 - **Priority:** P1
 - **Depends on:** OLC-072
 - **Goal:** Create a usable version for controlled testing.
 - **Work:** Version bump, changelog, package dry-run, documentation review, known limitations, npm publish preparation without publishing unless user explicitly requests it.
 - **Acceptance criteria:** No known P0 safety/test failures; version and install instructions are consistent.
 - **Verification:** Release checklist marked with evidence. Publishing remains a separate explicitly approved action.
+- **Date:** 2026-10-13
+- **Implemented:** Version `0.0.1` → `0.1.0` (`package.json` via `npm pkg set` + lockfile synced, `src/index.ts` `OLC_VERSION`; no test pins the old version — grep confirmed). New `CHANGELOG.md`: 0.1.0 MVP pre-release notes (what works, 13 known limitations carried over from OLC-071/072 evidence) + 0.0.1 baseline row. `package.json` `files` allowlist extended with `README.md` + `CHANGELOG.md` (docs now ship with the package). README test-count corrected (139 → 140). Release checklist: typecheck clean, 140/140 pass, build OK, `npm pack --dry-run` → 57 files as `obsidian-lean-coder-0.1.0.tgz`, built entry reports `0.1.0`, `private:true` guard intact, dry-run only (no tarball left behind, nothing published).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 140 pass / 0 fail; `npm run build` OK; `npm pack --dry-run` → 57 files. No publish.
+- **Evidence/files/commit:** This commit (`package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
+- **Remaining issues:** Publish action still requires separate explicit user approval. Open items for post-MVP: npm name reservation (DECISIONS #1), plugin entrypoint wiring for npm activation, `/api/agent|skill` discovery gap, min OpenCode version pin (#3), OLC-003 CI baseline (only TODO outside M7).
+- **Next task:** OLC-003 — CI/test baseline (last remaining TODO).
 
 ## Deferred
 
