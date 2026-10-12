@@ -389,13 +389,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-063 — session summary in plain language.
 
 ### OLC-063 — Implement session summary in plain language
-- **Status:** TODO
+- **Status:** DONE (auto-continue instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-060, OLC-061
 - **Goal:** End each normal session with a useful, non-technical summary.
 - **Work:** Include what was done, observed result, tests, unfinished work, blockers/risks, next step, checkpoint if created.
 - **Acceptance criteria:** Indonesian/plain language by default for this project; factual claims map to actual event/test data; no claiming a summary is guaranteed after hard kill.
 - **Verification:** Normal completion, blocked session, no-code-change session, and partial failure scenarios.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/session/index.ts`: `buildSessionSummary({projectRoot, config, whatDone[], verifyOutcome?, testsNote?, checkpointSha?, checkpointTaskId?, blockedReason?, remaining[], nextStep, date?})` validates via `buildResumeContext` first (bad vault throws before writes), renders Indonesian summary via `renderTemplate` `session-summary` plus hard-kill honesty footer, maps factual claims strictly (verify lines from VerifyOutcome counts/escalated, checkpoint line only with real SHA, open tasks from resume ctx), returns `{markdown, logFile, date}`; appends compact `kind:session` logEvent with headline + next + optional sha/taskId. `tests/session.test.ts`: 5 scenarios (normal completion 1/1 pass + SHA + log, blocked 0/1 fail + 2 attempts + no checkpoint claim + open task line, no-code-change honest empty sections, partial failure pass + blocked, resume visibility of session event in day log).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 126 pass / 0 fail (121 prior + 5 new); `npm run build` OK; `npm pack --dry-run` → 52 files. No publish.
+- **Evidence/files/commit:** Committed in this session (`src/session/index.ts`, `tests/session.test.ts`, `docs/TASKS.md`).
+- **Remaining issues:** None.
+- **Next task:** OLC-064 — taste proposal lifecycle.
 
 ### OLC-064 — Implement taste proposal lifecycle
 - **Status:** TODO
