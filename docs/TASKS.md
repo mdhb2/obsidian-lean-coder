@@ -141,13 +141,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-022 — safe, idempotent `olc-init`.
 
 ### OLC-022 — Implement safe, idempotent `olc-init`
-- **Status:** TODO
+- **Status:** DONE (auto-continue instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-021, OLC-012
 - **Goal:** Initialize a project without damaging existing work.
 - **Work:** Propose project_id from repo name and require approval; collect/confirm vault path; prepare `.olc/` and vault structure; create missing docs; preserve existing files; report created/preserved/skipped/attention-needed; add dry-run if feasible.
 - **Acceptance criteria:** Re-running init does not overwrite customized files; duplicate project_id prompts for a new ID; no hidden copy of master templates is required in vault.
 - **Verification:** Run twice on temporary repo/vault fixtures, including pre-existing config and custom instructions.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/init/index.ts`: `proposeProjectId` (sanitized repo basename) + `initProject({projectRoot, projectId?, vaultPath?, env?, dryRun?})` returning `{status: "ready"|"needs-decision", entries[], decision?}`. Flow: resolve repo root (reuses OLC-021) → id = explicit, else existing-config, else return proposal as needs-decision (approval = re-call with id) → vault = explicit > `OLC_VAULT_PATH` > existing config, else needs-decision (never invented) → duplicate-id check BEFORE any write (registered to another root → needs-decision, zero writes) → write phase creates only missing: `.olc/config.json`, `.olc/AGENTS.md` stub, `OLC/Projects/<id>/{index.md, current-state.md, decisions/, tasks/, logs/, memory/, taste/}`, registry entry in OLC-021's `OLC/registry.json` shape; existing files → `preserved`; invalid config / corrupt registry → `attention`, nothing overwritten. `dryRun` simulates the full report with zero writes. No templates copied into vault (references package `templates/` only). `tests/init.test.ts`: 8 fixture tests incl. approve-then-create (result passes OLC-021 `validateIdentity`), rerun byte-identical preservation, pre-existing config, duplicate-id zero-writes, dry-run, missing-vault asks, invalid-config flagged, id sanitization.
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 33 pass / 0 fail (14 + 11 prior + 8 new); `npm run build` OK; `npm pack --dry-run` → 15 files. No publish.
+- **Evidence/files/commit:** Committed in `COMMIT` "OLC-022: safe idempotent init with dry-run" (`src/init/index.ts`, `tests/init.test.ts`, `docs/TASKS.md`).
+- **Remaining issues:** Init is a library function, not a CLI command yet — wiring to an actual `olc-init` command/tool belongs to the plugin-tool tasks (M4/M7 area). `.opencode/agents|skills` placement (OLC-012 decision) not yet copied by init — content lands in OLC-030+, copy logic follows then.
+- **Next task:** OLC-023 — Markdown vault and template adapters.
 
 ### OLC-023 — Add Markdown vault and template adapters
 - **Status:** TODO
