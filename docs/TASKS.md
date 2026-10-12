@@ -404,13 +404,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-064 — taste proposal lifecycle.
 
 ### OLC-064 — Implement taste proposal lifecycle
-- **Status:** TODO
+- **Status:** DONE (auto-continue instruction 2026-10-12)
 - **Priority:** P1
 - **Depends on:** OLC-023, OLC-062
 - **Goal:** Learn project-specific preferences without silently changing behavior.
 - **Work:** Record repeat signals, prepare proposed taste rule with examples/evidence, maintain `pending`/`active`/`rejected` statuses.
 - **Acceptance criteria:** Only user approval activates a rule; scope is one project; approved intent/plan is not overwritten by taste memory.
 - **Verification:** Pending remains inactive, approval activates, rejection stays inactive, cross-project isolation.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/taste/index.ts`: `proposeTasteRule({projectRoot, config, name, rule, examples[]})` validates identity first, requires non-empty rule + ≥1 evidence entry, renders `taste-rule` template as `taste/<name>.md` with status `pending` via atomic create-only write (never active on creation, duplicates throw `ALREADY_EXISTS`); `getTasteRule`/`listTasteRules({status?})` read within validated scope only (parse + validate frontmatter status, `CORRUPT_RULE` on drift); `reviewTasteRule({approve})` explicit user decision only — pending→active on approve, pending→rejected on reject, terminal states throw `BAD_TRANSITION`, unknown names throw `UNKNOWN_RULE`. Only `taste/` touched, approved intent/plan bytes untouched. `TasteError` codes: `INVALID_NAME`, `INVALID_INPUT`, `UNKNOWN_RULE`, `BAD_TRANSITION`, `ALREADY_EXISTS`, `CORRUPT_RULE`. `tests/taste.test.ts`: 7 multi-project fixture tests (pending-never-active, approve→active + re-review blocked, reject parked, intent/plan byte-identical, cross-project isolation incl. same-name divergence, invalid/duplicate safety, wrong-project identity throws before read/write).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 133 pass / 0 fail (126 prior + 7 new); `npm run build` OK; `npm pack --dry-run` → 54 files. No publish.
+- **Evidence/files/commit:** Committed in this session (`src/taste/index.ts`, `tests/taste.test.ts`, `docs/TASKS.md`).
+- **Remaining issues:** None.
+- **Next task:** OLC-065 — vault/project validation at important operations.
 
 ### OLC-065 — Validate vault/project at important operations
 - **Status:** TODO
