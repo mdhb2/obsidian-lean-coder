@@ -297,7 +297,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-051 — Implement Git inspection and checkpoint commit.
 
 ### OLC-051 — Implement Git inspection and checkpoint commit
-- **Status:** REVIEW
+- **Status:** DONE (auto-continue instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-050, OLC-040
 - **Goal:** Create durable named commits only for intended work.
@@ -307,7 +307,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Date:** 2026-10-12
 - **Implemented:** New `src/git/inspection.ts` (read-only: `git`/`gitRaw` runners, pure `parsePorcelain` incl. rename `old -> new` handling, `inspectTree` → branch/HEAD/staged/unstaged/untracked) + `src/git/checkpoint.ts` (`createCheckpoint`, enforces the OLC-050 decision byte-for-byte): OLC-021 `validateIdentity` first → normalize owned paths (outside-repo → `PATH_OUTSIDE_REPO`) → abort on pre-staged owned paths (`OWNED_PATH_PRESTAGED`) → byte-compare each owned file vs write-time snapshot (`FOREIGN_EDIT`/`MISSING_OWNED_FILE`, zero git mutation) → clean owned set returns `{status:"clean"}` with no commit (needed by OLC-053) → `git add -- <owned>` → re-verify staged bytes via `git show :<path>` (race guard; reset ours + abort on mismatch) → `git commit -m <msg> -- <owned>` (pathspec, foreign staged changes on other paths survive) → append entry to `tasks/<id>/checkpoint.md` via the `checkpoint` template (first write full template, later appends add the body after `---`; SHA cross-ref both ways). No `git add .`/`-A`, plain commit, or `-p` anywhere. `tests/git.test.ts`: 8 real-git-fixture tests (commit file list exactly owned; user edit + untracked survive byte-identical; foreign-edit/pre-staged/outside-repo aborts leave commit count + index untouched; foreign staged survives; clean → no commit; double checkpoint appends both SHAs; identity mismatch blocks).
 - **Verification commands/results:** `npm run typecheck` clean; `npm test` → 82 pass / 0 fail (74 prior + 8 new); `npm run build` OK; `npm pack --dry-run` → 40 files incl. `dist/git/*`. No publish. Test-caught bug: `git commit -- <paths> -m <msg>` treats `-m` as pathspec — fixed to `git commit -m <msg> -- <paths>`.
-- **Evidence/files/commit:** Not yet committed. Files: `src/git/inspection.ts`, `src/git/checkpoint.ts`, `tests/git.test.ts`, this TASKS.md entry (+ one-line evidence fix to the OLC-011 entry: its `52b5ae3` commit existed all along).
+- **Evidence/files/commit:** Committed in `82e9ae6` "OLC-051: safe Git inspection and checkpoint commit" (`src/git/inspection.ts`, `src/git/checkpoint.ts`, `tests/git.test.ts`, `docs/TASKS.md` incl. OLC-011 evidence fix).
 - **Remaining issues:** Owned-path deletions not checkpointable yet (missing file aborts) — deferred, note in OLC-052/053 if needed. Snapshots are UTF-8 strings (binary files unsupported). `restore.ts` belongs to OLC-052.
 - **Next task:** OLC-052 — safe restore-to-checkpoint.
 
