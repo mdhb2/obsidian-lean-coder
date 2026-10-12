@@ -173,13 +173,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 ## M3 — Planning
 
 ### OLC-030 — Create base `olc-plan` and `olc-build` agent instruction resources
-- **Status:** TODO
+- **Status:** DONE (confirmed per standing instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-012
 - **Goal:** Extend OpenCode default agent behavior rather than invent a wholly unrelated coding agent.
 - **Work:** Verify current default instruction expectations; create `agents/olc-plan.md` and `agents/olc-build.md`; state boundaries and required explicit reading of `.olc/AGENTS.md`.
 - **Acceptance criteria:** Plan agent cannot edit app source; build agent requires approved plan; both validate project identity before memory operations.
 - **Verification:** Instruction review against tests/scenarios and integration smoke test where supported.
+- **Date:** 2026-10-12
+- **Implemented:** `agents/olc-plan.md` + `agents/olc-build.md` (replacing `agents/.gitkeep`), both `mode: subagent` with `description` frontmatter per the official Agents doc (verified same session via webfetch — fields used are exactly the documented ones; no legacy `tools`/`temperature` fields). olc-plan: required reading (root AGENTS.md, PRD.md, task entry, `.olc/AGENTS.md`), Explore-vs-direct-Plan offer, hard boundaries (no app-source edits/creates/dependency changes; vault planning docs only; identity check before memory ops; intent.md+plan.md together; no coding/handoff before explicit user approval of both). olc-build: preconditions (approved bounded plan, identity + git-state inspection), one-task-at-a-time execution, propose-don't-perform for scope changes, evidence-backed checks with bounded retries, git safety rules (no destructive ops, explicit-path staging only), plain-language closeout. Boundary enforcement is instruction-level, mirroring the builtin `plan` agent's approach (its no-edit behavior also comes from instructions: "without editing normal project files").
+- **Verification commands/results:** Instruction review: (1) plan-cannot-edit-app-source → olc-plan "Hard boundaries" section; (2) build-requires-approved-plan → olc-build "Preconditions" + "Execution rules"; (3) identity-before-memory → both files. Smoke test: fixture `/tmp/opencode/olc30` with both files under `.opencode/agents/` → `opencode serve --port 14101` + `opencode api --server … get /api/agent --param 'location={…}'` lists `olc-plan | subagent` and `olc-build | subagent` with correct descriptions alongside builtins. Fixture server killed, port verified free, fixture removed; user's own service untouched.
+- **Evidence/files/commit:** See commit message at commit time (`agents/olc-plan.md`, `agents/olc-build.md`, deleted `agents/.gitkeep`, `docs/TASKS.md`).
+- **Remaining issues:** Permission-level hardening found, not applied: builtin `plan` enforces read-only via `{"action":"edit","resource":"*","effect":"deny"}` + allow under its plan dir — olc-plan cannot copy this statically because the vault path is per-project (unknown at package time). Follow-up: let init generate a per-project `opencode.jsonc` agents override allowing edit only under that project's vault scope. Instruction-level boundary stands for MVP.
+- **Next task:** OLC-031 — olc-explore skill (P1) or OLC-032 — intent.md/plan.md workflow (P0).
 
 ### OLC-031 — Implement `olc-explore` skill
 - **Status:** TODO
