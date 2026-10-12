@@ -111,7 +111,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 ## M2 — Config, identity, vault, init
 
 ### OLC-020 — Define and validate `.olc/config.json`
-- **Status:** REVIEW
+- **Status:** DONE (confirmed by user 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-011
 - **Goal:** A small validated project configuration.
@@ -121,7 +121,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Date:** 2026-10-12
 - **Implemented:** New `src/config/index.ts` (per PRD §8 layout): `CONFIG_SCHEMA_VERSION=1`, `OlcConfig` (`schemaVersion`, `projectId`, optional `vaultPath`), `ConfigError` with codes (`MISSING_CONFIG`, `UNREADABLE_CONFIG`, `INVALID_JSON`, `INVALID_CONFIG`, `UNSUPPORTED_SCHEMA`, `SECRET_IN_CONFIG`, `MISSING_VAULT_PATH`) and actionable messages; `parseConfig` (pure validation: rejects unknown keys, secret-like keys `/secret|token|password|passwd|api[-_]?key/i`, non-integer/future `schemaVersion`, empty/unsafe `projectId` — must match `/^[A-Za-z0-9][A-Za-z0-9-_]{0,63}$/` so it is safe as a vault dir name); `readConfigFile` (missing file → `null`, not an error — init decides); `resolveVaultPath` (precedence env `OLC_VAULT_PATH` > file `vaultPath` > `ConfigError`; relative paths resolve against project root, never cwd; blank env treated as unset); `loadConfig` (file + env together). No other settings added — none needed yet. `src/index.ts` left untouched (entrypoint stays thin). Test wiring: `tsconfig.tests.json` (compiles `src`+`tests` to gitignored `dist-tests/`, keeps test output out of published `dist/`), `npm test` now compiles + runs `node --test "dist-tests/tests/**/*.test.js"` (bare-dir arg form fails on this Node, hence the glob), `.gitignore` += `dist-tests/`. No new dependencies — `node:test` + `node:assert/strict` builtins only. `tests/config.test.ts`: 14 tests covering all acceptance/verification points.
 - **Verification commands/results:** `npm run typecheck` clean; `rm -rf dist-tests && npm test` → 14 pass / 0 fail (valid load, env precedence both directions, relative-vs-project-root resolution, missing file, bad JSON, missing/empty/unsafe projectId, future + non-integer schema, unknown keys, secret-like keys, missing vault path, blank env); `npm run build` OK; `npm pack --dry-run` → 11 files, no test/build-test output leaks into the package. No publish.
-- **Evidence/files/commit:** Not yet committed. Files: `src/config/index.ts` (new), `tests/config.test.ts` (new), `tsconfig.tests.json` (new), `package.json` (`test` script now real), `.gitignore` (`dist-tests/`).
+- **Evidence/files/commit:** Committed in `d376f7a` "OLC-020: validated .olc/config.json module with unit tests" (`src/config/index.ts`, `tests/config.test.ts`, `tsconfig.tests.json`, `package.json`, `.gitignore`, `docs/TASKS.md`).
 - **Remaining issues:** `npm test` now runs a real suite — the placeholder is gone, which overlaps OLC-003's territory (CI + formal baseline); OLC-003 still owns CI workflow, failure-exit policy, and any runner upgrade. Minimum OpenCode version still unpinned (unchanged).
 - **Next task:** OLC-021 — project and vault identity checks.
 
