@@ -24,7 +24,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 | M4 | Build: bounded implementation and verification | DONE (OLC-040/041) | M3 |
 | M5 | Git checkpoint and restore safety | DONE (OLC-050/051/052/053) | M2, M4 |
 | M6 | Activity log, resume, session summary, taste | DONE (OLC-060/061/062/063/064/065) | M2, M4, M5 |
-| M7 | Packaging, integration tests, documentation, pre-release | PARTIAL (OLC-070/071 DONE, OLC-072/073 TODO) | M1–M6 |
+| M7 | Packaging, integration tests, documentation, pre-release | DONE (OLC-070/071/072/073) | M1–M6 |
 
 ## M0 — Foundations
 
@@ -498,8 +498,8 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Implemented:** Version `0.0.1` → `0.1.0` (`package.json` via `npm pkg set` + lockfile synced, `src/index.ts` `OLC_VERSION`; no test pins the old version — grep confirmed). New `CHANGELOG.md`: 0.1.0 MVP pre-release notes (what works, 13 known limitations carried over from OLC-071/072 evidence) + 0.0.1 baseline row. `package.json` `files` allowlist extended with `README.md` + `CHANGELOG.md` (docs now ship with the package). README test-count corrected (139 → 140). Release checklist: typecheck clean, 140/140 pass, build OK, `npm pack --dry-run` → 57 files as `obsidian-lean-coder-0.1.0.tgz`, built entry reports `0.1.0`, `private:true` guard intact, dry-run only (no tarball left behind, nothing published).
 - **Verification commands/results:** `npm run typecheck` clean; `npm test` → 140 pass / 0 fail; `npm run build` OK; `npm pack --dry-run` → 57 files. No publish.
 - **Evidence/files/commit:** This commit (`package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
-- **Remaining issues:** Publish action still requires separate explicit user approval. Open items for post-MVP: npm name reservation (DECISIONS #1), plugin entrypoint wiring for npm activation, `/api/agent|skill` discovery gap, min OpenCode version pin (#3), OLC-003 CI baseline (only TODO outside M7).
-- **Next task:** OLC-003 — CI/test baseline (last remaining TODO).
+- **Remaining issues:** Publish action still requires separate explicit user approval. Open items for post-MVP: npm name reservation (DECISIONS #1), plugin entrypoint wiring for npm activation, `/api/agent|skill` discovery gap, min OpenCode version pin (#3). OLC-003 CI baseline done 2026-10-13 — no TODO items remain on the board.
+- **Next task:** None — all TASKS.md items DONE. Post-MVP follow-ups need new task IDs.
 
 ## Deferred
 
