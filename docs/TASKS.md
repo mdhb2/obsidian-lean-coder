@@ -344,13 +344,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 ## M6 — Continuity, logs, memory, taste
 
 ### OLC-060 — Implement activity event logging and checkpoint history
-- **Status:** TODO
+- **Status:** REVIEW
 - **Priority:** P0
 - **Depends on:** OLC-023, OLC-051
 - **Goal:** Record important activity in durable Markdown.
 - **Work:** Define event schema and append/update behavior; avoid secret logging and per-tool-call noise; record milestones and Git references.
 - **Acceptance criteria:** Log can be reconstructed/read; writes validate vault identity; interruptions do not corrupt previous log entries.
 - **Verification:** Simulated interruption, invalid vault, permissions error, and log rotation/append tests as appropriate.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/log/index.ts`: `logEvent({projectRoot, config, event})` validates identity (OLC-021) FIRST — invalid vault throws with zero files created — then appends one event (`kind`, non-empty `summary`, optional `taskId`/`details`/`gitSha`, injectable ISO `date`) to `<vault>/OLC/Projects/<id>/logs/YYYY-MM-DD.md` (one file per day = the rotation; no size-based rotation for MVP). Appends are a single O_APPEND write; a crash remnant (missing trailing newline) is normalized before appending so prior entries stay intact. Secrets scrubbed, never stored: documented pattern list (`sk-…`, `ghp_/gho_/…`, `xox…`, `AKIA…`, `PRIVATE KEY` headers, `password|secret|token [:​=] value`) → `[redacted]` + `- redacted: true` marker. No hooks/tool-call interception — explicit calls only, so no per-tool-call noise by construction. Readers: `parseEntries` (frontmatter-tolerant, multiline continuations), `readLogDay` (missing file → `[]`), `readLastEvents` (newest-first across day files, `limit`; missing dir → `[]`). `LogError` codes: `INVALID_EVENT`, `INVALID_DATE`, `LOG_WRITE_FAILED`, `LOG_READ_FAILED`. Checkpoint history = `kind: "checkpoint"` events carrying the commit SHA, cross-referencing OLC-051's per-task `checkpoint.md` (checkpoint.ts untouched). `tests/log.test.ts`: 8 tests (round-trip order, invalid-vault zero-writes, redaction of 3 secret shapes, crash-remnant, day rotation + newest-first, SHA cross-ref, unwritable-target error mapping with prior entries intact, invalid input rejected pre-touch).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 106 pass / 0 fail (98 prior + 8 new); `npm run build` OK; `npm pack --dry-run` → 46 files (no test output leaks). No publish. Unwritable-target test avoids chmod (unreliable under root): day-file path replaced with a directory → deterministic EISDIR → `LOG_WRITE_FAILED`.
+- **Evidence/files/commit:** Not yet committed. Files: `src/log/index.ts` (new), `tests/log.test.ts` (new), this TASKS.md entry.
+- **Remaining issues:** Two test-caught bugs fixed: (1) tail-read EISDIR escaped unwrapped — now `LOG_WRITE_FAILED` before any append; (2) `parseEntries` skipped a leading entry without preceding newline (could not parse its own single-entry output) — normalized. Reads take explicit paths without re-validating (callers crossing project boundaries, e.g. OLC-061 resume, must validate first — documented).
+- **Next task:** OLC-061 — resume and checkpoint summary.
 
 ### OLC-061 — Implement resume and checkpoint summary
 - **Status:** TODO
