@@ -17,14 +17,14 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 
 | ID | Milestone | Status | Depends on |
 |---|---|---|---|
-| M0 | Fondasi repository, package, CI | TODO | — |
-| M1 | Plugin OpenCode dapat dimuat | TODO | M0 |
-| M2 | Konfigurasi, project identity, vault, init | TODO | M1 |
-| M3 | Planning: Explore / Plan / approval | TODO | M2 |
-| M4 | Build: bounded implementation and verification | TODO | M3 |
-| M5 | Git checkpoint and restore safety | TODO | M2, M4 |
-| M6 | Activity log, resume, session summary, taste | TODO | M2, M4, M5 |
-| M7 | Packaging, integration tests, documentation, pre-release | TODO | M1–M6 |
+| M0 | Fondasi repository, package, CI | PARTIAL (OLC-001/002 DONE, OLC-003 TODO) | — |
+| M1 | Plugin OpenCode dapat dimuat | DONE (OLC-010/011/012) | M0 |
+| M2 | Konfigurasi, project identity, vault, init | DONE (OLC-020/021/022/023) | M1 |
+| M3 | Planning: Explore / Plan / approval | DONE (OLC-030/031/032/033/034) | M2 |
+| M4 | Build: bounded implementation and verification | DONE (OLC-040/041) | M3 |
+| M5 | Git checkpoint and restore safety | DONE (OLC-050/051/052/053) | M2, M4 |
+| M6 | Activity log, resume, session summary, taste | DONE (OLC-060/061/062/063/064/065) | M2, M4, M5 |
+| M7 | Packaging, integration tests, documentation, pre-release | PARTIAL (OLC-070/071 DONE, OLC-072/073 TODO) | M1–M6 |
 
 ## M0 — Foundations
 
