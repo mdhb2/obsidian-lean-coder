@@ -1,0 +1,362 @@
+# OLC MVP — Task Plan and Status Board
+
+**Status board source of truth:** this file. Update status, evidence, and next steps as implementation proceeds.
+
+## Status definitions
+
+- `TODO` — belum dimulai.
+- `IN_PROGRESS` — sedang dikerjakan.
+- `BLOCKED` — terhenti karena keputusan/dependensi/risiko.
+- `REVIEW` — implementasi tersedia dan menunggu review/verifikasi akhir.
+- `DONE` — acceptance criteria terpenuhi dengan bukti tercatat.
+- `DEFERRED` — sengaja di luar MVP; jangan dikerjakan tanpa keputusan baru.
+
+Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` based on code being written alone. Add test/evidence notes before closing tasks.
+
+## Milestones overview
+
+| ID | Milestone | Status | Depends on |
+|---|---|---|---|
+| M0 | Fondasi repository, package, CI | TODO | — |
+| M1 | Plugin OpenCode dapat dimuat | TODO | M0 |
+| M2 | Konfigurasi, project identity, vault, init | TODO | M1 |
+| M3 | Planning: Explore / Plan / approval | TODO | M2 |
+| M4 | Build: bounded implementation and verification | TODO | M3 |
+| M5 | Git checkpoint and restore safety | TODO | M2, M4 |
+| M6 | Activity log, resume, session summary, taste | TODO | M2, M4, M5 |
+| M7 | Packaging, integration tests, documentation, pre-release | TODO | M1–M6 |
+
+## M0 — Foundations
+
+### OLC-001 — Establish repository structure and decisions
+- **Status:** REVIEW
+- **Priority:** P0
+- **Goal:** Make the project layout and key product decisions explicit before coding.
+- **Work:** Create `src/`, `agents/`, `skills/`, `templates/`, `tests/`, `docs/`; move/retain PRD and task board at canonical paths; record decisions that remain open.
+- **Acceptance criteria:** Structure is documented; no duplicate source of truth for tasks; `.gitignore` excludes build output and secrets.
+- **Verification:** Inspect tree and run repository checks.
+- **Date:** 2026-10-12
+- **Implemented:** Created empty tracked dirs `src/`, `agents/`, `skills/`, `templates/`, `tests/` (each with `.gitkeep` so git tracks them pre-code); added `.gitignore` (node_modules, dist, build, logs, .env*, coverage, tarballs); added `docs/DECISIONS.md` recording PRD §12's open technical decisions as a single tracked list. `docs/PRD.md` and `docs/TASKS.md` kept at their existing canonical paths, untouched otherwise.
+- **Verification commands/results:** `find . -type f` / `find . -type d` (tree inspected, matches PRD §8 target layout at MVP-appropriate scope); `find . -iname "PRD.md" -o -iname "TASKS.md"` → exactly one of each, no duplicates; `git status --short` → only new untracked files, no existing file modified/deleted.
+- **Evidence/files/commit:** `.gitignore`, `docs/DECISIONS.md`, `src/.gitkeep`, `agents/.gitkeep`, `skills/.gitkeep`, `templates/.gitkeep`, `tests/.gitkeep`. No commit made yet — repo has zero commits so far; first commit is a user decision, not made here per safety rules.
+- **Remaining issues:** None blocking; actual `git add`/commit of this skeleton is left to the user/OLC-checkpoint flow, not auto-committed here.
+- **Next task:** OLC-002 — npm package and TypeScript tooling skeleton.
+
+### OLC-002 — Establish npm package and TypeScript tooling
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-001
+- **Goal:** Provide a buildable npm package skeleton.
+- **Work:** Define package entrypoint strategy, scripts (`build`, `test`, `typecheck`, `lint` if chosen), TypeScript config, package files allowlist, engine constraints; settle package name only after availability check.
+- **Acceptance criteria:** Build works; exported runtime entrypoint exists; metadata accurately describes the package; runtime resources are included in package candidate.
+- **Verification:** `npm install`, build, typecheck, and `npm pack --dry-run` succeed in a clean checkout. Do not publish.
+
+### OLC-003 — Add CI and test baseline
+- **Status:** TODO
+- **Priority:** P1
+- **Depends on:** OLC-002
+- **Goal:** Make regressions visible early.
+- **Work:** Set up test runner and CI for install, build, tests, and typecheck.
+- **Acceptance criteria:** CI executes reproducibly; failure exits non-zero; no credentials required.
+- **Verification:** Run CI workflow or matching local commands.
+
+## M1 — OpenCode plugin vertical slice
+
+### OLC-010 — Verify current OpenCode plugin contract
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-002
+- **Goal:** Use the real supported plugin API and avoid guessed integration behavior.
+- **Work:** Inspect current official docs and a minimal known-working plugin shape; record supported version range and whether package is loaded via OpenCode config/plugin manager or another supported path.
+- **Acceptance criteria:** The entrypoint and installation instructions reflect documented, testable behavior.
+- **Verification:** Minimal plugin smoke test under a clean OpenCode profile.
+
+### OLC-011 — Implement minimal plugin entrypoint and OLC status tool
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-010
+- **Goal:** Prove that OLC can be loaded in OpenCode before building every feature.
+- **Work:** Add thin entrypoint and one non-destructive status/diagnostic capability showing package version and detected project context without writing files.
+- **Acceptance criteria:** OpenCode can load the plugin; status capability returns actionable information; startup makes no surprise writes.
+- **Verification:** Integration smoke test and test for no filesystem mutation at import/startup.
+
+### OLC-012 — Define resource delivery and activation
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-010
+- **Goal:** Deliver agents/skills in a way OpenCode can actually discover.
+- **Work:** Choose and test strategy: supported plugin-exposed tools/resources, safe install/copy to supported locations, or explicit user configuration. Do not assume arbitrary folders auto-load.
+- **Acceptance criteria:** Setup path is deterministic, idempotent, preserves user files, and documented with copy-paste commands/config.
+- **Verification:** New-user install fixture and repeat-install fixture.
+
+## M2 — Config, identity, vault, init
+
+### OLC-020 — Define and validate `.olc/config.json`
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-011
+- **Goal:** A small validated project configuration.
+- **Work:** Define schema version, project_id, vault-path resolution via `OLC_VAULT_PATH`, and minimal settings. Avoid secrets.
+- **Acceptance criteria:** Invalid config reports clear errors; unknown future schema fails safely or is explicitly handled; path precedence is documented.
+- **Verification:** Unit tests for valid/invalid/missing config and environment variable precedence.
+
+### OLC-021 — Implement project and vault identity checks
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-020
+- **Goal:** Prevent memory from the wrong project being read or modified.
+- **Work:** Resolve repository root and branch; validate project_id against vault registry; check path accessibility before important operations.
+- **Acceptance criteria:** Identity mismatch or unavailable vault blocks OLC-dependent operation with actionable message; no fallback storage is created.
+- **Verification:** Tests for wrong project ID, duplicate ID, missing vault, missing registry, and permission error.
+
+### OLC-022 — Implement safe, idempotent `olc-init`
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-021, OLC-012
+- **Goal:** Initialize a project without damaging existing work.
+- **Work:** Propose project_id from repo name and require approval; collect/confirm vault path; prepare `.olc/` and vault structure; create missing docs; preserve existing files; report created/preserved/skipped/attention-needed; add dry-run if feasible.
+- **Acceptance criteria:** Re-running init does not overwrite customized files; duplicate project_id prompts for a new ID; no hidden copy of master templates is required in vault.
+- **Verification:** Run twice on temporary repo/vault fixtures, including pre-existing config and custom instructions.
+
+### OLC-023 — Add Markdown vault and template adapters
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-021
+- **Goal:** Read/write structured Markdown using templates from the OLC package repository.
+- **Work:** Add safe path resolver, frontmatter conventions if needed, atomic file writing where practical, initial templates for intent, plan, explore report, checkpoint, activity log, session summary, decision, taste rule.
+- **Acceptance criteria:** Paths cannot escape vault/project root; existing documents are not silently replaced; templates are included in packed package.
+- **Verification:** Path traversal tests, UTF-8 round-trip, existing-file preservation tests, package content check.
+
+## M3 — Planning
+
+### OLC-030 — Create base `olc-plan` and `olc-build` agent instruction resources
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-012
+- **Goal:** Extend OpenCode default agent behavior rather than invent a wholly unrelated coding agent.
+- **Work:** Verify current default instruction expectations; create `agents/olc-plan.md` and `agents/olc-build.md`; state boundaries and required explicit reading of `.olc/AGENTS.md`.
+- **Acceptance criteria:** Plan agent cannot edit app source; build agent requires approved plan; both validate project identity before memory operations.
+- **Verification:** Instruction review against tests/scenarios and integration smoke test where supported.
+
+### OLC-031 — Implement `olc-explore` skill
+- **Status:** TODO
+- **Priority:** P1
+- **Depends on:** OLC-023, OLC-030
+- **Goal:** Clarify complex/uncertain tasks before planning.
+- **Work:** Explore source and user request, record findings/evidence/questions in one current report, preserve important revision reasoning.
+- **Acceptance criteria:** Explore is optional; produces no app code changes; report is saved in correct project vault; user can choose direct Plan instead.
+- **Verification:** Scenario test for complex request and a simple task selecting direct Plan.
+
+### OLC-032 — Implement `intent.md` and `plan.md` workflow
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-023, OLC-030
+- **Goal:** Keep what/why separate from how.
+- **Work:** Generate the two docs together; define modular tasks, per-task expected result, acceptance criteria, tests, dependencies, risks, open questions, status.
+- **Acceptance criteria:** No coding before both documents are approved; revisions update current docs and preserve important history/reasons.
+- **Verification:** Tests for draft, approval, revision, and rejected plan.
+
+### OLC-033 — Define task registry, branch matching, and transitions
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-021, OLC-032
+- **Goal:** Track primary task plus related tasks on a branch.
+- **Work:** Implement agreed states and transition validation; register branch associations; resume recommends most recently active task and asks confirmation; do not auto-switch branch.
+- **Acceptance criteria:** Unknown/ambiguous branch asks user; stale task yields recommendation only; task remains open until user confirms completion.
+- **Verification:** State transition unit tests and branch/task ambiguity scenarios.
+
+### OLC-034 — Implement planning approval and scope-change return path
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-032, OLC-033
+- **Goal:** Ensure implementation follows the plan users approved.
+- **Work:** Represent plan approval; detect scope-change request; checkpoint safe progress; return to plan revision; require approval before continuing impacted work.
+- **Acceptance criteria:** Build refuses unapproved plans; scope changes cannot silently replace the approved plan.
+- **Verification:** End-to-end tests for no approval, approved plan, revision request, and resumed execution.
+
+## M4 — Build and verify
+
+### OLC-040 — Implement bounded `olc-build` task execution
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-034
+- **Goal:** Execute one approved modular task at a time.
+- **Work:** Load only relevant project context; inspect source and Git; implement within acceptance criteria; make small technical decisions without expanding scope.
+- **Acceptance criteria:** Missing approval or context mismatch blocks implementation; out-of-scope work is proposed, not performed.
+- **Verification:** Controlled fixture tasks and source diff assertions.
+
+### OLC-041 — Implement test/report/escalation behavior
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-040
+- **Goal:** Make results evidence-backed.
+- **Work:** Run relevant checks, capture outcomes, retry fixes a bounded number of times, then stop and report attempts/options if unresolved or risky.
+- **Acceptance criteria:** No fabricated test claims; in-scope defects can be fixed; scope/architecture changes require plan revision.
+- **Verification:** Passing test, failing test, command error, and repeated failure scenarios.
+
+## M5 — Git checkpoint and restore
+
+### OLC-050 — Define checkpoint safety strategy (spike)
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-002
+- **Goal:** Prove how to commit only OLC-owned changes while protecting manual edits.
+- **Work:** Experiment in temporary repositories with clean tree, user-modified tracked files, untracked files, partially overlapping edits in one file, and staged changes. Compare explicit-path/hunk staging and isolated execution approaches. Record the safest MVP constraint.
+- **Acceptance criteria:** A reviewed technical decision exists; cases where ownership cannot be determined stop for user guidance; no unsafe `git add .` checkpoint flow.
+- **Verification:** Automated fixtures demonstrate unrelated modifications and untracked files are untouched.
+
+### OLC-051 — Implement Git inspection and checkpoint commit
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-050, OLC-040
+- **Goal:** Create durable named commits only for intended work.
+- **Work:** Inspect branch/HEAD/status/diff/untracked files; select intended changes safely; generate clear checkpoint commit message; write checkpoint record with commit SHA, task, timestamp, summary, verification results.
+- **Acceptance criteria:** No accidental inclusion of unrelated changes; abort on ambiguity; checkpoint record and Git commit cross-reference one another.
+- **Verification:** Git fixture tests and inspect resulting commit file list.
+
+### OLC-052 — Implement restore-to-checkpoint safely
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-051
+- **Goal:** Restore code contents to an earlier checkpoint without deleting later history.
+- **Work:** Resolve checkpoint to commit; inspect current state and risks; apply selected snapshot as a new change/commit with traceable message; require confirmation if current changes may be lost.
+- **Acceptance criteria:** Later commits stay reachable; restore result matches selected snapshot for intended paths; uncommitted/untracked unrelated changes are protected or operation aborts.
+- **Verification:** Three-checkpoint scenario, restore checkpoint 2 from checkpoint 3, assert history survives and code matches checkpoint 2.
+
+### OLC-053 — Implement pre-switch and task-final checkpoint policy
+- **Status:** TODO
+- **Priority:** P1
+- **Depends on:** OLC-051, OLC-041
+- **Goal:** Checkpoint important milestones and final state of verified tasks.
+- **Work:** Trigger at important milestones, explicit request, before task switch, and after final verification for completed task. Do not treat commit as task completion.
+- **Acceptance criteria:** Triggers do not repeatedly commit unchanged state; final checkpoint is only created when safe; task still needs user confirmation to close.
+- **Verification:** Tests for milestone, explicit request, task switch, unchanged tree, failed tests, and final approval flow.
+
+## M6 — Continuity, logs, memory, taste
+
+### OLC-060 — Implement activity event logging and checkpoint history
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-023, OLC-051
+- **Goal:** Record important activity in durable Markdown.
+- **Work:** Define event schema and append/update behavior; avoid secret logging and per-tool-call noise; record milestones and Git references.
+- **Acceptance criteria:** Log can be reconstructed/read; writes validate vault identity; interruptions do not corrupt previous log entries.
+- **Verification:** Simulated interruption, invalid vault, permissions error, and log rotation/append tests as appropriate.
+
+### OLC-061 — Implement resume and checkpoint summary
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-033, OLC-060
+- **Goal:** Rebuild enough context after interruption.
+- **Work:** Inspect actual Git state; read latest project state, current task plan, last event, checkpoint; recommend most recently active task and ask confirmation.
+- **Acceptance criteria:** Never resumes coding automatically; surfaces status/diff/untracked changes and last verification; ambiguity blocks.
+- **Verification:** Clean interruption, uncommitted changes, unknown branch, two unfinished tasks, unavailable vault scenarios.
+
+### OLC-062 — Implement `olc-memory` progressive retrieval
+- **Status:** TODO
+- **Priority:** P1
+- **Depends on:** OLC-023, OLC-060
+- **Goal:** Retrieve relevant memory without loading entire vault.
+- **Work:** Read project index/current state first, then relevant decisions, plans, logs and patterns by query/context.
+- **Acceptance criteria:** Does not scan unrelated project folders by default; records updates only in validated project scope.
+- **Verification:** Multi-project vault fixtures ensure isolation and relevant retrieval.
+
+### OLC-063 — Implement session summary in plain language
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-060, OLC-061
+- **Goal:** End each normal session with a useful, non-technical summary.
+- **Work:** Include what was done, observed result, tests, unfinished work, blockers/risks, next step, checkpoint if created.
+- **Acceptance criteria:** Indonesian/plain language by default for this project; factual claims map to actual event/test data; no claiming a summary is guaranteed after hard kill.
+- **Verification:** Normal completion, blocked session, no-code-change session, and partial failure scenarios.
+
+### OLC-064 — Implement taste proposal lifecycle
+- **Status:** TODO
+- **Priority:** P1
+- **Depends on:** OLC-023, OLC-062
+- **Goal:** Learn project-specific preferences without silently changing behavior.
+- **Work:** Record repeat signals, prepare proposed taste rule with examples/evidence, maintain `pending`/`active`/`rejected` statuses.
+- **Acceptance criteria:** Only user approval activates a rule; scope is one project; approved intent/plan is not overwritten by taste memory.
+- **Verification:** Pending remains inactive, approval activates, rejection stays inactive, cross-project isolation.
+
+### OLC-065 — Validate vault/project at important operations
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-021, OLC-060
+- **Goal:** Catch a missing/mismatched vault before damaging the wrong context.
+- **Work:** Call lightweight validation at session start and before critical read/write/commit/restore operations.
+- **Acceptance criteria:** Validation does not reread the whole vault; mismatch blocks operation.
+- **Verification:** Vault changed/unmounted between operations; wrong project registry; inaccessible path.
+
+## M7 — Release hardening
+
+### OLC-070 — Documentation and safe installation flow
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-012, OLC-020, OLC-022
+- **Goal:** A first-time user can install, activate, initialize, verify, update, and uninstall OLC.
+- **Work:** README, install config snippet/installer if selected, migration/overwrite policy, commands, troubleshooting, supported versions, security notes.
+- **Acceptance criteria:** Distinguishes npm development install from OpenCode plugin activation and OLC project initialization; every command tested.
+- **Verification:** Follow docs in a clean environment from start to finish.
+
+### OLC-071 — Package and compatibility smoke test
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-010, OLC-070
+- **Goal:** Test what actually ships.
+- **Work:** Build, `npm pack --dry-run`, inspect package files, install tarball locally, and test in clean OpenCode profile.
+- **Acceptance criteria:** No missing agent/skill/template resources; no development-only dependency required at runtime; package activation works as documented.
+- **Verification:** Store command outputs or CI evidence.
+
+### OLC-072 — End-to-end MVP acceptance matrix
+- **Status:** TODO
+- **Priority:** P0
+- **Depends on:** OLC-022, OLC-034, OLC-041, OLC-052, OLC-063, OLC-064, OLC-071
+- **Goal:** Validate one full user journey.
+- **Work:** Init dummy app/vault; plan and approve; build/test; checkpoint; simulate interruption; resume with confirmation; restore earlier checkpoint; propose taste rule; finish with simple-language summary.
+- **Acceptance criteria:** Every critical safety gate passes; unresolved limitations documented.
+- **Verification:** Completed test matrix and recorded results.
+
+### OLC-073 — Prepare MVP pre-release
+- **Status:** TODO
+- **Priority:** P1
+- **Depends on:** OLC-072
+- **Goal:** Create a usable version for controlled testing.
+- **Work:** Version bump, changelog, package dry-run, documentation review, known limitations, npm publish preparation without publishing unless user explicitly requests it.
+- **Acceptance criteria:** No known P0 safety/test failures; version and install instructions are consistent.
+- **Verification:** Release checklist marked with evidence. Publishing remains a separate explicitly approved action.
+
+## Deferred
+
+| ID | Item | Status | Reason |
+|---|---|---|---|
+| D-001 | Dashboard UI | DEFERRED | Not needed to validate MVP. |
+| D-002 | Mandatory MCP integration | DEFERRED | Direct filesystem access is the agreed MVP path. |
+| D-003 | Self-modifying skills | DEFERRED | Too risky before stable learning and approval loop. |
+| D-004 | Automatic branch creation/switching/worktrees | DEFERRED | User controls branch selection. |
+| D-005 | Full legacy document migration | DEFERRED | Template updates apply only to new documents. |
+
+## First execution batch
+
+Start with the following order; do not attempt all tasks in parallel:
+
+1. OLC-001 — repository skeleton and decisions.
+2. OLC-002 — npm/TypeScript skeleton.
+3. OLC-010 — verify OpenCode plugin contract (can run alongside setup only if it does not change scope).
+4. OLC-011 — minimal plugin vertical slice.
+5. OLC-012 — resource delivery/activation decision.
+6. OLC-050 — Git checkpoint safety spike before implementing commits/restores.
+
+After OLC-011 passes a clean OpenCode smoke test, proceed through M2/M3, then implement M4 and M5 with temporary-repository integration tests.
+
+## Work log template for each task
+
+When changing a task status, append or fill:
+
+- **Status:**
+- **Date:**
+- **Implemented:**
+- **Verification commands/results:**
+- **Evidence/files/commit:**
+- **Remaining issues:**
+- **Next task:**
