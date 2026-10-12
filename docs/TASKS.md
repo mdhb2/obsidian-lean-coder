@@ -244,7 +244,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 ## M4 — Build and verify
 
 ### OLC-040 — Implement bounded `olc-build` task execution
-- **Status:** REVIEW
+- **Status:** DONE (confirmed per standing instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-034
 - **Goal:** Execute one approved modular task at a time.
@@ -254,7 +254,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Date:** 2026-10-12
 - **Implemented:** New `src/build/index.ts`: `beginTask({config, taskId, touchPaths?, startDir?, date?})` runs OLC-021 `validateIdentity(startDir, config)` then OLC-034 `assertBuildReady`, moves registry approved→in_progress (respects existing in_progress), returns a frame with ONLY the task's intent/plan bodies + declared paths + base HEAD + timestamp; `recordDecision` appends in-scope technical decisions to history.md; `completeTask(frame, config, repoRoot)` re-validates identity, diffs the tree via `changedPaths` (porcelain `-uall`: staged+unstaged+untracked, rename-aware), throws SCOPE_CHANGED naming the offending paths when anything outside declared paths changed (status stays in_progress — propose-a-revision, not silent completion), otherwise moves in_progress→review + history entry. Also fixed `.gitignore`: bare `build/` pattern was silently ignoring the new `src/build/` module dir — anchored to `/build/` (root output dir only). `tests/build.test.ts`: 7 real-git-fixture tests (gate blocks, mismatch blocks, scoped frame + keys, clean→review, tracked-out-of-scope names file, untracked-out-of-scope, decisions in history).
 - **Verification commands/results:** `npm run typecheck` clean; `npm test` → 65 pass / 0 fail (58 prior + 7 new); `npm run build` OK; `npm pack --dry-run` → 34 files. No publish. Real bug caught by tests: whole-output `.trim()` on porcelain corrupted the first line's XY column (` M app.txt` → `M app.txt` → parsed as `pp.txt`); fixed with trailing-only trim.
-- **Evidence/files/commit:** Not yet committed. Files: `src/build/index.ts` (new), `tests/build.test.ts` (new), `.gitignore` (anchored `/build/`), this TASKS.md entry.
+- **Evidence/files/commit:** Committed in `c8018f2` (`src/build/index.ts`, `tests/build.test.ts`, `.gitignore` anchored `/build/`, `docs/TASKS.md`).
 - **Remaining issues:** Minimal git helpers here (`rev-parse`, porcelain) overlap future OLC-051 inspection module — OLC-051 may consolidate. Frame carries bodies in memory; no whole-vault reads by construction.
 - **Next task:** OLC-031 — `olc-explore` skill (P1, last of M3).
 
