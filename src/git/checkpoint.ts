@@ -86,6 +86,30 @@ function normalizeOwned(repoRoot: string, ownedPaths: string[]): string[] {
   });
 }
 
+/**
+ * Append a checkpoint-template entry to `tasks/<taskId>/checkpoint.md`.
+ * First call writes the full template; later calls append the body after `---`.
+ * Returns the vault-absolute record path. Exported for reuse by `restore.ts`.
+ */
+export function appendCheckpointRecord(
+  vaultRoot: string,
+  projectId: string,
+  taskId: string,
+  vars: Record<string, string>,
+): string {
+  const entry = renderTemplate("checkpoint", vars);
+  const recordPath = resolveVaultDoc(vaultRoot, projectId, "tasks", taskId, "checkpoint.md");
+  let record: string;
+  try {
+    const existing = readVaultDoc(recordPath);
+    record = `${existing.replace(/\s+$/, "")}\n\n---\n\n${parseFrontmatter(entry).body}`;
+  } catch {
+    record = entry;
+  }
+  writeVaultDoc(recordPath, record, { overwrite: true });
+  return recordPath;
+}
+
 export function createCheckpoint(input: CheckpointInput): CheckpointResult {
   const identity = validateIdentity(input.projectRoot, input.config);
   const { repoRoot, branch, vaultRoot, projectId } = identity;
@@ -152,7 +176,7 @@ export function createCheckpoint(input: CheckpointInput): CheckpointResult {
   git(repoRoot, ["commit", "-m", message, "--", ...owned]);
   const sha = git(repoRoot, ["rev-parse", "HEAD"]);
 
-  const entry = renderTemplate("checkpoint", {
+  const recordPath = appendCheckpointRecord(vaultRoot, projectId, input.taskId, {
     task_id: input.taskId,
     project_id: projectId,
     commit_sha: sha,
@@ -160,15 +184,6 @@ export function createCheckpoint(input: CheckpointInput): CheckpointResult {
     summary: input.summary,
     verification: input.verification ?? "(no verification recorded)",
   });
-  const recordPath = resolveVaultDoc(vaultRoot, projectId, "tasks", input.taskId, "checkpoint.md");
-  let record: string;
-  try {
-    const existing = readVaultDoc(recordPath);
-    record = `${existing.replace(/\s+$/, "")}\n\n---\n\n${parseFrontmatter(entry).body}`;
-  } catch {
-    record = entry;
-  }
-  writeVaultDoc(recordPath, record, { overwrite: true });
 
   return { status: "committed", branch, sha, committedPaths, recordPath };
 }
