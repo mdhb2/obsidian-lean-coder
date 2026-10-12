@@ -17,7 +17,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 
 | ID | Milestone | Status | Depends on |
 |---|---|---|---|
-| M0 | Fondasi repository, package, CI | PARTIAL (OLC-001/002 DONE, OLC-003 TODO) | — |
+| M0 | Fondasi repository, package, CI | DONE (OLC-001/002/003) | — |
 | M1 | Plugin OpenCode dapat dimuat | DONE (OLC-010/011/012) | M0 |
 | M2 | Konfigurasi, project identity, vault, init | DONE (OLC-020/021/022/023) | M1 |
 | M3 | Planning: Explore / Plan / approval | DONE (OLC-030/031/032/033/034) | M2 |
@@ -58,13 +58,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-003 — add CI and test baseline (or proceed to OLC-010 per "first execution batch" ordering, pending user direction).
 
 ### OLC-003 — Add CI and test baseline
-- **Status:** TODO
+- **Status:** DONE (auto-continue instruction 2026-10-13)
 - **Priority:** P1
 - **Depends on:** OLC-002
 - **Goal:** Make regressions visible early.
 - **Work:** Set up test runner and CI for install, build, tests, and typecheck.
 - **Acceptance criteria:** CI executes reproducibly; failure exits non-zero; no credentials required.
 - **Verification:** Run CI workflow or matching local commands.
+- **Date:** 2026-10-13
+- **Implemented:** New `.github/workflows/ci.yml`: `on: push + pull_request`, `ubuntu-latest`, `setup-node@v4` pinned Node 22 with npm cache, then `npm ci` → `npm run typecheck` → `npm run build` → `npm test`. No secrets, no credentials, no publish.
+- **Verification commands/results:** YAML parses (`jobs: [build-and-test]`); local CI-sequence run in order: `npm ci` OK (282 packages), typecheck clean, build OK, `npm test` → 140 pass / 0 fail. Failure-exit proven on scratch fixtures outside the repo: broken `tsc --noEmit` exits 2, failing `node --test` exits 1.
+- **Evidence/files/commit:** This commit (`.github/workflows/ci.yml`, `docs/TASKS.md`).
+- **Remaining issues:** None. CI runs on first push; no runs exist yet to link.
+- **Next task:** None — all TASKS.md items DONE; M0 milestone table flips to DONE.
 
 ## M1 — OpenCode plugin vertical slice
 
