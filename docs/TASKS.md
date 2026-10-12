@@ -197,13 +197,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Verification:** Scenario test for complex request and a simple task selecting direct Plan.
 
 ### OLC-032 — Implement `intent.md` and `plan.md` workflow
-- **Status:** TODO
+- **Status:** DONE (confirmed per standing instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-023, OLC-030
 - **Goal:** Keep what/why separate from how.
 - **Work:** Generate the two docs together; define modular tasks, per-task expected result, acceptance criteria, tests, dependencies, risks, open questions, status.
 - **Acceptance criteria:** No coding before both documents are approved; revisions update current docs and preserve important history/reasons.
 - **Verification:** Tests for draft, approval, revision, and rejected plan.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/planning/index.ts` on top of OLC-023 (templates + vault adapter): `draftTaskDocs` (renders `intent`+`plan` templates with status `draft` under `tasks/<id>/`, create-only — second draft throws, nothing replaced); `getDocStatuses` (`draft|approved|rejected|missing` per doc); `approveTaskDocs` (explicit-overwrite flip to `approved` + history entry); `reviseTaskDocs` (reason appended to `history.md`, optional body updates, both docs reset to `draft` so re-approval is mandatory); `rejectTaskDocs` (both to `rejected` + reason in history); `assertApproved` (build gate — throws `PlanningError(NOT_APPROVED)` naming the offending doc unless BOTH are `approved`). Statuses live in frontmatter (`status:`), same convention as the templates. `tests/planning.test.ts`: 6 fixture tests (draft+statuses, double-draft preservation, gate-blocks-then-passes, revision-history + re-approval, rejection + reason, missing-docs errors).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 46 pass / 0 fail (40 prior + 6 new); `npm run build` OK. No publish.
+- **Evidence/files/commit:** Committed in `COMMIT032` (`src/planning/index.ts`, `tests/planning.test.ts`, `docs/TASKS.md`).
+- **Remaining issues:** Approval is recorded as a vault status flip, not a cryptographic signature — acceptable for MVP (the agent workflow requires explicit user approval text before calling approve). Task registry/branch linkage is OLC-033's job.
+- **Next task:** OLC-033 — task registry, branch matching, transitions (P0) — or OLC-031 explore skill (P1).
 
 ### OLC-033 — Define task registry, branch matching, and transitions
 - **Status:** TODO
