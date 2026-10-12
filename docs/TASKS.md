@@ -212,13 +212,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-033 — task registry, branch matching, transitions (P0) — or OLC-031 explore skill (P1).
 
 ### OLC-033 — Define task registry, branch matching, and transitions
-- **Status:** TODO
+- **Status:** DONE (confirmed per standing instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-021, OLC-032
 - **Goal:** Track primary task plus related tasks on a branch.
 - **Work:** Implement agreed states and transition validation; register branch associations; resume recommends most recently active task and asks confirmation; do not auto-switch branch.
 - **Acceptance criteria:** Unknown/ambiguous branch asks user; stale task yields recommendation only; task remains open until user confirms completion.
 - **Verification:** State transition unit tests and branch/task ambiguity scenarios.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/tasks/index.ts`, stored at `tasks/registry.json` inside the project vault scope (`{tasks: {id: {status, branch, updatedAt}}}`): `TRANSITIONS` table (draft→approved/rejected; approved→in_progress/draft; in_progress→review/blocked; blocked→in_progress; review→done/in_progress; rejected→draft; done terminal), `registerTask` (draft, duplicates rejected), `attachBranch` (re-associate, never touches Git), `setTaskStatus` (table-enforced, `INVALID_TRANSITION` lists allowed moves; terminal `done` stays as history), `getTask`, `recommendResume` (most-recent non-terminal on current branch + confirm-note; unknown/empty branch or no match → null + asks-user note; never resumes/switches/closes). `updatedAt` is caller-passed date strings (deterministic, testable). Also resolves `docs/DECISIONS.md` #7 with the same table. `tests/tasks.test.ts`: 6 tests (full lifecycle, illegal jumps incl. draft→done/in_progress→done, terminal-done + blocked/rejected paths, duplicates/unknown, resume-newest + stale-done-never-wins, unknown-branch/empty/elsewhere ambiguity).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 52 pass / 0 fail (46 prior + 6 new); `npm run build` OK. No publish.
+- **Evidence/files/commit:** Committed in `COMMIT033` (`src/tasks/index.ts`, `tests/tasks.test.ts`, `docs/TASKS.md`, `docs/DECISIONS.md`).
+- **Remaining issues:** `done` requires an explicit call — no auto-complete exists anywhere by construction (verified: no code path calls setTaskStatus except the API consumer). Registry ↔ intent/plan doc statuses (OLC-032) are not yet cross-checked — that linkage belongs to OLC-034's approval return path.
+- **Next task:** OLC-034 — planning approval and scope-change return path (P0).
 
 ### OLC-034 — Implement planning approval and scope-change return path
 - **Status:** TODO
