@@ -374,13 +374,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-062 — `olc-memory` progressive retrieval.
 
 ### OLC-062 — Implement `olc-memory` progressive retrieval
-- **Status:** TODO
+- **Status:** DONE (auto-continue instruction 2026-10-12)
 - **Priority:** P1
 - **Depends on:** OLC-023, OLC-060
 - **Goal:** Retrieve relevant memory without loading entire vault.
 - **Work:** Read project index/current state first, then relevant decisions, plans, logs and patterns by query/context.
 - **Acceptance criteria:** Does not scan unrelated project folders by default; records updates only in validated project scope.
 - **Verification:** Multi-project vault fixtures ensure isolation and relevant retrieval.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/memory/index.ts`: `recallMemory({projectRoot, config, query?, taskId?, includeLogs?, logLimit?, limit?})` validates identity FIRST (wrong project/vault throws before any read), reads `index.md` + `current-state.md` (null when absent), task intent/plan on request (missing → null), token-scored query scan of `memory/` + `decisions/` only (stopwords filtered, filename-weighted, capped at 1200-char excerpts with truncation flag, best-score first), query-filtered recent logs (default 10, unfiltered base context when no query). `recordMemory({projectRoot, config, name, content, overwrite?})`: plain-name check (no paths/extensions), non-empty content, atomic `memory/<name>.md` write in validated scope, overwrite needs explicit flag. `tests/memory.test.ts`: 9 multi-project fixture tests (base context w/o query, relevant-only retrieval + score order, excerpt cap/flag, task docs + unknown-null, log filtering, B-recall never surfaces A, record→recall round-trip + overwrite guard, invalid name/content pre-touch, wrong-project identity failure).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 121 pass / 0 fail (112 prior + 9 new); `npm run build` OK; `npm pack --dry-run` → 50 files. No publish.
+- **Evidence/files/commit:** Committed in this session (`src/memory/index.ts`, `tests/memory.test.ts`, `docs/TASKS.md`).
+- **Remaining issues:** None.
+- **Next task:** OLC-063 — session summary in plain language.
 
 ### OLC-063 — Implement session summary in plain language
 - **Status:** TODO
