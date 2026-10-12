@@ -28,6 +28,7 @@ import { relative, resolve, sep } from "node:path";
 
 import type { ResolvedConfig } from "../config/index.js";
 import { validateIdentity } from "../core/project-identity.js";
+import { assertContextCurrent, type SessionContext } from "../validation/index.js";
 import { appendCheckpointRecord } from "./checkpoint.js";
 import { GitError, git, gitRaw, inspectTree } from "./inspection.js";
 
@@ -63,6 +64,12 @@ export interface RestoreInput {
   reason: string;
   /** Defaults to current time (pass explicit dates in tests). */
   date?: string;
+  /**
+   * Session context from `startSession`. When present the restore is also
+   * revalidated against it (vault unmounted / re-registered / branch
+   * switched between operations blocks with zero writes).
+   */
+  session?: SessionContext;
 }
 
 export interface RestoreResult {
@@ -106,7 +113,9 @@ function isAncestor(repoRoot: string, sha: string): boolean {
 }
 
 export function restoreCheckpoint(input: RestoreInput): RestoreResult {
-  const identity = validateIdentity(input.projectRoot, input.config);
+  const identity = input.session
+    ? assertContextCurrent({ projectRoot: input.projectRoot, config: input.config, session: input.session })
+    : validateIdentity(input.projectRoot, input.config);
   const { repoRoot, branch, vaultRoot, projectId } = identity;
   const paths = normalizeRestorePaths(repoRoot, input.restorePaths);
 

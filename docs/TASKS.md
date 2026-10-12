@@ -419,13 +419,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-065 — vault/project validation at important operations.
 
 ### OLC-065 — Validate vault/project at important operations
-- **Status:** TODO
+- **Status:** DONE (auto-continue instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-021, OLC-060
 - **Goal:** Catch a missing/mismatched vault before damaging the wrong context.
 - **Work:** Call lightweight validation at session start and before critical read/write/commit/restore operations.
 - **Acceptance criteria:** Validation does not reread the whole vault; mismatch blocks operation.
 - **Verification:** Vault changed/unmounted between operations; wrong project registry; inaccessible path.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/validation/index.ts`: `startSession({projectRoot, config, date?})` runs OLC-021 `validateIdentity` once and returns the session context; `assertContextCurrent({projectRoot, config, session})` re-runs the same cheap gate (git metadata + single `OLC/registry.json` + readdir probe, never a full-vault scan) and blocks on drift (repo root or branch changed since start) via `ValidationError(SESSION_DRIFT)`. Identity problems propagate as `IdentityError` with zero writes. Wired into critical commit/restore paths: `CheckpointInput.session?` and `RestoreInput.session?` — when present, `createCheckpoint`/`restoreCheckpoint` revalidate against the session before touching git or vault (drifted session commits nothing). All other modules already validate at operation start (build, memory, taste, log, resume).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 139 pass / 0 fail (133 prior + 6 new); `npm run build` OK; `npm pack --dry-run` → 56 files. No publish.
+- **Evidence/files/commit:** This commit (`src/validation/index.ts`, `tests/validation.test.ts`, `src/git/checkpoint.ts`, `src/git/restore.ts`, `docs/TASKS.md`).
+- **Remaining issues:** None. Approval/planning/tasks raw-vault helpers remain ungated by design for MVP — all agent-facing write paths go through validated entry points.
+- **Next task:** OLC-070 — Documentation and safe installation flow (M7).
 
 ## M7 — Release hardening
 

@@ -22,6 +22,7 @@ import { relative, resolve, sep } from "node:path";
 
 import type { ResolvedConfig } from "../config/index.js";
 import { validateIdentity } from "../core/project-identity.js";
+import { assertContextCurrent, type SessionContext } from "../validation/index.js";
 import {
   parseFrontmatter,
   readVaultDoc,
@@ -59,6 +60,12 @@ export interface CheckpointInput {
   verification?: string;
   /** Defaults to current time (pass explicit dates in tests). */
   date?: string;
+  /**
+   * Session context from `startSession`. When present the commit is also
+   * revalidated against it (vault unmounted / re-registered / branch
+   * switched between operations blocks with zero writes).
+   */
+  session?: SessionContext;
 }
 
 export type CheckpointResult =
@@ -111,7 +118,9 @@ export function appendCheckpointRecord(
 }
 
 export function createCheckpoint(input: CheckpointInput): CheckpointResult {
-  const identity = validateIdentity(input.projectRoot, input.config);
+  const identity = input.session
+    ? assertContextCurrent({ projectRoot: input.projectRoot, config: input.config, session: input.session })
+    : validateIdentity(input.projectRoot, input.config);
   const { repoRoot, branch, vaultRoot, projectId } = identity;
   const owned = normalizeOwned(repoRoot, input.ownedPaths);
 
