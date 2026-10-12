@@ -265,13 +265,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-031 — `olc-explore` skill (P1, last of M3).
 
 ### OLC-041 — Implement test/report/escalation behavior
-- **Status:** TODO
+- **Status:** REVIEW
 - **Priority:** P0
 - **Depends on:** OLC-040
 - **Goal:** Make results evidence-backed.
 - **Work:** Run relevant checks, capture outcomes, retry fixes a bounded number of times, then stop and report attempts/options if unresolved or risky.
 - **Acceptance criteria:** No fabricated test claims; in-scope defects can be fixed; scope/architecture changes require plan revision.
 - **Verification:** Passing test, failing test, command error, and repeated failure scenarios.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/verify/index.ts`: `runCheck` (spawnSync, no shell, captures exit/stdout/stderr/timeout; ENOENT and ETIMEDOUT recorded as structured failures, never passes or throws), `verifyChecks` (bounded retry via `maxAttempts`, keeps EVERY attempt), `formatVerifyReport` (Markdown with real captured output tails + escalation list), `completeTaskWithVerification` (runs checks with cwd=repoRoot, delegates to OLC-040 `completeTask` only on full pass; on failure returns `verify-failed` + report with registry untouched at in_progress — the escalation path; never widens scope, OLC-034 still owns revisions). `tests/verify.test.ts`: 7 tests (pass records exit-0; fail retries exactly 3 then escalates; missing binary → ENOENT failure; 30s sleeper killed at 300ms timeout; report contains real output + Escalated line; failed verify leaves registry in_progress; passed verify completes to review with changed paths).
+- **Verification commands/results:** `npm run typecheck` clean (after fixing a PartialAttempt typing error: intermediate object lacked durationMs/ok); `npm test` → 74 pass / 0 fail (67 prior + 7 new); `npm run build` OK; `npm pack --dry-run` → 36 files. No publish.
+- **Evidence/files/commit:** Not yet committed. Files: `src/verify/index.ts` (new), `tests/verify.test.ts` (new), this TASKS.md entry.
+- **Remaining issues:** Checks run arbitrary executables by design (build agent's responsibility to pass only approved commands); default 120s timeout per attempt. No CLI wiring yet (belongs to plugin-tool tasks).
+- **Next task:** OLC-051 — Git inspection and checkpoint commit.
 
 ## M5 — Git checkpoint and restore
 
