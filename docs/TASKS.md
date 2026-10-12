@@ -156,13 +156,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-023 — Markdown vault and template adapters.
 
 ### OLC-023 — Add Markdown vault and template adapters
-- **Status:** TODO
+- **Status:** DONE (confirmed per standing instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-021
 - **Goal:** Read/write structured Markdown using templates from the OLC package repository.
 - **Work:** Add safe path resolver, frontmatter conventions if needed, atomic file writing where practical, initial templates for intent, plan, explore report, checkpoint, activity log, session summary, decision, taste rule.
 - **Acceptance criteria:** Paths cannot escape vault/project root; existing documents are not silently replaced; templates are included in packed package.
 - **Verification:** Path traversal tests, UTF-8 round-trip, existing-file preservation tests, package content check.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/vault/index.ts`: `projectScopeRoot` + `resolveVaultDoc` (segments must be plain relative names; result must stay inside `<vault>/OLC/Projects/<id>/`, else `VaultError(PATH_ESCAPE)`); minimal flat `key: value` frontmatter (`parseFrontmatter`/`withFrontmatter`); `writeVaultDoc` (creates parents, temp-file + rename atomicity, refuses existing unless `overwrite: true` → `ALREADY_EXISTS`); `readVaultDoc` (UTF-8); `findTemplatesDir` (locates package `templates/` from running module, works from both `dist/` and `dist-tests/`); `renderTemplate` (`{{var}}` substitution, missing values or unknown template → `TEMPLATE_ERROR`, template names restricted to plain file names); `BUNDLED_TEMPLATES` list. New `templates/`: `intent.md`, `plan.md`, `explore-report.md`, `checkpoint.md`, `activity-log.md`, `session-summary.md`, `decision.md`, `taste-rule.md` (each with frontmatter + `{{vars}}`, Indonesian section hints). `tests/vault.test.ts`: 7 tests (traversal refusals incl. absolute/empty/dot segments, in-scope resolution, no-silent-replace + explicit overwrite, UTF-8 round-trip with CJK/emoji, frontmatter round-trip, render + error cases, all-templates-render + ship-in-package check via `findTemplatesDir`).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 40 pass / 0 fail (33 prior + 7 new); `npm run build` OK; `npm pack --dry-run` lists all 8 `templates/*.md`. No publish.
+- **Evidence/files/commit:** Committed in `COMMIT1` (replaced with real SHA at commit time).
+- **Remaining issues:** Init (OLC-022) still writes its own stub markdown directly instead of via this adapter + templates — converging that is optional polish for OLC-030+ when real content lands. No CLI wiring yet (belongs to later plugin-tool tasks).
+- **Next task:** OLC-030 — base olc-plan and olc-build agent resources.
 
 ## M3 — Planning
 
