@@ -227,13 +227,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-034 — planning approval and scope-change return path (P0).
 
 ### OLC-034 — Implement planning approval and scope-change return path
-- **Status:** TODO
+- **Status:** REVIEW
 - **Priority:** P0
 - **Depends on:** OLC-032, OLC-033
 - **Goal:** Ensure implementation follows the plan users approved.
 - **Work:** Represent plan approval; detect scope-change request; checkpoint safe progress; return to plan revision; require approval before continuing impacted work.
 - **Acceptance criteria:** Build refuses unapproved plans; scope changes cannot silently replace the approved plan.
 - **Verification:** End-to-end tests for no approval, approved plan, revision request, and resumed execution.
+- **Date:** 2026-10-12
+- **Implemented:** New `src/approval/index.ts` on top of OLC-032 + OLC-033: `assertBuildReady` (build gate — registry status must be `approved`/`in_progress` AND both docs `approved`; this closes OLC-033's open registry↔doc cross-check, errors name the failing side), `requestScopeChange` (only from `approved`/`in_progress`; registry `approved→draft` or `in_progress→review`, both table-legal — no transition-table change; docs revised with NO body updates so the approved text survives byte-identical and statuses flip to `draft`; history records the reason + a safe-code-checkpoint reminder for the OLC-051 flow), `resumeAfterRevision` (explicit re-entry only: re-approves docs, registry `draft→approved` or `review→in_progress`; invalid states rejected, never implicit). `tests/approval.test.ts`: 6 end-to-end fixture tests (gate-blocks-draft, registry/doc cross-check, approved+in_progress pass, revision preserves bodies + history + re-blocks gate, in_progress→review→resume→gate-passes, invalid-state rejections incl. double-scope-change).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 58 pass / 0 fail (52 prior + 6 new); `npm run build` OK. No publish.
+- **Evidence/files/commit:** Not yet committed. Files: `src/approval/index.ts` (new), `tests/approval.test.ts` (new), `docs/TASKS.md` (this entry).
+- **Remaining issues:** The history reminder references the OLC-051 code-checkpoint flow, which is not built yet — the reminder is text only until OLC-051 lands. Approval remains a vault status flip, not a signature (accepted for MVP in OLC-032).
+- **Next task:** OLC-031 — `olc-explore` skill (P1, last of M3) — or OLC-040 — bounded build execution (M4).
 
 ## M4 — Build and verify
 
