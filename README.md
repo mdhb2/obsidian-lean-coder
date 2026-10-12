@@ -1,25 +1,134 @@
 # OLC — Obsidian Lean Coder
 
-OLC is an OpenCode extension under development. It is intended to provide project-scoped Obsidian memory, planning/build agents, durable logs, safe Git checkpoints, resumable work, and user-approved taste rules.
+OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. Work in progress — pre-release, not on npm.
 
-## Status
+## Three separate steps
 
-The project is in the specification/planning stage. The PRD and task board are not proof that features are implemented. See `docs/PRD.md` and `docs/TASKS.md`.
+Do not confuse these. They are different operations with different commands:
 
-## Development starting point
+| # | Step | What it does | Command |
+|---|------|--------------|---------|
+| 1 | **Dev install** | Install npm deps to hack on OLC itself | `npm ci && npm run build` |
+| 2 | **Plugin activation** | Load this checkout as an OpenCode plugin (local dev path) | config snippet below |
+| 3 | **Project init** | Register one app repo + vault with OLC (`initProject`, idempotent, create-only) | via the `olc-init` skill in OpenCode (the tested path) |
 
-1. Open this repository in OpenCode.
-2. Read `AGENTS.md`, `docs/PRD.md`, and `docs/TASKS.md`.
-3. Execute one task at a time. Start with `OLC-001`, then `OLC-002`.
-4. Keep `docs/TASKS.md` updated with actual status and verification evidence.
-5. Do not publish to npm until a separate explicit approval is given.
+## 1. Dev install
 
-## Intended installation model
+Requirements: Node >= 18.18, npm, git.
 
-OLC is intended to be packaged on npm and loaded by OpenCode using the plugin activation mechanism supported by the target OpenCode version. The exact npm name/scope and final installation/configuration commands are still to be verified during tasks OLC-010, OLC-012, and OLC-070.
+```sh
+git clone <this-repo> olc && cd olc
+npm ci
+npm run build    # tsc -p tsconfig.json → dist/
+npm test         # tsc -p tsconfig.tests.json && node --test "dist-tests/tests/**/*.test.js"
+npm run typecheck
+```
 
-Do not confuse these separate steps:
+Expected: build clean, typecheck clean. `npm test` runs the full suite (currently 139 tests). `npm pack --dry-run` shows what would ship (`dist/`, `agents/`, `skills/`, `templates/`).
 
-- installing npm dependencies for local development;
-- registering/activating the package as an OpenCode plugin;
-- initializing OLC for a particular application repository and Obsidian vault.
+> npm publish is blocked: `package.json` has `"private": true`. Removing that flag needs a separate explicit approval — never publish by accident.
+
+## 2. Plugin activation (local dev path)
+
+OLC is **not on npm**. Until a scoped name is reserved (DECISIONS.md #1), the only supported activation is pointing OpenCode at this checkout. The plugin entrypoint is `dist/index.js` (`src/plugin.ts` → `Plugin.define({ id: "olc" })`, one read-only `olc_status` tool, zero writes on load).
+
+In your project's `opencode.json` (or `~/.config/opencode/opencode.json` for global dev):
+
+```json
+{
+  "plugin": ["file:///home/you/olc"]
+}
+```
+
+Verify it loaded (from the consuming project directory):
+
+```sh
+opencode api get /api/plugin --param 'location={"directory":"$(pwd)"}'
+```
+
+You should see the `olc` plugin listed. Then place the agent/skill resources project-locally (DECISIONS.md #2 — programmatic registration was rejected for MVP):
+
+```sh
+PKG=/home/you/olc   # your OLC checkout
+mkdir -p .opencode/agents .opencode/skills/olc-explore
+cp "$PKG"/agents/olc-plan.md "$PKG"/agents/olc-build.md .opencode/agents/
+cp "$PKG"/skills/olc-explore/SKILL.md .opencode/skills/olc-explore/
+```
+
+Verify discovery:
+
+```sh
+opencode api get /api/agent --param 'location={"directory":"$(pwd)"}'
+opencode api get /api/skill --param 'location={"directory":"$(pwd)"}'
+```
+
+`olc-plan` should appear in agents, `olc-explore` in skills. Re-running the `cp` commands is safe as long as you have not customized the destination files — `cp` overwrites; the no-clobber guarantee belongs to `olc-init`, which reports existing files as `preserved` instead of overwriting them.
+
+Supported versions: OpenCode 2.x with the V2 plugin API. OLC pins `@opencode/plugin` 2.0.27 to match the CLI it was smoke-tested against (see OLC-011). Other 2.x versions will likely work; 1.x will not. The exact minimum version is still open (DECISIONS.md #3).
+
+## 3. Project init
+
+`initProject` (`src/init/index.ts`) registers one app repo + vault. It is idempotent and **create-only**: existing files are reported `preserved`, never overwritten. Anything needing a human choice comes back as `status: "needs-decision"` — no prompting inside the module.
+
+Run it via the `olc-init` skill inside OpenCode (recommended — the only tested path for MVP). A programmatic import is not yet wired: the package entrypoint (`dist/index.js`) currently exports only `OLC_VERSION`, and `initProject` lives in `src/init/index.ts` for internal/agent use.
+
+What it creates (only when missing):
+
+- `<repo>/.olc/config.json` — `{ schemaVersion, projectId, vaultPath }`. No secrets (keys matching `secret|token|password|api-key` are rejected).
+- `<repo>/.olc/AGENTS.md` — stub instructions for agents. Review and customize.
+- `<vault>/OLC/Projects/<project_id>/{index.md, current-state.md, decisions/, tasks/, logs/, memory/, taste/}`
+- `<vault>/OLC/registry.json` — `{ projects: { "<id>": { repoRoot } } }` entry for this repo.
+
+Vault path precedence: explicit `vaultPath` > `OLC_VAULT_PATH` env > existing config. OLC never invents a vault location — missing path returns `needs-decision`, never a silent default.
+
+Re-running init is always safe: run it again after pulling updates; `created` becomes `preserved`. To preview without writing: `initProject({ ..., dryRun: true })`.
+
+## Updating
+
+1. `git pull` the OLC checkout.
+2. `npm ci && npm run build && npm test`.
+3. Re-run init for each consuming project (creates only missing files; your vault notes, checkpoints, and taste rules are untouched).
+
+No migration step exists yet — templates live in the package (`templates/`); old vault documents are never auto-migrated.
+
+## Uninstalling
+
+Per consuming project:
+
+```sh
+# 1. Remove OLC resources from the project
+rm -rf .opencode/agents/olc-plan.md .opencode/agents/olc-build.md \
+       .opencode/skills/olc-explore .olc
+# 2. Remove the plugin entry from opencode.json ("plugin": ["file:///..."])
+# 3. Optionally remove the vault scope (YOUR NOTES — back up first):
+#    rm -rf "$VAULT/OLC/Projects/<project_id>"
+# 4. Optionally remove the registry entry in "$VAULT/OLC/registry.json"
+```
+
+No global state, no daemons, no background processes — nothing else to clean up.
+
+## Security notes
+
+- **Never store secrets in `.olc/config.json`** — credential-looking keys are rejected at parse time. Use env vars or a secret manager.
+- **Memory/log writes are secret-scrubbed** (`src/log/index.ts`): known token/key patterns become `[redacted]` before reaching the vault. The scrub list is documented and minimal — treat it as a safety net, not a vault for secrets.
+- **Git safety**: checkpoints stage only explicit OLC-owned paths (`git add -- <paths>`) and commit with a pathspec. `git add .`/`-A`, plain `git commit`, `reset --hard`, and force-push are banned in OLC flows. Ambiguous ownership aborts and asks you.
+- **Wrong-project protection**: every read/write validates `project_id` → repo-root → vault registration first (`validateIdentity`). Mismatches block with zero writes.
+
+## Troubleshooting
+
+| Symptom | Cause / fix |
+|---------|-------------|
+| `project_id "x" is not registered` | Run init for this repo, or you are in the wrong checkout. |
+| `Refusing to touch the wrong project's memory` | `project_id` maps to a different repo root. Use a new `projectId` for this checkout or move to the registered repo. |
+| `No vault path configured` | Pass `vaultPath` or set `OLC_VAULT_PATH`. OLC never guesses. |
+| Plugin not listed by `/api/plugin` | Check the `file://` path in `opencode.json` points at the OLC checkout root (containing `dist/`). Rebuild (`npm run build`) — the entrypoint is compiled output. |
+| Agent/skill not discovered | Files must be at `.opencode/agents/<name>.md` / `.opencode/skills/<id>/SKILL.md` relative to the project dir you pass in `location`. Check frontmatter has `description`. |
+| `Detached HEAD` / `SESSION_DRIFT` | Confirm branch + task before continuing — nothing was switched or closed. |
+| `OWNED_PATH_PRESTAGED` / `FOREIGN_EDIT` on checkpoint | Someone (you or a tool) touched OLC-owned files outside the task. Unstage / reconcile, then retry. |
+
+## Docs map
+
+- `docs/PRD.md` — requirements (source of truth for *what*).
+- `docs/TASKS.md` — task board with verification evidence (source of truth for *status*).
+- `docs/DECISIONS.md` — open technical decisions (#1 name, #3 version pin still open).
+- `AGENTS.md` — working rules for agents in this repo.

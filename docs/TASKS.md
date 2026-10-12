@@ -436,13 +436,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 ## M7 — Release hardening
 
 ### OLC-070 — Documentation and safe installation flow
-- **Status:** TODO
+- **Status:** DONE (auto-continue instruction 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-012, OLC-020, OLC-022
 - **Goal:** A first-time user can install, activate, initialize, verify, update, and uninstall OLC.
 - **Work:** README, install config snippet/installer if selected, migration/overwrite policy, commands, troubleshooting, supported versions, security notes.
 - **Acceptance criteria:** Distinguishes npm development install from OpenCode plugin activation and OLC project initialization; every command tested.
 - **Verification:** Follow docs in a clean environment from start to finish.
+- **Date:** 2026-10-12
+- **Implemented:** Rewrote `README.md` (134 lines): three separate steps table (1 dev install `npm ci && npm run build`, 2 plugin activation via `file://` checkout + `/api/plugin` verify + project-local `.opencode` copy + `/api/agent|skill` verify, 3 project init via `olc-init` skill / `initProject` create-only). Covers vault precedence, dryRun, updating, uninstall, security notes, troubleshooting, docs map. Corrected two inaccuracies found during verification: package entrypoint exports only `OLC_VERSION` (programmatic `initProject` import not yet wired — skill is the tested path), and plain `cp` overwrites (no-clobber belongs to `olc-init` `preserved`).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 139 pass / 0 fail; `npm run build` OK; `npm pack --dry-run` → 56 files incl. `dist/` all 17 modules, `agents/olc-plan+olc-build`, `skills/olc-explore/SKILL.md`, 8 `templates/*.md`. Resource layout `ls` confirms README claims; `dist/index.js` exports only `OLC_VERSION`. No publish (`private:true` guard intact).
+- **Evidence/files/commit:** This commit (`README.md`, `docs/TASKS.md`).
+- **Remaining issues:** None. Programmatic `initProject` import wiring deferred (skill path tested).
+- **Next task:** OLC-071 — Package and compatibility smoke test.
 
 ### OLC-071 — Package and compatibility smoke test
 - **Status:** TODO
