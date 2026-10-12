@@ -466,13 +466,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-072 — End-to-end MVP acceptance matrix.
 
 ### OLC-072 — End-to-end MVP acceptance matrix
-- **Status:** TODO
+- **Status:** DONE (auto-continue instruction 2026-10-13)
 - **Priority:** P0
 - **Depends on:** OLC-022, OLC-034, OLC-041, OLC-052, OLC-063, OLC-064, OLC-071
 - **Goal:** Validate one full user journey.
 - **Work:** Init dummy app/vault; plan and approve; build/test; checkpoint; simulate interruption; resume with confirmation; restore earlier checkpoint; propose taste rule; finish with simple-language summary.
 - **Acceptance criteria:** Every critical safety gate passes; unresolved limitations documented.
 - **Verification:** Completed test matrix and recorded results.
+- **Date:** 2026-10-13
+- **Implemented:** New `tests/e2e.test.ts`: one ordered journey test on temp git repo + temp vault. Matrix (each row asserted): init `ready` + config/registry files exist; pre-approval `beginTask` blocked `NOT_READY`; approval gate `assertBuildReady` passes after `approveTaskDocs` + registry `approved`; smuggled file → `completeTaskWithVerification` blocked `SCOPE_CHANGED`; passing checks → `verified:true`, status `review`; two session-bound checkpoints committed (sha1/sha2) with `checkpoint` log events; resume gives `needsConfirmation:true`, `lastCheckpoint=sha2`, open T-1, last verify event visible, `assertContextCurrent` passes; restore sha1 → content back to v2 AND sha2 still ancestor of HEAD (history preserved); taste pending invisible to active-list, approval activates; Indonesian summary contains `1/1 pemeriksaan berhasil` + checkpoint SHA + hard-kill honesty footer; wrong-project `ghost` config blocked at resume, taste, and complete (`CONTEXT_MISMATCH`). Three journey bugs found and fixed during implementation (registry needs explicit `approved` transition; `.olc/` must be committed to baseline before scoped completion; resume `lastCheckpoint` comes from log `checkpoint` events, so the journey logs one per checkpoint).
+- **Verification commands/results:** `npm run typecheck` clean; `npm test` → 140 pass / 0 fail (139 prior + 1 e2e); `npm run build` OK; `npm pack --dry-run` → 56 files. No publish.
+- **Evidence/files/commit:** This commit (`tests/e2e.test.ts`, `docs/TASKS.md`).
+- **Remaining issues:** OLC-071 limitations carry over (npm-dir activation unwired, `/api/agent|skill` discovery unreproduced). E2E covers library-level journey, not live model calls (billing-blocked, same as OLC-011).
+- **Next task:** OLC-073 — Prepare MVP pre-release.
 
 ### OLC-073 — Prepare MVP pre-release
 - **Status:** TODO
