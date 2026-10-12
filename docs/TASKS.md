@@ -216,7 +216,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 ## M5 — Git checkpoint and restore
 
 ### OLC-050 — Define checkpoint safety strategy (spike)
-- **Status:** REVIEW
+- **Status:** DONE (confirmed by user 2026-10-12)
 - **Priority:** P0
 - **Depends on:** OLC-002
 - **Goal:** Prove how to commit only OLC-owned changes while protecting manual edits.
@@ -226,7 +226,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Date:** 2026-10-12
 - **Implemented:** SPIKE in `/tmp/opencode/olc50/spike` (throwaway repo, real repo untouched). Decision recorded in `docs/DECISIONS.md` row #5 (Resolved): checkpoint stages ONLY explicit OLC-owned paths (`git add -- <paths>`) and commits with pathspec (`git commit -- <paths>`); OLC snapshots each file's content at write time and aborts for user guidance when an owned file no longer matches its snapshot (foreign edit) or carries foreign staged changes; `git add .`/`-A`, plain `git commit`, and `git add -p` are banned from the checkpoint flow. Hunk staging rejected: with default diff context, nearby OLC+user edits merge into ONE hunk (proven: single `@@ -1,3 +1,5 @@` hunk containing both `+OLC-TOP` and `+USER-BOTTOM`), so even hunk selection cannot separate them; scripted patch surgery is fragile and `git add -p` is interactive-only. Isolated execution (worktree/branch per task) rejected for MVP: conflicts with D-004 (user controls branch selection; no automatic branching).
 - **Verification commands/results:** Scenario 1 (unsafe, proven bad): mixed OLC edit + user tracked edit + untracked file → `git add .` + commit sweeps ALL THREE into the checkpoint (`app.txt`, `user.txt`, `notes.txt`). Scenario 2 (safe): `git add -- app.txt` → commit contains ONLY `app.txt`; `user.txt` edit and `notes.txt` survive byte-identical (`cat` verified, status still shows `M user.txt`, `?? notes.txt`). Scenario 3a (trap): user pre-stages `user.txt`, plain `git commit` includes it alongside `app.txt`. Scenario 3b (safe): `git commit -- app.txt` commits only `app.txt`; user's staged `user.txt` stays staged and uncommitted. Scenario 4 (overlap): OLC top-edit + user bottom-edit in `shared.txt` → `git add -- shared.txt` stages BOTH (`+OLC-TOP`, `+USER-BOTTOM` in cached diff); detection via byte-compare against OLC's write-time snapshot reports `DIFFERS → STOP and ask`. Positive control: file matching its snapshot reports `IDENTICAL → safe to stage`.
-- **Evidence/files/commit:** Not yet committed. Evidence: `docs/DECISIONS.md` row #5 resolved; this TASKS.md entry. No `src/` changes — the enforced flow belongs to OLC-051.
+- **Evidence/files/commit:** Committed in `de5eeea` "OLC-050: checkpoint safety spike decision and evidence" (`docs/TASKS.md` entry + `docs/DECISIONS.md` row #5 resolved). No `src/` changes — the enforced flow belongs to OLC-051.
 - **Remaining issues:** None for the spike; OLC-051 must implement exactly this flow (inspect → snapshot-compare → explicit-path stage → pathspec commit → abort on ambiguity).
 - **Next task:** OLC-051 — Implement Git inspection and checkpoint commit.
 
