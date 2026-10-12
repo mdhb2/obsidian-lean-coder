@@ -327,7 +327,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Next task:** OLC-053 — pre-switch and task-final checkpoint policy.
 
 ### OLC-053 — Implement pre-switch and task-final checkpoint policy
-- **Status:** REVIEW
+- **Status:** DONE (confirmed 2026-10-12, auto-continue mandate)
 - **Priority:** P1
 - **Depends on:** OLC-051, OLC-041
 - **Goal:** Checkpoint important milestones and final state of verified tasks.
@@ -337,7 +337,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Date:** 2026-10-12
 - **Implemented:** New `src/git/policy.ts`: `maybeCheckpointPolicy({projectRoot, config, taskId, trigger, ownedPaths, snapshots, message?, verifyOutcome?, date?})`. Triggers `milestone`/`explicit`/`pre-switch` delegate to OLC-051 `createCheckpoint` (unchanged owned set → `clean`, so no repeated commits); `task-final` additionally requires a fully-passing `verifyOutcome` and registry status `review` (i.e. OLC-041 ran) — missing/failing outcome or any other status (incl. `done`) returns `not-ready`/`verify-failed` with zero git mutation, and the final record embeds a one-line verification summary. Commit ≠ completion: every result carries `needsUserConfirmation` (true only for `task-final`), registry status untouched. Checkpoint aborts (`CheckpointError`) propagate unchanged. `tests/policy.test.ts`: 8 real-git-fixture tests (milestone commit + repeat-clean; pre-switch message in record; unchanged → no commit/record; task-final w/o outcome, failing outcome w/ registry untouched, passing-but-not-review, full flow w/ confirmation flag + registry still `review`, already-`done`).
 - **Verification commands/results:** `npm run typecheck` clean; `npm test` → 98 pass / 0 fail (90 prior + 8 new); `npm run build` OK; `npm pack --dry-run` → 44 files. No publish.
-- **Evidence/files/commit:** Not yet committed. Files: `src/git/policy.ts` (new), `tests/policy.test.ts` (new), this TASKS.md entry.
+- **Evidence/files/commit:** Committed in `149e9ea` "OLC-053: pre-switch and task-final checkpoint policy" (`src/git/policy.ts`, `tests/policy.test.ts`, `docs/TASKS.md`).
 - **Remaining issues:** None. M5 now fully DONE (050/051/052/053).
 - **Next task:** OLC-060 — activity event logging (M6).
 
