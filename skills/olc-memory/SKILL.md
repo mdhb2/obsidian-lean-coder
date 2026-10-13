@@ -18,7 +18,7 @@ Ingatan berlingkup proyek: baca `index.md` + `current-state.md` dulu, lalu hanya
 1. Panggil `recallMemory({ projectRoot, config, query?, taskId?, includeLogs?, logLimit?, limit? })` — tanpa query = konteks dasar (index + state + log terbaru, tanpa filter).
 2. Dengan query: token query difilter stopwords, skor per dokumen `memory/` + `decisions/` (bobot nama file), kutipan dibatasi 1200 karakter dengan flag truncasi, urutan skor terbaik dulu.
 3. Dengan `taskId`: sertakan status doc intent/plan task itu (hilang → null, bukan error).
-4. Untuk menyimpan: `recordMemory({ projectRoot, config, name, content, overwrite? })` → `memory/<name>.md` atomik.
+4. Untuk menyimpan: `recordMemory({ projectRoot, config, name, content, overwrite? })` → `memory/<name>.md` atomik. `content` harus menyertakan section `## Terkait` berisi wikilink relatif ke `[[../index]]`, `[[../current-state]]`, dan dokumen task/decision terkait — ini menjaga catatan memori tetap tersambung di graph vault (second brain), bukan pulau terisolasi.
 
 ## Verifikasi skill ini
 

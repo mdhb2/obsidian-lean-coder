@@ -17,3 +17,7 @@ date: {{date}}
 ## Consequences (akibat / yang harus diikuti)
 
 {{consequences}}
+
+## Terkait (dokumen terkait)
+
+{{related}}

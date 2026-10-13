@@ -88,6 +88,7 @@ test("template render substitutes all variables, missing ones error", () => {
     context: "C",
     decision: "D",
     consequences: "Q",
+    related: "- [[../index]]",
   });
   assert.ok(!out.includes("{{"), "no placeholder may survive");
   assert.ok(out.includes("D"));
@@ -134,6 +135,7 @@ test("all bundled templates render and ship in the package", () => {
     context: "c",
     decision: "d",
     consequences: "q",
+    related: "- [[../index]] — hub memori proyek",
     name: "n",
     rule: "r",
     examples: "e",

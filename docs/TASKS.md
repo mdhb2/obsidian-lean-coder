@@ -571,6 +571,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Evidence/files/commit:** This commit (`agents/olc-build.md`, `package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
 - **Remaining issues:** Publish of 0.4.1 requires the user. `olc-plan.md` intentionally untouched (read-only investigation, no verification runs).
 
+### OLC-079 — Vault cross-linking for the second-brain graph
+- **Status:** DONE (user-requested 2026-10-14, Indonesian: "apakah antar dokumen sudah ada link menghubungkannya? kalau belum ada berikan aturan untuk itu, karena ini nantinya kan sebagai second brain dari project"; audit found zero wikilinks between any vault document)
+- **Priority:** P1
+- **Depends on:** OLC-023, OLC-060, OLC-062
+- **Goal:** Every vault document is a connected node in Obsidian's link graph (intent/plan/history/checkpoint/explore-report/taste-rule/log ↔ project hub), not an isolated file.
+- **Work:** Added `## Terkait` sections with relative `[[wikilinks]]` to 7 bundled templates (`intent.md`, `plan.md`, `checkpoint.md`, `explore-report.md`, `activity-log.md`, `taste-rule.md`, `decision.md` — the last via a new `related` template variable supplied by the caller); `session-summary.md` deliberately left link-free (no fixed vault location). `src/init/index.ts` `VAULT_INDEX`/`VAULT_STATE` now link `index.md` ↔ `current-state.md`. `src/planning/index.ts` `appendHistory` writes an initial `## Terkait` header linking `history.md` to its `intent.md`/`plan.md`. `src/log/index.ts` `ensureDayFile` links each daily log to the hub; `formatEntry` appends a `- terkait:` line to task-tagged events linking to that task's intent/plan (confirmed `parseEntries` ignores the unknown key safely). New `tests/links.test.ts` (7 tests): per-template link assertions, decision.md's required `related` var, and an end-to-end fixture (init → draft → revise → checkpoint → log) that walks every `.md` file in a generated vault and resolves every `[[...]]` target on disk. `tests/vault.test.ts` updated with the new `related` var. README gains a "Vault linking rules (second brain)" section; `skills/olc-memory/SKILL.md` updated to require memory notes include `## Terkait`. Release 0.5.0.
+- **Acceptance criteria:** Each template's rendered output contains `## Terkait` with the expected relative links (except session-summary); `decision.md` errors without `related`; hub docs link both ways; fixture walk reports zero broken links; full suite green.
+- **Date:** 2026-10-14
+- **Implemented:** Template edits (7 files); `src/init/index.ts`, `src/planning/index.ts`, `src/log/index.ts`; `tests/links.test.ts` (new, 7 tests), `tests/vault.test.ts` (updated); version 0.5.0 (`package.json` via `npm pkg set` + lockfile root sync; `src/index.ts` `OLC_VERSION`); `CHANGELOG.md` 0.5.0 entry; README head version, test-count, and new linking-rules section; `skills/olc-memory/SKILL.md` updated.
+- **Verification commands/results:** `npm run typecheck` clean; `npm run build` clean; `npm test` → 152 pass / 0 fail (was 146 before this task's 7 new tests, minus 1 pre-existing test fixed to supply the new `related` var — 152 is the new total, not a net +7 over a stale baseline). No `npm pack --dry-run` run yet in this session — **NOT RUN**, pending before commit.
+- **Evidence/files/commit:** Uncommitted at time of writing (templates/*.md ×7, `src/init/index.ts`, `src/planning/index.ts`, `src/log/index.ts`, `tests/links.test.ts`, `tests/vault.test.ts`, `package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `skills/olc-memory/SKILL.md`, `docs/TASKS.md`).
+- **Remaining issues:** No backfill of links into vault documents written by earlier OLC versions (existing limitation, documented in README and here, tracked under D-005). Publish of 0.5.0 requires the user — never run by the agent.
+
 ## Deferred
 
 | ID | Item | Status | Reason |

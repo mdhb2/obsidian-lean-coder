@@ -21,3 +21,9 @@ project: {{project_id}}
 ## Open questions
 
 {{open_questions}}
+
+## Terkait (dokumen terkait)
+
+- [[../{{task_id}}/plan]] — rencana kerja untuk intent ini
+- [[../../index]] — hub memori proyek
+- [[../../current-state]] — status terbaru proyek

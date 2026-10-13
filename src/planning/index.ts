@@ -186,7 +186,11 @@ function appendHistory(
     existing = "";
   }
   const entry = `## ${date} — ${kind}\n\n${reason}\n`;
-  writeVaultDoc(history, existing === "" ? `# History — ${taskId}\n\n${entry}` : `${existing}\n${entry}`, {
+  const header =
+    `# History — ${taskId}\n\n## Terkait\n\n` +
+    `- [[../${taskId}/intent]] — maksud kerja\n` +
+    `- [[../${taskId}/plan]] — rencana kerja\n\n`;
+  writeVaultDoc(history, existing === "" ? `${header}${entry}` : `${existing}\n${entry}`, {
     overwrite: true,
   });
 }

@@ -33,10 +33,12 @@ const AGENTS_STUB = (projectId: string): string =>
   "- (belum ada — tambahkan sesuai kebutuhan proyek)\n";
 
 const VAULT_INDEX = (projectId: string): string =>
-  `# ${projectId}\n\nOLC project memory root. See current-state.md for the latest status.\n`;
+  `# ${projectId}\n\nOLC project memory root. See current-state.md for the latest status.\n` +
+  `\n## Terkait\n\n- [[current-state]] — status terbaru proyek\n`;
 
 const VAULT_STATE = (projectId: string): string =>
-  `# Current state — ${projectId}\n\nInitialized. No activity recorded yet.\n`;
+  `# Current state — ${projectId}\n\nInitialized. No activity recorded yet.\n` +
+  `\n## Terkait\n\n- [[index]] — hub memori proyek\n`;
 
 export interface InitEntry {
   path: string;

@@ -21,3 +21,9 @@ date: {{date}}
 ## Recommendation (pilihan yang disarankan + alasan)
 
 {{recommendation}}
+
+## Terkait (dokumen terkait)
+
+- [[../../{{task_id}}/intent]] — maksud kerja
+- [[../../{{task_id}}/plan]] — rencana kerja
+- [[../../index]] — hub memori proyek

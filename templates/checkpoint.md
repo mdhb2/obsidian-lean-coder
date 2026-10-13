@@ -22,3 +22,9 @@ date: {{date}}
 ## Timestamp
 
 {{date}}
+
+## Terkait (dokumen terkait)
+
+- [[../{{task_id}}/intent]] — maksud kerja
+- [[../{{task_id}}/plan]] — rencana kerja
+- [[../{{task_id}}/history]] — riwayat revisi keputusan

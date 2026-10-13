@@ -113,7 +113,9 @@ function ensureDayFile(path: string, projectId: string, day: string): void {
   // "wx" fails when another process won the race — that is fine, the file
   // (with an identical header) already exists and we just append below.
   try {
-    const header = withFrontmatter({ project: projectId, type: "activity-log", date: day }, "");
+    const header =
+      withFrontmatter({ project: projectId, type: "activity-log", date: day }, "") +
+      "## Terkait\n\n- [[../index]] — hub memori proyek\n- [[../current-state]] — status terbaru proyek\n\n";
     appendFileSync(path, header.endsWith("\n") ? header : header + "\n", { flag: "wx" });
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "EEXIST") {
@@ -134,6 +136,14 @@ function formatEntry(event: Required<Pick<LogEventInput, "kind" | "summary">> & 
   if (scrubbedDetails !== null) lines.push(`- details: ${scrubbedDetails.text}`);
   if (event.gitSha) lines.push(`- sha: ${event.gitSha}`);
   if (redacted) lines.push(`- redacted: true`);
+  // Obsidian graph links toward the task docs. parseEntries does not know the
+  // `terkait` key and safely ignores it; it exists purely so every log entry
+  // is a clickable node in the vault graph (second-brain navigation).
+  if (event.taskId) {
+    lines.push(
+      `- terkait: [[../tasks/${event.taskId}/intent]], [[../tasks/${event.taskId}/plan]]`,
+    );
+  }
   return lines.join("\n") + "\n";
 }
 

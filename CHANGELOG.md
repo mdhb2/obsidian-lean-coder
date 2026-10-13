@@ -4,6 +4,30 @@ All notable changes to OLC (Obsidian Lean Coder) are recorded here.
 OLC is pre-release: versions are `0.x` until a controlled-testing release says otherwise.
 `package.json` shipped `"private": true` through 0.1.0; the flag was removed at publish time with explicit user approval, and 0.1.0 is live as [`obsidian-lean-coder`](https://www.npmjs.com/package/obsidian-lean-coder). Publishing a new version is still a separate explicitly approved action, never automatic.
 
+## [0.5.0] — 2026-10-14 — vault cross-linking for the second-brain graph
+
+Vault documents were isolated islands: no `[[wikilinks]]` connected intent to
+plan, checkpoints to history, or the daily log to the task it recorded. Since
+the vault is meant as the project's second brain, every bundled template now
+ships a `## Terkait` section with relative wikilinks to its natural
+neighbours (intent ↔ plan ↔ history ↔ checkpoint; explore reports and taste
+rules back to the project hub; daily logs to the hub and, per entry, to the
+task it concerns). `index.md` and `current-state.md` link to each other.
+`decision.md` takes a new `related` variable so its links reflect the actual
+decision (callers must supply it). `session-summary.md` stays link-free by
+design — it has no fixed vault location, so it is returned in chat, never
+written to a file.
+
+This only affects newly rendered documents; pre-existing vault files from
+earlier versions are not backfilled.
+
+- **Verification:** typecheck/build clean; full suite green (152 tests,
+  including a new end-to-end fixture that walks every markdown file in a
+  generated vault and resolves every `[[...]]` target on disk);
+  `npm pack --dry-run` file check.
+- **Upgrade:** `npm install obsidian-lean-coder@0.5.0`, then re-run any task
+  that still needs its docs drafted — existing docs keep their old content.
+
 ## [0.4.1] — 2026-10-14 — verification tooling rule for minimal harnesses
 
 `agents/olc-build.md` gains a verification rule from a real field report: prefer

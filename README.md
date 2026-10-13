@@ -1,6 +1,6 @@
 # OLC — Obsidian Lean Coder
 
-OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. On npm as `obsidian-lean-coder` (v0.4.1: verification tooling rule for minimal harnesses — see CHANGELOG).
+OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. On npm as `obsidian-lean-coder` (v0.5.0: vault cross-linking for the second-brain graph — see CHANGELOG).
 
 ## Three separate steps
 
@@ -24,7 +24,7 @@ npm test         # tsc -p tsconfig.tests.json && node --test "dist-tests/tests/*
 npm run typecheck
 ```
 
-Expected: build clean, typecheck clean. `npm test` runs the full suite (currently 146 tests). `npm pack --dry-run` shows what would ship (`dist/`, `agents/`, `skills/`, `templates/`).
+Expected: build clean, typecheck clean. `npm test` runs the full suite (currently 152 tests). `npm pack --dry-run` shows what would ship (`dist/`, `agents/`, `skills/`, `templates/`).
 
 > Published on npm as `obsidian-lean-coder` (MIT). Republishing needs a separate explicit approval — never publish by accident.
 
@@ -114,6 +114,37 @@ What it creates (only when missing):
 Vault path precedence: explicit `vaultPath` > `OLC_VAULT_PATH` env > existing config. OLC never invents a vault location — missing path returns `needs-decision`, never a silent default.
 
 Re-running init is always safe: run it again after pulling updates; `created` becomes `preserved`. To preview without writing: `initProject({ ..., dryRun: true })`.
+
+### Vault linking rules (second brain)
+
+The vault is meant as the project's long-term memory, so every document a
+template produces must be a node in Obsidian's link graph, not an isolated
+file. Rules:
+
+- Every bundled template carries a `## Terkait` section with **relative**
+  `[[wikilinks]]` to its natural neighbours — e.g. `intent.md` ↔ `plan.md` ↔
+  `history.md` ↔ `checkpoint.md`; `explore-report.md` and `taste-rule.md`
+  back to the project hub (`index.md`, `current-state.md`); each daily log
+  file links to the hub, and each logged event with a `taskId` links to that
+  task's `intent.md`/`plan.md`.
+- `index.md` and `current-state.md` link to each other — they are the hub a
+  reader lands on first.
+- Links are relative path-form (`[[../T-1/plan]]`, not a bare `[[plan]]`),
+  so they resolve correctly whether Obsidian's vault root is `<vault>` or
+  `<vault>/OLC/Projects/<id>`, and stay correct across multiple projects
+  sharing one vault (a bare `[[plan]]` would be ambiguous between projects).
+- `decision.md` takes a `related` template variable — the caller supplies
+  the links relevant to that specific decision; there is no fixed set.
+- `session-summary.md` is the one exception: it has no fixed vault location
+  (it's returned in chat for the user to read, never written to a file), so
+  it carries no links by design.
+- **Limitation:** linking only applies to newly rendered documents. Older
+  vault files written by a previous OLC version are not backfilled with
+  links (see D-005 in `docs/TASKS.md`).
+- Writing to `memory/<name>.md` via the `olc-memory` skill is free-form
+  (no template), but should still include a `## Terkait` section linking
+  back to `[[../index]]`/`[[../current-state]]` and any related task or
+  decision, to keep the memory graph connected.
 
 ## Updating
 

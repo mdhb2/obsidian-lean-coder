@@ -25,3 +25,10 @@ project: {{project_id}}
 ## Risks and open questions
 
 {{risks}}
+
+## Terkait (dokumen terkait)
+
+- [[../{{task_id}}/intent]] — maksud dari rencana ini
+- [[../{{task_id}}/history]] — riwayat revisi keputusan
+- [[../../index]] — hub memori proyek
+- [[../../current-state]] — status terbaru proyek
