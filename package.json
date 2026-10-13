@@ -1,9 +1,12 @@
 {
   "name": "obsidian-lean-coder",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Obsidian Lean Coder — OpenCode extension for project-scoped planning, memory, and safe Git checkpoints.",
   "type": "module",
   "main": "./dist/index.js",
+  "bin": {
+    "olc-setup": "./bin/olc-setup.js"
+  },
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
@@ -16,6 +19,7 @@
     "agents",
     "skills",
     "templates",
+    "bin",
     "README.md",
     "CHANGELOG.md"
   ],

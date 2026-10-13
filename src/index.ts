@@ -10,5 +10,5 @@
  * `plugin.ts` tool `execute` (deferred to call time), so this re-export
  * cycle is safe under ESM live bindings.
  */
-export const OLC_VERSION = "0.1.1";
+export const OLC_VERSION = "0.2.0";
 export { default } from "./plugin.js";

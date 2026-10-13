@@ -67,7 +67,17 @@ printf '%s\n' '{ "type": "module", "dependencies": { "@opencode/plugin": "2.0.27
 
 Verify with the same `grep` as above, expecting `.opencode/plugins/olc/index.js` in the loading line.
 
-Then place the agent/skill resources project-locally (DECISIONS.md #2 — programmatic registration was rejected for MVP):
+Then install the agent/skill resources — recommended via the setup helper:
+
+```sh
+npx obsidian-lean-coder setup            # project scope: ./.opencode
+npx obsidian-lean-coder setup --global   # global scope: ~/.config/opencode
+npx obsidian-lean-coder setup --dry-run  # preview, writes nothing
+```
+
+Missing directories are created; existing OLC agent/skill files are overwritten with the package
+versions (a deliberate exception to the create-only rule, scoped to these files only).
+Manual equivalent (DECISIONS.md #2 — programmatic registration was rejected for MVP):
 
 ```sh
 PKG=/home/you/olc   # your OLC checkout

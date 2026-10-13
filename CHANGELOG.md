@@ -4,6 +4,22 @@ All notable changes to OLC (Obsidian Lean Coder) are recorded here.
 OLC is pre-release: versions are `0.x` until a controlled-testing release says otherwise.
 `package.json` shipped `"private": true` through 0.1.0; the flag was removed at publish time with explicit user approval, and 0.1.0 is live as [`obsidian-lean-coder`](https://www.npmjs.com/package/obsidian-lean-coder). Publishing a new version is still a separate explicitly approved action, never automatic.
 
+## [0.2.0] — 2026-10-13 — `olc-setup` resource installer
+
+New `olc-setup setup [--project|--global]` command (run manually via `npx obsidian-lean-coder setup`
+after install): copies the shipped agents/skills into OpenCode discovery paths —
+`<cwd>/.opencode` (project, default) or `~/.config/opencode` (`$XDG_CONFIG_HOME/opencode` when set,
+global; global use is allowed only for this plugin's own install). Missing directories are created;
+existing OLC agent/skill files are overwritten with the package versions (a deliberate, narrow
+exception to the create-only rule, scoped to the files this command owns — see README §2).
+`--dry-run` previews without writing; `opencode.json` is never edited (manual snippet printed after
+each run). Node builtins only, no runtime dependencies.
+
+- **Verification:** 6 fixture tests (`tests/setup.test.ts`: create, skip/overwrite, dry-run,
+  global scope, usage errors, mkdir -p); full suite 146/146 pass; typecheck/build clean.
+- **Upgrade:** `npm install obsidian-lean-coder@0.2.0`, then `npx obsidian-lean-coder setup`
+  (add `--global` for global scope).
+
 ## [0.1.1] — 2026-10-13 — plugin entrypoint fix
 
 Fixes npm-package activation (reported: `npm install` worked but nothing appeared in OpenCode).

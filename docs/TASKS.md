@@ -514,7 +514,22 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Verification commands/results:** `npm run typecheck` clean; `npm run build` OK; mock-ctx load of `dist/index.js` → `id=olc` + correct execute payload; real-loader test (fixture `.opencode/plugins/olc/index.js` re-exporting the exact npm-loader shape) → `loading plugin` + **zero** `failed to load plugin` (exit=1 is the known account-billing error); `npm test` → 140 pass / 0 fail; `npm pack --dry-run` file count recorded at commit time. No publish by agent — user runs `npm publish`.
 - **Evidence/files/commit:** This commit (`src/index.ts`, `package.json`, `package-lock.json`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
 - **Remaining issues:** Publish of 0.1.1 requires the user (explicit approval standing rule). `/api/agent|skill` discovery gap from OLC-071 still open (README verifies by file presence).
-- **Next task:** None — publish 0.1.1, then new task IDs for follow-ups.
+- **Next task:** OLC-075 — `olc-setup` resource installer.
+
+### OLC-075 — `olc-setup` resource installer (npx, project/global scope)
+- **Status:** DONE (user-requested 2026-10-13: "bisa nggak dibuat ketika install ada pilihan project atau global ... otomatis ... sesuai scope"; locked decisions: global only for this plugin's install, npx manual run, opencode.json stays manual with README instructions, missing targets created, existing OLC files overwritten)
+- **Priority:** P0
+- **Depends on:** OLC-074
+- **Goal:** One manual command installs shipped agents/skills into OpenCode discovery paths for the chosen scope.
+- **Work:** `bin/olc-setup.js` (Node builtins only) + `bin` entry in `package.json` (+ `files` allowlist); `setup [--project|--global] [--dry-run]` (default project); README/CHANGELOG updates; release 0.2.0.
+- **Acceptance criteria:** Missing dirs created; existing OLC agent/skill files overwritten with package versions (deliberate narrow exception to create-only, scoped to owned files); `--dry-run` writes nothing; `opencode.json` never touched (manual snippet printed); unknown args exit non-zero.
+- **Verification:** 6 fixture tests + full suite + real npx-from-tarball run.
+- **Date:** 2026-10-13
+- **Implemented:** New `bin/olc-setup.js` (shebang, `OWNED_FILES` = 2 agents + 1 skill, usage exit 2, incomplete-package guard exit 1, created/overwritten/skipped summary + post-run manual `plugins` snippet). Scope roots: `process.cwd()` (project) and `$XDG_CONFIG_HOME/opencode` else `~/.config/opencode` (global). `tests/setup.test.ts`: create-bytes, skip/overwrite, dry-run, global isolation, usage errors, mkdir -p. Release 0.2.0: `package.json` via `npm pkg set` + lockfile synced, `src/index.ts` `OLC_VERSION`, `CHANGELOG.md` 0.2.0 entry, README §2 setup-helper subsection.
+- **Verification commands/results:** `npm run typecheck` clean; `npm run build` OK; `npm test` → 146 pass / 0 fail (140 prior + 6 new); `npm pack --dry-run` → 59 files incl. `bin/olc-setup.js`; entry reports `VERSION=0.2.0 id=olc setup=function`; real tarball install into clean fixture + packed `bin/olc-setup.js` run → 3 created, rerun `--dry-run` → 3 skipped, `.bin/olc-setup` shim present; tarball deleted after test. No publish by agent — user runs `npm publish`.
+- **Evidence/files/commit:** This commit (`bin/olc-setup.js`, `tests/setup.test.ts`, `package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
+- **Remaining issues:** Publish of 0.2.0 requires the user. `/api/agent|skill` discovery gap still open.
+- **Next task:** None — publish 0.2.0, then new task IDs for follow-ups.
 
 ## Deferred
 
