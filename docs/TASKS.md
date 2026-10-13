@@ -501,6 +501,21 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Remaining issues:** Publish action still requires separate explicit user approval. Open items for post-MVP: npm name reservation (DECISIONS #1), plugin entrypoint wiring for npm activation, `/api/agent|skill` discovery gap, min OpenCode version pin (#3). OLC-003 CI baseline done 2026-10-13 — no TODO items remain on the board.
 - **Next task:** None — all TASKS.md items DONE. Post-MVP follow-ups need new task IDs.
 
+### OLC-074 — Fix npm plugin entrypoint (post-release bug report)
+- **Status:** DONE (user-reported live bug 2026-10-13, fixed same session)
+- **Priority:** P0
+- **Depends on:** OLC-071
+- **Goal:** Make `npm install obsidian-lean-coder` + `plugins` listing actually load the plugin in OpenCode.
+- **Work:** Wire plugin default export into the package entrypoint; rewrite README §2 for the npm path; release 0.1.1.
+- **Acceptance criteria:** Package-root `dist/index.js` exposes the plugin default export `{id, setup}`; real loader shows `loading plugin` with zero failures; README documents only verified paths.
+- **Verification:** Mock-ctx load + real `opencode run --standalone` load + full suite.
+- **Date:** 2026-10-13
+- **Implemented:** User reported npm-installed package invisible in OpenCode (expected 2 agents + skills, got nothing). Diagnosis: (1) bare `npm install` never surfaces anything — package must be listed under `opencode.json` `plugins`; (2) real bug: npm loaders resolve package-root `dist/index.js`, which exported only `OLC_VERSION` with no plugin default export, so the loader ignored it (matches OLC-071 zero-load-attempts finding); (3) agents/skills never auto-appear by design (DECISIONS #2 project-local `.opencode` copy). Fix: `src/index.ts` re-exports the plugin default alongside `OLC_VERSION` (safe: `OLC_VERSION` consumed deferred inside `execute`). Release 0.1.1: `package.json` via `npm pkg set` + lockfile synced, `src/index.ts` `OLC_VERSION`, `CHANGELOG.md` 0.1.1 entry (also fixed stale `private:true` line — package is public, 0.1.0 live), README rewritten (npm path first with verified `run --standalone` grep, local-dev subsection, stale `plugin`-key snippet and entrypoint notes corrected).
+- **Verification commands/results:** `npm run typecheck` clean; `npm run build` OK; mock-ctx load of `dist/index.js` → `id=olc` + correct execute payload; real-loader test (fixture `.opencode/plugins/olc/index.js` re-exporting the exact npm-loader shape) → `loading plugin` + **zero** `failed to load plugin` (exit=1 is the known account-billing error); `npm test` → 140 pass / 0 fail; `npm pack --dry-run` file count recorded at commit time. No publish by agent — user runs `npm publish`.
+- **Evidence/files/commit:** This commit (`src/index.ts`, `package.json`, `package-lock.json`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
+- **Remaining issues:** Publish of 0.1.1 requires the user (explicit approval standing rule). `/api/agent|skill` discovery gap from OLC-071 still open (README verifies by file presence).
+- **Next task:** None — publish 0.1.1, then new task IDs for follow-ups.
+
 ## Deferred
 
 | ID | Item | Status | Reason |

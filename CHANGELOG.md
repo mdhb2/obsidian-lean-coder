@@ -2,7 +2,20 @@
 
 All notable changes to OLC (Obsidian Lean Coder) are recorded here.
 OLC is pre-release: versions are `0.x` until a controlled-testing release says otherwise.
-`package.json` keeps `"private": true` — npm publishing is a separate explicitly approved action, never automatic.
+`package.json` shipped `"private": true` through 0.1.0; the flag was removed at publish time with explicit user approval, and 0.1.0 is live as [`obsidian-lean-coder`](https://www.npmjs.com/package/obsidian-lean-coder). Publishing a new version is still a separate explicitly approved action, never automatic.
+
+## [0.1.1] — 2026-10-13 — plugin entrypoint fix
+
+Fixes npm-package activation (reported: `npm install` worked but nothing appeared in OpenCode).
+The package-root entrypoint `dist/index.js` exported only `OLC_VERSION`, so npm loaders —
+which resolve the package root — never saw the plugin default export and ignored the package.
+`src/index.ts` now re-exports the plugin default alongside `OLC_VERSION`.
+Agents/skills still appear only via the project-local `.opencode` copy (by design, OLC-012).
+
+- **Verification:** typecheck clean, build OK, mock-ctx plugin load (`id=olc`, correct payload),
+  full suite 140/140 pass, real-loader test (`loading plugin`, zero `failed to load plugin`).
+- **Upgrade:** `npm install obsidian-lean-coder@0.1.1`, then list the package in `opencode.json`
+  `plugins` (see README §2).
 
 ## [0.1.0] — 2026-10-13 — MVP pre-release
 

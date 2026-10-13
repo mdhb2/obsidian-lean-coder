@@ -1,6 +1,6 @@
 # OLC — Obsidian Lean Coder
 
-OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. Work in progress — pre-release, not on npm.
+OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. On npm as `obsidian-lean-coder` (v0.1.1 fixes plugin activation — see CHANGELOG).
 
 ## Three separate steps
 
@@ -9,7 +9,7 @@ Do not confuse these. They are different operations with different commands:
 | # | Step | What it does | Command |
 |---|------|--------------|---------|
 | 1 | **Dev install** | Install npm deps to hack on OLC itself | `npm ci && npm run build` |
-| 2 | **Plugin activation** | Load this checkout as an OpenCode plugin (local dev path) | config snippet below |
+| 2 | **Plugin activation** | Load OLC as an OpenCode plugin | `npm i obsidian-lean-coder` + `opencode.json` snippet below |
 | 3 | **Project init** | Register one app repo + vault with OLC (`initProject`, idempotent, create-only) | via the `olc-init` skill in OpenCode (the tested path) |
 
 ## 1. Dev install
@@ -26,11 +26,35 @@ npm run typecheck
 
 Expected: build clean, typecheck clean. `npm test` runs the full suite (currently 140 tests). `npm pack --dry-run` shows what would ship (`dist/`, `agents/`, `skills/`, `templates/`).
 
-> npm publish is blocked: `package.json` has `"private": true`. Removing that flag needs a separate explicit approval — never publish by accident.
+> Published on npm as `obsidian-lean-coder` (MIT). Republishing needs a separate explicit approval — never publish by accident.
 
-## 2. Plugin activation (local dev path)
+## 2. Plugin activation
 
-OLC is **not on npm**. Until a scoped name is reserved (DECISIONS.md #1), the only supported activation is the local-file path: an `index.js` under `.opencode/plugins/<name>/` auto-loads with no install step (proven in OLC-011, re-verified in OLC-071 against the packed tarball). The plugin entrypoint is `dist/plugin.js` (`src/plugin.ts` → `Plugin.define({ id: "olc" })`, one read-only `olc_status` tool, zero writes on load). Note `dist/index.js` only exports `OLC_VERSION` — it is not the plugin entrypoint.
+```sh
+npm install obsidian-lean-coder
+```
+
+Then list it in your project's `opencode.json` (npm loaders resolve the package root `dist/index.js`, which since v0.1.1 carries the plugin default export alongside `OLC_VERSION`):
+
+```json
+{
+  "plugins": ["obsidian-lean-coder"]
+}
+```
+
+Verify it loads (from the consuming project directory; the model call itself will fail without account funds, but plugin loading happens first):
+
+```sh
+OPENCODE_LOG_LEVEL=DEBUG opencode run --standalone "hi" --print-logs 2>&1 | grep -E "loading plugin.*obsidian-lean-coder|failed to load plugin"
+```
+
+Expected: a `loading plugin ... obsidian-lean-coder` line and **zero** `failed to load plugin` lines. (Verified 2026-10-13 via the equivalent local-file shape against the real loader; npm-registry install itself verified in OLC-071.)
+
+> `npm install` alone shows nothing in OpenCode — that is normal. The package must be listed under `plugins`, and agents/skills never auto-appear: they are project-local files you copy yourself (next step). No restart or rebuild needed after editing `opencode.json`.
+
+### Local dev path (this checkout, no npm)
+
+An `index.js` under `.opencode/plugins/<name>/` auto-loads with no install step (proven in OLC-011, re-verified in OLC-071). The plugin entrypoint is `dist/plugin.js` (`src/plugin.ts` → `Plugin.define({ id: "olc" })`, one read-only `olc_status` tool, zero writes on load).
 
 In your consuming project (replace `/home/you/olc` with your OLC checkout):
 
@@ -41,15 +65,7 @@ printf '%s\n' 'export { default } from "file://'"$PKG"'/dist/plugin.js";' > .ope
 printf '%s\n' '{ "type": "module", "dependencies": { "@opencode/plugin": "2.0.27" } }' > .opencode/plugins/olc/package.json
 ```
 
-Verify it loads (from the consuming project directory; the model call itself will fail without account funds, but plugin loading happens first):
-
-```sh
-OPENCODE_LOG_LEVEL=DEBUG opencode run --standalone "hi" --print-logs 2>&1 | grep -E "loading plugin.*plugins/olc|failed to load plugin"
-```
-
-Expected: a `loading plugin ... .opencode/plugins/olc/index.js` line and **zero** `failed to load plugin` lines.
-
-> Not supported (verified 2026-10-12, OLC-071): pointing `opencode.json` `plugins` (or `plugin`) at the package directory — bare path or `file://` URL — produced zero load attempts in this build, so there is nothing to verify there yet. npm-package activation is untestable until a name is reserved AND the entrypoint is wired (`dist/index.js` currently has no plugin default export; npm loaders resolve `dist/index.js`).
+Verify with the same `grep` as above, expecting `.opencode/plugins/olc/index.js` in the loading line.
 
 Then place the agent/skill resources project-locally (DECISIONS.md #2 — programmatic registration was rejected for MVP):
 
@@ -74,7 +90,7 @@ Supported versions: OpenCode 2.x with the V2 plugin API. OLC pins `@opencode/plu
 
 `initProject` (`src/init/index.ts`) registers one app repo + vault. It is idempotent and **create-only**: existing files are reported `preserved`, never overwritten. Anything needing a human choice comes back as `status: "needs-decision"` — no prompting inside the module.
 
-Run it via the `olc-init` skill inside OpenCode (recommended — the only tested path for MVP). A programmatic import is not yet wired: the package entrypoint (`dist/index.js`) currently exports only `OLC_VERSION`, and `initProject` lives in `src/init/index.ts` for internal/agent use.
+Run it via the `olc-init` skill inside OpenCode (recommended — the only tested path for MVP). A programmatic import is not yet wired: the package entrypoint (`dist/index.js`) exports `OLC_VERSION` plus the plugin default, and `initProject` lives in `src/init/index.ts` for internal/agent use.
 
 What it creates (only when missing):
 
