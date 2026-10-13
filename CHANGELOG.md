@@ -4,6 +4,20 @@ All notable changes to OLC (Obsidian Lean Coder) are recorded here.
 OLC is pre-release: versions are `0.x` until a controlled-testing release says otherwise.
 `package.json` shipped `"private": true` through 0.1.0; the flag was removed at publish time with explicit user approval, and 0.1.0 is live as [`obsidian-lean-coder`](https://www.npmjs.com/package/obsidian-lean-coder). Publishing a new version is still a separate explicitly approved action, never automatic.
 
+## [0.5.1] — 2026-10-14 — English skill docs, concise install instructions
+
+All 5 bundled skills (`olc-log`, `olc-explore`, `olc-init`, `olc-memory`,
+`olc-taste`) are now written in English; code identifiers, paths, and
+examples are unchanged. The README's install section is now a 3-command
+quick start right under the brief, instead of a long three-step walkthrough;
+the previous detailed content (dev install path, plugin activation, API
+caveats) is preserved under a new `## Reference` section.
+
+- **Verification:** typecheck/build clean; full suite green (152 tests,
+  no test changes needed — docs-only); `npm pack --dry-run` file check.
+- **Upgrade:** `npm install obsidian-lean-coder@0.5.1`. No vault or config
+  changes required.
+
 ## [0.5.0] — 2026-10-14 — vault cross-linking for the second-brain graph
 
 Vault documents were isolated islands: no `[[wikilinks]]` connected intent to

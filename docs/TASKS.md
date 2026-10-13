@@ -584,6 +584,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Evidence/files/commit:** Uncommitted at time of writing (templates/*.md ×7, `src/init/index.ts`, `src/planning/index.ts`, `src/log/index.ts`, `tests/links.test.ts`, `tests/vault.test.ts`, `package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `skills/olc-memory/SKILL.md`, `docs/TASKS.md`).
 - **Remaining issues:** No backfill of links into vault documents written by earlier OLC versions (existing limitation, documented in README and here, tracked under D-005). Publish of 0.5.0 requires the user — never run by the agent.
 
+### OLC-080 — English skill docs, concise README install, release 0.5.1
+- **Status:** DONE (user-requested: "sekarang perbaiki juga untuk semua skill olc agar pakai bahasa inggris" then "perbaiki readme untuk cara install yg paling ringkas dan taruh dipaling atas pas dibawah brief singkat, hapus instruksi2 install yg lama", then "commit semua perubahan lalu build menjadi versi 0.5.1")
+- **Priority:** P2
+- **Depends on:** OLC-079
+- **Goal:** All bundled skill docs readable in English; README leads with a minimal install path instead of a long walkthrough.
+- **Work:** Rewrote all 5 skill files (`skills/olc-log/SKILL.md`, `skills/olc-explore/SKILL.md`, `skills/olc-init/SKILL.md`, `skills/olc-memory/SKILL.md`, `skills/olc-taste/SKILL.md`) in English, keeping code identifiers/paths verbatim (`agents/olc-plan.md`, `agents/olc-build.md` were already English, untouched). Restructured README.md: replaced the old "Three separate steps" section (dev install path, plugin activation, project init, ~130 lines) with a concise "## Install" section right under the brief — 3 commands (`npm install obsidian-lean-coder`, opencode.json plugins snippet, `npx obsidian-lean-coder setup`) plus one line on `olc-init` and requirements (OpenCode 2.x V2 plugin API, Node >= 18.18). All prior detailed content preserved under new "## Reference" section. Version bump 0.5.0→0.5.1: `npm pkg set version=0.5.1` + package-lock.json root `version`/`packages[\"\"].version` synced via inline node script; `src/index.ts` `OLC_VERSION` = \"0.5.1\"; CHANGELOG.md 0.5.1 entry; README head-line version mention updated.
+- **Acceptance criteria:** No Indonesian text remains in any `skills/*/SKILL.md`; README install section is a short quick-start above the old detailed content; full suite green; version consistently 0.5.1 across package.json, package-lock.json, src/index.ts.
+- **Date:** 2026-10-14
+- **Implemented:** `skills/olc-log/SKILL.md`, `skills/olc-explore/SKILL.md`, `skills/olc-init/SKILL.md`, `skills/olc-memory/SKILL.md`, `skills/olc-taste/SKILL.md`, `README.md`, `package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `docs/TASKS.md`.
+- **Verification commands/results:** `npm run typecheck` clean; `npm run build` clean; `npm test` → 152 pass / 0 fail (docs-only changes, no test changes needed); `npm pack --dry-run` pending final check before commit.
+- **Evidence/files/commit:** Skill translation and README restructuring were committed separately in two prior commits (`ffd9720` "Translate OLC skill docs to English", `b0650bb` "README: concise install at top, old detail moved to Reference") before this task was logged; this entry covers those plus the version-bump-only release 0.5.1 committed together with this docs/TASKS.md entry.
+- **Remaining issues:** None known. Publish of 0.5.1 requires the user — never run by the agent.
+
 ## Deferred
 
 | ID | Item | Status | Reason |

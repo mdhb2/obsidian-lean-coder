@@ -1,6 +1,6 @@
 {
   "name": "obsidian-lean-coder",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Obsidian Lean Coder — OpenCode extension for project-scoped planning, memory, and safe Git checkpoints.",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,6 @@
 # OLC — Obsidian Lean Coder
 
-OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. On npm as `obsidian-lean-coder` (v0.5.0: vault cross-linking for the second-brain graph — see CHANGELOG).
+OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. On npm as `obsidian-lean-coder` (v0.5.1: English skill docs, concise install — see CHANGELOG).
 
 ## Install
 
