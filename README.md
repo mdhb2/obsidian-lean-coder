@@ -2,19 +2,68 @@
 
 OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. On npm as `obsidian-lean-coder` (v0.5.0: vault cross-linking for the second-brain graph — see CHANGELOG).
 
-## Three separate steps
+## Install
 
-Do not confuse these. They are different operations with different commands:
+```sh
+npm install obsidian-lean-coder
+```
 
-| # | Step | What it does | Command |
-|---|------|--------------|---------|
-| 1 | **Dev install** | Install npm deps to hack on OLC itself | `npm ci && npm run build` |
-| 2 | **Plugin activation** | Load OLC as an OpenCode plugin | `npm i obsidian-lean-coder` + `opencode.json` snippet below |
-| 3 | **Project init** | Register one app repo + vault with OLC (`initProject`, idempotent, create-only) | via the `olc-init` skill in OpenCode (the tested path) |
+Add it to your project's `opencode.json`:
 
-## 1. Dev install
+```json
+{ "plugins": ["obsidian-lean-coder"] }
+```
 
-Requirements: Node >= 18.18, npm, git.
+Copy the agents/skills into `.opencode/` (idempotent — safe to re-run after upgrading):
+
+```sh
+npx obsidian-lean-coder setup
+```
+
+Then open OpenCode in the project and run the **olc-init** skill to register the repo with a vault — that's it. Everything below is reference detail (requirements, what each step actually does, uninstall, troubleshooting).
+
+Requirements: OpenCode 2.x (V2 plugin API), Node >= 18.18.
+
+## Reference
+
+### What `npx obsidian-lean-coder setup` does
+
+Installs `agents/olc-plan.md`, `agents/olc-build.md`, and the five skills
+(`olc-init`, `olc-explore`, `olc-memory`, `olc-log`, `olc-taste`) under
+`.opencode/` (project scope by default). `--global` installs under
+`~/.config/opencode` instead; `--dry-run` previews with no writes. Missing
+directories are created; existing OLC agent/skill files are overwritten with
+the package versions (a deliberate exception to the create-only rule, scoped
+to these files only — your own vault notes are never touched by this).
+
+Both agents behave exactly like OpenCode's default Plan/Build agents first,
+then add OLC rules: each session they read the project root `AGENTS.md` (if
+present) and `.olc/AGENTS.md` (if present). If the two disagree, the OpenCode
+default wins — the agent shows the conflict, suggests a fix, and stops for
+your choice.
+
+### What `olc-init` does
+
+`initProject` (`src/init/index.ts`) registers one app repo + vault. It is
+idempotent and **create-only**: existing files are reported `preserved`,
+never overwritten. Anything needing a human choice comes back as
+`status: "needs-decision"` — no prompting inside the module. During init you
+are asked whether the project has extra rules beyond the main agents file;
+confirmed additions go under "Additional project rules" in `.olc/AGENTS.md`.
+
+What it creates (only when missing):
+
+- `<repo>/.olc/config.json` — `{ schemaVersion, projectId, vaultPath }`. No secrets (keys matching `secret|token|password|api-key` are rejected).
+- `<repo>/.olc/AGENTS.md` — stub instructions for agents. Review and customize.
+- `<vault>/OLC/Projects/<project_id>/{index.md, current-state.md, decisions/, tasks/, logs/, memory/, taste/}`
+- `<vault>/OLC/registry.json` — `{ projects: { "<id>": { repoRoot } } }` entry for this repo.
+
+Vault path precedence: explicit `vaultPath` > `OLC_VAULT_PATH` env > existing
+config. OLC never invents a vault location — missing path returns
+`needs-decision`, never a silent default. Re-running init is always safe:
+`created` becomes `preserved`.
+
+### Contributing to OLC itself
 
 ```sh
 git clone <this-repo> olc && cd olc
@@ -24,96 +73,16 @@ npm test         # tsc -p tsconfig.tests.json && node --test "dist-tests/tests/*
 npm run typecheck
 ```
 
-Expected: build clean, typecheck clean. `npm test` runs the full suite (currently 152 tests). `npm pack --dry-run` shows what would ship (`dist/`, `agents/`, `skills/`, `templates/`).
+Expected: build clean, typecheck clean, full suite green (currently 152
+tests). `npm pack --dry-run` shows what would ship (`dist/`, `agents/`,
+`skills/`, `templates/`).
+
+A local checkout can be loaded without publishing: `.opencode/plugins/<name>/index.js`
+re-exporting `file://<checkout>/dist/plugin.js` auto-loads with no install
+step. See `docs/DECISIONS.md` and `docs/TASKS.md` for the full history if you
+need it.
 
 > Published on npm as `obsidian-lean-coder` (MIT). Republishing needs a separate explicit approval — never publish by accident.
-
-## 2. Plugin activation
-
-```sh
-npm install obsidian-lean-coder
-```
-
-Then list it in your project's `opencode.json` (npm loaders resolve the package root `dist/index.js`, which since v0.1.1 carries the plugin default export alongside `OLC_VERSION`):
-
-```json
-{
-  "plugins": ["obsidian-lean-coder"]
-}
-```
-
-Verify it loads (from the consuming project directory; the model call itself will fail without account funds, but plugin loading happens first):
-
-```sh
-OPENCODE_LOG_LEVEL=DEBUG opencode run --standalone "hi" --print-logs 2>&1 | grep -E "loading plugin.*obsidian-lean-coder|failed to load plugin"
-```
-
-Expected: a `loading plugin ... obsidian-lean-coder` line and **zero** `failed to load plugin` lines. (Verified 2026-10-13 via the equivalent local-file shape against the real loader; npm-registry install itself verified in OLC-071.)
-
-> `npm install` alone shows nothing in OpenCode — that is normal. The package must be listed under `plugins`, and agents/skills never auto-appear: they are project-local files you copy yourself (next step). No restart or rebuild needed after editing `opencode.json`.
-
-### Local dev path (this checkout, no npm)
-
-An `index.js` under `.opencode/plugins/<name>/` auto-loads with no install step (proven in OLC-011, re-verified in OLC-071). The plugin entrypoint is `dist/plugin.js` (`src/plugin.ts` → `Plugin.define({ id: "olc" })`, one read-only `olc_status` tool, zero writes on load).
-
-In your consuming project (replace `/home/you/olc` with your OLC checkout):
-
-```sh
-PKG=/home/you/olc   # your OLC checkout — build it first (step 1)
-mkdir -p .opencode/plugins/olc
-printf '%s\n' 'export { default } from "file://'"$PKG"'/dist/plugin.js";' > .opencode/plugins/olc/index.js
-printf '%s\n' '{ "type": "module", "dependencies": { "@opencode/plugin": "2.0.27" } }' > .opencode/plugins/olc/package.json
-```
-
-Verify with the same `grep` as above, expecting `.opencode/plugins/olc/index.js` in the loading line.
-
-Then install the agent/skill resources — recommended via the setup helper:
-
-```sh
-npx obsidian-lean-coder setup            # project scope: ./.opencode
-npx obsidian-lean-coder setup --global   # global scope: ~/.config/opencode
-npx obsidian-lean-coder setup --dry-run  # preview, writes nothing
-```
-
-Missing directories are created; existing OLC agent/skill files are overwritten with the package
-versions (a deliberate exception to the create-only rule, scoped to these files only).
-Manual equivalent (DECISIONS.md #2 — programmatic registration was rejected for MVP):
-
-```sh
-PKG=/home/you/olc   # your OLC checkout
-mkdir -p .opencode/agents .opencode/skills/olc-init .opencode/skills/olc-explore .opencode/skills/olc-memory .opencode/skills/olc-log .opencode/skills/olc-taste
-cp "$PKG"/agents/olc-plan.md "$PKG"/agents/olc-build.md .opencode/agents/
-for s in olc-init olc-explore olc-memory olc-log olc-taste; do cp "$PKG"/skills/$s/SKILL.md .opencode/skills/$s/; done
-```
-
-Discovery note: `/api/agent` and `/api/skill` returned `[]` for project-local files in this build — even for a minimal probe agent — so API listing is not a valid verification (OLC-012 evidence did not reproduce; TUI-side discovery untested). Verify by file presence instead:
-
-```sh
-ls .opencode/agents/olc-plan.md .opencode/agents/olc-build.md .opencode/skills/olc-init/SKILL.md .opencode/skills/olc-explore/SKILL.md .opencode/skills/olc-memory/SKILL.md .opencode/skills/olc-log/SKILL.md .opencode/skills/olc-taste/SKILL.md
-```
-
-`olc-plan`/`olc-build` agents and the five skills (`olc-init`, `olc-explore`, `olc-memory`, `olc-log`, `olc-taste`) are picked up by OpenCode from these paths. Re-running the `cp` commands is safe as long as you have not customized the destination files — `cp` overwrites; the no-clobber guarantee belongs to `olc-init`, which reports existing files as `preserved` instead of overwriting them.
-
-Both agents behave exactly like OpenCode's default Plan/Build agents first, then add OLC rules: each session they read the project root `AGENTS.md` (if present) and `.olc/AGENTS.md` (if present). If the two disagree, the OpenCode default wins — the agent shows the conflict, suggests a fix, and stops for your choice. During `olc-init` you are asked whether the project has extra rules beyond the main agents file; confirmed additions go under "Aturan tambahan proyek" in `.olc/AGENTS.md`.
-
-Supported versions: OpenCode 2.x with the V2 plugin API. OLC pins `@opencode/plugin` 2.0.27 to match the CLI it was smoke-tested against (see OLC-011). Other 2.x versions will likely work; 1.x will not. The exact minimum version is still open (DECISIONS.md #3).
-
-## 3. Project init
-
-`initProject` (`src/init/index.ts`) registers one app repo + vault. It is idempotent and **create-only**: existing files are reported `preserved`, never overwritten. Anything needing a human choice comes back as `status: "needs-decision"` — no prompting inside the module.
-
-Run it via the `olc-init` skill inside OpenCode (recommended — the only tested path for MVP). A programmatic import is not yet wired: the package entrypoint (`dist/index.js`) exports `OLC_VERSION` plus the plugin default, and `initProject` lives in `src/init/index.ts` for internal/agent use.
-
-What it creates (only when missing):
-
-- `<repo>/.olc/config.json` — `{ schemaVersion, projectId, vaultPath }`. No secrets (keys matching `secret|token|password|api-key` are rejected).
-- `<repo>/.olc/AGENTS.md` — stub instructions for agents. Review and customize.
-- `<vault>/OLC/Projects/<project_id>/{index.md, current-state.md, decisions/, tasks/, logs/, memory/, taste/}`
-- `<vault>/OLC/registry.json` — `{ projects: { "<id>": { repoRoot } } }` entry for this repo.
-
-Vault path precedence: explicit `vaultPath` > `OLC_VAULT_PATH` env > existing config. OLC never invents a vault location — missing path returns `needs-decision`, never a silent default.
-
-Re-running init is always safe: run it again after pulling updates; `created` becomes `preserved`. To preview without writing: `initProject({ ..., dryRun: true })`.
 
 ### Vault linking rules (second brain)
 
