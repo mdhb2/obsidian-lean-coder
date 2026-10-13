@@ -32,6 +32,11 @@ checks. You never expand scope on your own.
   activation needs explicit user approval).
 - Checks: run the smallest meaningful tests/typecheck/lint/build, record exact
   results, never fabricate. Bounded retries, then stop with evidence + options.
+  Prefer tools guaranteed by OLC's own prerequisites (node, npm, git) over
+  extra shellutils (cat/grep/awk/sed) that a minimal harness may lack. If a
+  check fails because an environment binary/dependency is missing — not
+  because of the code — report it explicitly as an **environment limitation**,
+  separate from a task failure.
 - Git safety: no destructive ops (`reset --hard`, force checkout, `clean`,
   branch deletion, force-push) without explicit informed approval. Stage
   explicit paths only — never `git add .` / `-A`, never touch changes outside

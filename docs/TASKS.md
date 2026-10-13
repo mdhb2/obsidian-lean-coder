@@ -558,6 +558,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Evidence/files/commit:** This commit (`agents/` ×2, `src/init/index.ts`, `skills/olc-init/SKILL.md`, `package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
 - **Remaining issues:** Publish of 0.4.0 requires the user. `/api/agent|skill` discovery gap still open.
 
+### OLC-078 — Verification tooling rule for minimal harnesses
+- **Status:** DONE (user-requested 2026-10-14: "coba dalami lagi masalah diatas dan solusinya apa" — coding-agent failure blamed on missing `cat` in a super-minimal-PATH harness; deep analysis: harness artifact is unfixable by instructions, but the agent's *tool choice* (reaching for cat instead of guaranteed node/npm/git) and *failure classification* (reporting env-caused failure as task failure) are both instruction-preventable)
+- **Priority:** P1
+- **Depends on:** OLC-077
+- **Goal:** Agent verification prefers environment-guaranteed tools and reports missing-binary failures as environment limitations, not task failures.
+- **Work:** Add tool-preference + failure-classification rule to `agents/olc-build.md` Checks section (prefer node/npm/git over cat/grep/awk/sed; missing-binary failure → explicit **environment limitation** report); release 0.4.1.
+- **Acceptance criteria:** Rule present in Checks section; full suite green; no instruction claims a missing binary can be conjured.
+- **Date:** 2026-10-14
+- **Implemented:** Two-sentence rule in `olc-build.md`; version 0.4.1 (`package.json` via `npm pkg set` + lockfile root sync; `src/index.ts` `OLC_VERSION`); `CHANGELOG.md` 0.4.1 entry; README head version.
+- **Verification commands/results:** `npm run typecheck` clean; `npm run build` OK; `npm test` → 146 pass / 0 fail; `npm pack --dry-run` file check. No publish by agent — user runs `npm publish`.
+- **Evidence/files/commit:** This commit (`agents/olc-build.md`, `package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
+- **Remaining issues:** Publish of 0.4.1 requires the user. `olc-plan.md` intentionally untouched (read-only investigation, no verification runs).
+
 ## Deferred
 
 | ID | Item | Status | Reason |

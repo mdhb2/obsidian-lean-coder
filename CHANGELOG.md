@@ -4,6 +4,18 @@ All notable changes to OLC (Obsidian Lean Coder) are recorded here.
 OLC is pre-release: versions are `0.x` until a controlled-testing release says otherwise.
 `package.json` shipped `"private": true` through 0.1.0; the flag was removed at publish time with explicit user approval, and 0.1.0 is live as [`obsidian-lean-coder`](https://www.npmjs.com/package/obsidian-lean-coder). Publishing a new version is still a separate explicitly approved action, never automatic.
 
+## [0.4.1] — 2026-10-14 — verification tooling rule for minimal harnesses
+
+`agents/olc-build.md` gains a verification rule from a real field report: prefer
+tools guaranteed by OLC's own prerequisites (node, npm, git) over extra
+shellutils (cat/grep/awk/sed) a minimal harness may lack, and classify a check
+failure caused by a missing environment binary as an **environment limitation**,
+separate from a task failure. This fixes the *reporting* of such incidents, not
+the environment itself — no instruction can conjure a missing binary.
+
+- **Verification:** typecheck/build clean; full suite green; `npm pack --dry-run` file check.
+- **Upgrade:** `npm install obsidian-lean-coder@0.4.1`, then
+
 ## [0.4.0] — 2026-10-14 — default-like agents + project rules
 
 Agents `olc-plan`/`olc-build` rewritten per user request to behave exactly like
