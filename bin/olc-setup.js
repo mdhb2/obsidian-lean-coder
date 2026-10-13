@@ -32,7 +32,11 @@ import { fileURLToPath } from "node:url";
 const OWNED_FILES = [
   ["agents/olc-plan.md", ".opencode/agents/olc-plan.md"],
   ["agents/olc-build.md", ".opencode/agents/olc-build.md"],
+  ["skills/olc-init/SKILL.md", ".opencode/skills/olc-init/SKILL.md"],
   ["skills/olc-explore/SKILL.md", ".opencode/skills/olc-explore/SKILL.md"],
+  ["skills/olc-memory/SKILL.md", ".opencode/skills/olc-memory/SKILL.md"],
+  ["skills/olc-log/SKILL.md", ".opencode/skills/olc-log/SKILL.md"],
+  ["skills/olc-taste/SKILL.md", ".opencode/skills/olc-taste/SKILL.md"],
 ];
 
 function usage() {

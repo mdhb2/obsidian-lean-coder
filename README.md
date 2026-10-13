@@ -1,6 +1,6 @@
 # OLC — Obsidian Lean Coder
 
-OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. On npm as `obsidian-lean-coder` (v0.1.1 fixes plugin activation — see CHANGELOG).
+OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. On npm as `obsidian-lean-coder` (v0.3.0: primary agents + all 5 skills — see CHANGELOG).
 
 ## Three separate steps
 
@@ -24,7 +24,7 @@ npm test         # tsc -p tsconfig.tests.json && node --test "dist-tests/tests/*
 npm run typecheck
 ```
 
-Expected: build clean, typecheck clean. `npm test` runs the full suite (currently 140 tests). `npm pack --dry-run` shows what would ship (`dist/`, `agents/`, `skills/`, `templates/`).
+Expected: build clean, typecheck clean. `npm test` runs the full suite (currently 146 tests). `npm pack --dry-run` shows what would ship (`dist/`, `agents/`, `skills/`, `templates/`).
 
 > Published on npm as `obsidian-lean-coder` (MIT). Republishing needs a separate explicit approval — never publish by accident.
 
@@ -81,18 +81,18 @@ Manual equivalent (DECISIONS.md #2 — programmatic registration was rejected fo
 
 ```sh
 PKG=/home/you/olc   # your OLC checkout
-mkdir -p .opencode/agents .opencode/skills/olc-explore
+mkdir -p .opencode/agents .opencode/skills/olc-init .opencode/skills/olc-explore .opencode/skills/olc-memory .opencode/skills/olc-log .opencode/skills/olc-taste
 cp "$PKG"/agents/olc-plan.md "$PKG"/agents/olc-build.md .opencode/agents/
-cp "$PKG"/skills/olc-explore/SKILL.md .opencode/skills/olc-explore/
+for s in olc-init olc-explore olc-memory olc-log olc-taste; do cp "$PKG"/skills/$s/SKILL.md .opencode/skills/$s/; done
 ```
 
 Discovery note: `/api/agent` and `/api/skill` returned `[]` for project-local files in this build — even for a minimal probe agent — so API listing is not a valid verification (OLC-012 evidence did not reproduce; TUI-side discovery untested). Verify by file presence instead:
 
 ```sh
-ls .opencode/agents/olc-plan.md .opencode/agents/olc-build.md .opencode/skills/olc-explore/SKILL.md
+ls .opencode/agents/olc-plan.md .opencode/agents/olc-build.md .opencode/skills/olc-init/SKILL.md .opencode/skills/olc-explore/SKILL.md .opencode/skills/olc-memory/SKILL.md .opencode/skills/olc-log/SKILL.md .opencode/skills/olc-taste/SKILL.md
 ```
 
-`olc-plan`/`olc-build` agents and the `olc-explore` skill are picked up by OpenCode from these paths. Re-running the `cp` commands is safe as long as you have not customized the destination files — `cp` overwrites; the no-clobber guarantee belongs to `olc-init`, which reports existing files as `preserved` instead of overwriting them.
+`olc-plan`/`olc-build` agents and the five skills (`olc-init`, `olc-explore`, `olc-memory`, `olc-log`, `olc-taste`) are picked up by OpenCode from these paths. Re-running the `cp` commands is safe as long as you have not customized the destination files — `cp` overwrites; the no-clobber guarantee belongs to `olc-init`, which reports existing files as `preserved` instead of overwriting them.
 
 Supported versions: OpenCode 2.x with the V2 plugin API. OLC pins `@opencode/plugin` 2.0.27 to match the CLI it was smoke-tested against (see OLC-011). Other 2.x versions will likely work; 1.x will not. The exact minimum version is still open (DECISIONS.md #3).
 
@@ -128,7 +128,8 @@ Per consuming project:
 ```sh
 # 1. Remove OLC resources from the project
 rm -rf .opencode/agents/olc-plan.md .opencode/agents/olc-build.md \
-       .opencode/skills/olc-explore .olc
+       .opencode/skills/olc-init .opencode/skills/olc-explore .opencode/skills/olc-memory \
+       .opencode/skills/olc-log .opencode/skills/olc-taste .olc
 # 2. Remove the plugin entry from opencode.json ("plugin": ["file:///..."])
 # 3. Optionally remove the vault scope (YOUR NOTES — back up first):
 #    rm -rf "$VAULT/OLC/Projects/<project_id>"

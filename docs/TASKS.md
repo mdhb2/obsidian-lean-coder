@@ -529,7 +529,20 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Verification commands/results:** `npm run typecheck` clean; `npm run build` OK; `npm test` → 146 pass / 0 fail (140 prior + 6 new); `npm pack --dry-run` → 59 files incl. `bin/olc-setup.js`; entry reports `VERSION=0.2.0 id=olc setup=function`; real tarball install into clean fixture + packed `bin/olc-setup.js` run → 3 created, rerun `--dry-run` → 3 skipped, `.bin/olc-setup` shim present; tarball deleted after test. No publish by agent — user runs `npm publish`.
 - **Evidence/files/commit:** This commit (`bin/olc-setup.js`, `tests/setup.test.ts`, `package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
 - **Remaining issues:** Publish of 0.2.0 requires the user. `/api/agent|skill` discovery gap still open.
-- **Next task:** None — publish 0.2.0, then new task IDs for follow-ups.
+- **Next task:** OLC-076 — primary agent modes + missing skill wrappers.
+
+### OLC-076 — Primary agent modes + missing skill wrappers
+- **Status:** DONE (user-requested 2026-10-13: agents "tidak dikenali di opencode ... masih default agent opencode saja", "coba cek lagi skillnya harusnya apa saja"; locked decisions: both agents Mode primary, create all 4 missing skills)
+- **Priority:** P0
+- **Depends on:** OLC-075
+- **Goal:** Agents visible in the OpenCode agent switcher; all 5 PRD §7.3 skills shipped and installed by `olc-setup`.
+- **Work:** `mode: subagent` → `mode: primary` in `agents/olc-plan.md` + `agents/olc-build.md` (subagent mode is @-invokable only — that was the reported symptom, verified); new `skills/olc-init|olc-memory|olc-log|olc-taste/SKILL.md` grounded in real module contracts; `OWNED_FILES` + test `OWNED` extended 3 → 7 files; release 0.3.0.
+- **Acceptance criteria:** Both agents carry `mode: primary` + description frontmatter; all 5 skills render from the packed tarball; setup installs all 7 owned files in both scopes; full suite green.
+- **Date:** 2026-10-13
+- **Implemented:** Frontmatter mode flips (2 files); 4 new SKILL.md (init create-only flow, progressive memory recall, secret-scrubbed append-only log + session summary, pending→active taste lifecycle); `bin/olc-setup.js` `OWNED_FILES` 7 entries; `tests/setup.test.ts` counts 3→7 (create/skip/overwrite); version 0.3.0 (`package.json` via `npm pkg set` + lockfile root entries only — `eastasianwidth@0.2.0` untouched; `src/index.ts` `OLC_VERSION`); `CHANGELOG.md` 0.3.0 entry; README (manual cp block, discovery `ls`, uninstall `rm`, head version, test count).
+- **Verification commands/results:** `npm run typecheck` clean; `npm run build` OK; `npm test` → 146 pass / 0 fail; `npm pack --dry-run` → 63 files as `obsidian-lean-coder-0.3.0.tgz` incl. all 5 `skills/*/SKILL.md`. No publish by agent — user runs `npm publish`.
+- **Evidence/files/commit:** This commit (`agents/`, `skills/` ×4, `bin/olc-setup.js`, `tests/setup.test.ts`, `package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
+- **Remaining issues:** Publish of 0.3.0 requires the user. `/api/agent|skill` discovery gap still open (TUI-side verification pending user report after reinstall).
 
 ## Deferred
 

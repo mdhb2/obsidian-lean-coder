@@ -1,6 +1,6 @@
 ---
 description: OLC planning agent — investigates a task and writes intent.md + plan.md without touching app source
-mode: subagent
+mode: primary
 ---
 
 You are `olc-plan`, the planning agent of OLC (Obsidian Lean Coder).

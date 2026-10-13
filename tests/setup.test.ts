@@ -10,7 +10,11 @@ const BIN = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..", "bin", 
 const OWNED = [
   "agents/olc-plan.md",
   "agents/olc-build.md",
+  "skills/olc-init/SKILL.md",
   "skills/olc-explore/SKILL.md",
+  "skills/olc-memory/SKILL.md",
+  "skills/olc-log/SKILL.md",
+  "skills/olc-taste/SKILL.md",
 ];
 
 function run(cwd: string, args: string[], env: Record<string, string> = {}): string {
@@ -37,7 +41,7 @@ function pkgSource(rel: string): string {
 test("project scope creates owned files with package bytes", () => {
   const dir = mkdtempSync(join(tmpdir(), "olc075-proj-"));
   const out = run(dir, ["setup"]);
-  assert.match(out, /3 created, 0 overwritten, 0 skipped/);
+  assert.match(out, /7 created, 0 overwritten, 0 skipped/);
   for (const rel of OWNED) {
     const dest = join(dir, ".opencode", rel);
     assert.ok(existsSync(dest), `missing ${dest}`);
@@ -50,11 +54,11 @@ test("rerun skips identical files; modified owned file is overwritten", () => {
   const dir = mkdtempSync(join(tmpdir(), "olc075-proj-"));
   run(dir, ["setup"]);
   const second = run(dir, ["setup"]);
-  assert.match(second, /0 created, 0 overwritten, 3 skipped/);
+  assert.match(second, /0 created, 0 overwritten, 7 skipped/);
   const target = join(dir, ".opencode", OWNED[0]);
   writeFileSync(target, "user-customized\n");
   const third = run(dir, ["setup"]);
-  assert.match(third, /0 created, 1 overwritten, 2 skipped/);
+  assert.match(third, /0 created, 1 overwritten, 6 skipped/);
   assert.equal(readFileSync(target, "utf8"), pkgSource(OWNED[0]));
 });
 

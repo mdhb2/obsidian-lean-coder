@@ -4,6 +4,20 @@ All notable changes to OLC (Obsidian Lean Coder) are recorded here.
 OLC is pre-release: versions are `0.x` until a controlled-testing release says otherwise.
 `package.json` shipped `"private": true` through 0.1.0; the flag was removed at publish time with explicit user approval, and 0.1.0 is live as [`obsidian-lean-coder`](https://www.npmjs.com/package/obsidian-lean-coder). Publishing a new version is still a separate explicitly approved action, never automatic.
 
+## [0.3.0] — 2026-10-13 — primary agents + all PRD skills
+
+Agents `olc-plan`/`olc-build` move from `mode: subagent` (@-only invocation) to `mode: primary`,
+so they appear in the OpenCode agent switcher (user decision).
+Ships the four missing PRD §7.3 skill wrappers — `olc-init`, `olc-memory`, `olc-log`, `olc-taste` —
+alongside the existing `olc-explore`; `olc-setup` installs all 7 owned files (2 agents + 5 skills).
+Each SKILL.md documents its module's real contract (init create-only flow, progressive recall,
+secret-scrubbed append-only log + session summary, pending→active taste lifecycle).
+
+- **Verification:** `tests/setup.test.ts` counts updated (7 created/skipped); full suite green;
+  typecheck/build clean.
+- **Upgrade:** `npm install obsidian-lean-coder@0.3.0`, then
+  `npx obsidian-lean-coder setup` (existing files are overwritten with package versions).
+
 ## [0.2.0] — 2026-10-13 — `olc-setup` resource installer
 
 New `olc-setup setup [--project|--global]` command (run manually via `npx obsidian-lean-coder setup`
