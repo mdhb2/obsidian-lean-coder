@@ -597,6 +597,19 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Evidence/files/commit:** Skill translation and README restructuring were committed separately in two prior commits (`ffd9720` "Translate OLC skill docs to English", `b0650bb` "README: concise install at top, old detail moved to Reference") before this task was logged; this entry covers those plus the version-bump-only release 0.5.1 committed together with this docs/TASKS.md entry.
 - **Remaining issues:** None known. Publish of 0.5.1 requires the user — never run by the agent.
 
+### OLC-081 — Expose memory/taste/log/decision/session modules as OLC plugin tools + end-of-session reflection
+- **Status:** DONE (user: "eksekusi")
+- **Priority:** P1
+- **Depends on:** OLC-011, OLC-060, OLC-062, OLC-063, OLC-064
+- **Goal:** Fix the root cause that completing OLC tasks saved nothing — no agent-callable surface existed (skills only described pseudo-functions the agent could not invoke), and no reflection step persisted learnings.
+- **Work:** New `src/tools.ts` (`registerOlcTools(ctx)`) registers 8 `olc`-namespace tools that call the existing self-gating modules: `olc_memory_recall`, `olc_memory_record`, `olc_taste_propose`, `olc_taste_list`, `olc_taste_review`, `olc_log_event`, `olc_session_summary`, plus `olc_decision_record` (new surface — renders `templates/decision.md` to `decisions/<YYYY-MM-DD>-<slug>.md`, create-only never overwrite; fills the gap where `recordDecision` only appended to task `history.md`). `src/plugin.ts` calls `registerOlcTools(ctx)` after declaring the namespace; the legacy read-only `status` tool is kept. Each tool does `loadConfig(ctx.location.directory)` inside try/catch and returns `{ ok: true, ... }` or `{ ok: false, error: { code, message } }`, reusing the modules' already-actionable messages (MISSING_CONFIG, UNREGISTERED_PROJECT, ALREADY_EXISTS, …). No writes at plugin load. Part B (reflection as pure instruction, no new `olc_reflect` tool — user rejected it): added a reflection pass to root `AGENTS.md` closeout, `agents/olc-build.md` (between Git-safety and closeout bullets) and `agents/olc-plan.md` (new "End of session" section); rewrote the Flow sections of `skills/olc-memory`, `skills/olc-taste`, `skills/olc-log` to reference the real `olc_*` tools.
+- **Acceptance criteria:** All 8 tools register; memory/decision/taste/session round-trip against a fixture vault + temp git repo; missing config / unregistered project map to `ok:false` actionable errors, never crash; zero writes at tool registration (only on `execute`); reflection guidance present in the 3 agent/AGENTS instruction files; `npm test` + `npm run typecheck` + `npm run build` + `npm pack --dry-run` green.
+- **Date:** 2026-10-14
+- **Implemented:** `src/tools.ts`, `src/plugin.ts`, `tests/tools.test.ts`, `agents/olc-build.md`, `agents/olc-plan.md`, `AGENTS.md`, `skills/olc-memory/SKILL.md`, `skills/olc-taste/SKILL.md`, `skills/olc-log/SKILL.md`, `CHANGELOG.md`, `package.json`, `package-lock.json`, `src/index.ts`, `docs/TASKS.md`.
+- **Verification commands/results:** `npm run typecheck` clean; `npm run build` clean; `npm test` → 158 pass / 0 fail (150 prior + 8 new, full suite green — no regression); `npm pack --dry-run` pending final check before commit.
+- **Evidence/files/commit:** Logged at task completion; commit pending user approval (see Git-safety rule — `VERSION` working-tree change belongs to user, never staged by agent).
+- **Remaining issues:** None known. Publish of 0.6.0 requires the user — never run by the agent.
+
 ## Deferred
 
 | ID | Item | Status | Reason |

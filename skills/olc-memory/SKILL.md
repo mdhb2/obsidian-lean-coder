@@ -15,10 +15,13 @@ Project-scoped memory: read `index.md` + `current-state.md` first, then only the
 
 ## Flow
 
-1. Call `recallMemory({ projectRoot, config, query?, taskId?, includeLogs?, logLimit?, limit? })` — no query = base context (index + state + recent log, unfiltered).
+The modules below are exposed as agent-callable tools under the `olc` namespace.
+Call the tools, not the library functions directly.
+
+1. Recall: `olc_memory_recall` with `{ query?, taskId?, includeLogs?, logLimit?, limit? }` — no query = base context (index + state + recent log, unfiltered).
 2. With a query: query tokens are filtered for stopwords, each `memory/` + `decisions/` document is scored (filename weighted), excerpts are capped at 1200 characters with a truncation flag, best score first.
 3. With `taskId`: include that task's intent/plan doc status (missing → null, not an error).
-4. To save: `recordMemory({ projectRoot, config, name, content, overwrite? })` → atomic write to `memory/<name>.md`. `content` must include a `## Terkait` section with relative wikilinks to `[[../index]]`, `[[../current-state]]`, and any related task/decision document — this keeps the memory note connected in the vault graph (second brain) instead of an isolated island.
+4. To save: `olc_memory_record` with `{ name, content, overwrite? }` → atomic write to `memory/<name>.md`. `content` must include a `## Terkait` section with relative wikilinks to `[[../index]]`, `[[../current-state]]`, and any related task/decision document — this keeps the memory note connected in the vault graph (second brain) instead of an isolated island.
 
 ## Verifying this skill
 

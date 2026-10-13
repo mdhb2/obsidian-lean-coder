@@ -16,9 +16,12 @@ Durable per-project activity log at `<vault>/OLC/Projects/<project_id>/logs/YYYY
 
 ## Flow
 
-1. Write: `logEvent({ projectRoot, config, event: { kind, summary, taskId?, details?, gitSha?, date? } })` — `kind` e.g. `milestone|checkpoint|verify|session`; non-empty `summary` is required.
-2. Read: `readLogDay(vaultRoot, projectId, day)` or `readLastEvents(vaultRoot, projectId, limit)` (newest first — the last verification shows up there).
-3. Normal session end: call `buildSessionSummary` (module `session`) — rendered via the `session-summary` template with an honest hard-kill footer, factual claims sourced only from a real `VerifyOutcome`/SHA/checkpoint — then show it to the user. A session that dies abruptly produces no summary; the last log event is the recovery point (see resume).
+The modules below are exposed as agent-callable tools under the `olc` namespace.
+Call the tools, not the library functions directly.
+
+1. Write: `olc_log_event` with `{ kind, summary, taskId?, details?, gitSha?, date? }` — `kind` e.g. `milestone|checkpoint|verify|session`; non-empty `summary` is required.
+2. Read: `olc_memory_recall` (recent events included by default) or `olc_session_summary` for the latest.
+3. Normal session end: call `olc_session_summary` — rendered via the `session-summary` template with an honest hard-kill footer, factual claims sourced only from a real verification/SHA/checkpoint — then show its markdown to the user. A session that dies abruptly produces no summary; the last log event is the recovery point (see resume).
 
 ## Verifying this skill
 

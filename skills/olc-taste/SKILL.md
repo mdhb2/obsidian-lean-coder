@@ -15,9 +15,12 @@ Project taste is learned without silent behavior change: a repeated signal is re
 
 ## Flow
 
-1. Propose: `proposeTasteRule({ projectRoot, config, name, rule, examples[] })` → `taste/<name>.md` with status `pending`, via the `taste-rule` template, atomic create-only write.
-2. Read: `getTasteRule(...)` / `listTasteRules({ status? })` — only within the validated scope, name-sorted.
-3. Explicit review with the user: `reviewTasteRule({ projectRoot, config, name, approve })` — `true` = pending→active, `false` = pending→rejected. Unknown name → `UNKNOWN_RULE`.
+The modules below are exposed as agent-callable tools under the `olc` namespace.
+Call the tools, not the library functions directly.
+
+1. Propose: `olc_taste_propose` with `{ name, rule, examples[] }` → `taste/<name>.md` with status `pending`, via the `taste-rule` template, atomic create-only write.
+2. Read: `olc_taste_list` with `{ status? }` — only within the validated scope, name-sorted.
+3. Explicit review with the user: `olc_taste_review` with `{ name, approve }` — `true` = pending→active, `false` = pending→rejected. Unknown name → `UNKNOWN_RULE`. Only the user can activate; never call this with `approve: true` unless the user explicitly asked.
 
 ## Verifying this skill
 

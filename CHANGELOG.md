@@ -4,6 +4,11 @@ All notable changes to OLC (Obsidian Lean Coder) are recorded here.
 OLC is pre-release: versions are `0.x` until a controlled-testing release says otherwise.
 `package.json` shipped `"private": true` through 0.1.0; the flag was removed at publish time with explicit user approval, and 0.1.0 is live as [`obsidian-lean-coder`](https://www.npmjs.com/package/obsidian-lean-coder). Publishing a new version is still a separate explicitly approved action, never automatic.
 
+## [0.6.0] — 2026-10-14 — OLC plugin tools + end-of-session reflection
+Agents can finally persist learnings. Previously the memory/taste/log/session modules were library-internal and the skills only described pseudo-function calls the agent could not invoke, so completing tasks saved nothing. `src/tools.ts` now exposes 8 `olc`-namespace tools that call those modules: `olc_memory_recall`, `olc_memory_record`, `olc_taste_propose`, `olc_taste_list`, `olc_taste_review`, `olc_log_event`, `olc_session_summary`, and a new `olc_decision_record` (renders `templates/decision.md` to `decisions/<YYYY-MM-DD>-<slug>.md`, create-only). Each tool returns `{ ok: true, ... }` or `{ ok: false, error: { code, message } }` with the module's own actionable message; no writes happen at plugin load. Reflection is now a required instruction (no new tool) in root `AGENTS.md`, `agents/olc-build.md`, and `agents/olc-plan.md`, and the skill Flow sections reference the real tools.
+- **Verification:** typecheck/build clean; full suite green (158 tests, 8 new covering every tool + error mapping); `npm pack --dry-run` file check.
+- **Upgrade:** `npm install obsidian-lean-coder@0.6.0`. No vault or config changes required.
+
 ## [0.5.1] — 2026-10-14 — English skill docs, concise install instructions
 
 All 5 bundled skills (`olc-log`, `olc-explore`, `olc-init`, `olc-memory`,

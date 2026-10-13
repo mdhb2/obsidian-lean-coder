@@ -75,13 +75,20 @@ If a check cannot be run in the current environment, explicitly mark it NOT RUN 
 
 ## Required session closeout
 
-At the end of every normal working session, update the relevant task status and report in simple language:
+At the end of every normal working session:
 
-- What was done.
-- What result was observed.
-- Tests/checks run and their outcomes.
-- What remains or is blocked.
-- The next suggested task.
-- Checkpoint commit reference if one was safely created.
+1. **Reflection pass (persist what's worth keeping).** Evidence only — never
+   fabricate. Use the OLC tools (namespace `olc`): reusable fact →
+   `olc_memory_record`; repeated preference/correction → `olc_taste_propose`
+   (stays `pending`, activate only via `olc_taste_review` after explicit user
+   approval); design decision → `olc_decision_record` (writes
+   `decisions/<YYYY-MM-DD>-<slug>.md`); important event → `olc_log_event`. If
+   the tools or vault are unavailable, say so — never claim a save that did
+   not happen.
+2. **Summarize.** Call `olc_session_summary` and show its markdown.
+3. **Report in simple language**: what was done, the observed result,
+   tests/checks run with their outcomes, what remains or is blocked, the next
+   suggested task, and the checkpoint commit reference if one was safely
+   created.
 
 The plain-language summary is mandatory even when the code changes are small.

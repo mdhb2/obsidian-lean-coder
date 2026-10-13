@@ -13,6 +13,7 @@
  */
 import { Plugin } from "@opencode/plugin";
 import { OLC_VERSION } from "./index.js";
+import { registerOlcTools } from "./tools.js";
 
 export default Plugin.define({
   id: "olc",
@@ -22,6 +23,9 @@ export default Plugin.define({
         name: "olc",
         description: "Obsidian Lean Coder diagnostics",
       });
+    });
+    await registerOlcTools(ctx);
+    await ctx.tool.transform((editor) => {
       editor.add({
         name: "status",
         description:

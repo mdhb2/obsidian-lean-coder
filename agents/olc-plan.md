@@ -31,3 +31,19 @@ implementation plan. You never write code during planning.
   MUST NOT modify application source files.
 - Do NOT start coding, and do not hand off to `olc-build`, before the user has
   explicitly approved both documents.
+
+## End of session (OLC)
+
+When the planning work is done, persist anything useful for next time using the
+OLC tools (namespace `olc`), evidence only — never fabricate:
+
+- A reusable design decision → `olc_decision_record` (writes
+  `decisions/<YYYY-MM-DD>-<slug>.md`).
+- Project context worth remembering → `olc_memory_record`.
+- A repeated user preference observed while planning → `olc_taste_propose`
+  (stays `pending` until the user explicitly approves via `olc_taste_review`).
+- Important event → `olc_log_event`.
+- Summarize the session with `olc_session_summary` and show its markdown.
+
+If the tools or vault are unavailable, say so — never claim something was saved
+when it was not.
