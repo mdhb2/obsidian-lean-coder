@@ -1,6 +1,6 @@
 # OLC — Obsidian Lean Coder
 
-OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. On npm as `obsidian-lean-coder` (v0.3.0: primary agents + all 5 skills — see CHANGELOG).
+OpenCode extension for project-scoped planning, memory, and safe Git checkpoints. On npm as `obsidian-lean-coder` (v0.4.0: default-like agents + project rules — see CHANGELOG).
 
 ## Three separate steps
 
@@ -93,6 +93,8 @@ ls .opencode/agents/olc-plan.md .opencode/agents/olc-build.md .opencode/skills/o
 ```
 
 `olc-plan`/`olc-build` agents and the five skills (`olc-init`, `olc-explore`, `olc-memory`, `olc-log`, `olc-taste`) are picked up by OpenCode from these paths. Re-running the `cp` commands is safe as long as you have not customized the destination files — `cp` overwrites; the no-clobber guarantee belongs to `olc-init`, which reports existing files as `preserved` instead of overwriting them.
+
+Both agents behave exactly like OpenCode's default Plan/Build agents first, then add OLC rules: each session they read the project root `AGENTS.md` (if present) and `.olc/AGENTS.md` (if present). If the two disagree, the OpenCode default wins — the agent shows the conflict, suggests a fix, and stops for your choice. During `olc-init` you are asked whether the project has extra rules beyond the main agents file; confirmed additions go under "Aturan tambahan proyek" in `.olc/AGENTS.md`.
 
 Supported versions: OpenCode 2.x with the V2 plugin API. OLC pins `@opencode/plugin` 2.0.27 to match the CLI it was smoke-tested against (see OLC-011). Other 2.x versions will likely work; 1.x will not. The exact minimum version is still open (DECISIONS.md #3).
 

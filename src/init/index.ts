@@ -25,7 +25,12 @@ export const AGENTS_FILE = "AGENTS.md";
 
 const AGENTS_STUB = (projectId: string): string =>
   `# OLC project instructions — ${projectId}\n\n` +
-  "Review and customize this file. OLC agents read it before memory operations.\n";
+  "Review and customize this file. OLC agents read it before memory operations.\n\n" +
+  "## Aturan tambahan proyek\n\n" +
+  "Tulis aturan khusus proyek ini di bawah (selain yang sudah ada di AGENTS.md utama).\n" +
+  "Bila bertentangan dengan perilaku default OpenCode, default yang menang — agen akan\n" +
+  "menunjukkan konfliknya dan meminta keputusan Anda sebelum lanjut.\n\n" +
+  "- (belum ada — tambahkan sesuai kebutuhan proyek)\n";
 
 const VAULT_INDEX = (projectId: string): string =>
   `# ${projectId}\n\nOLC project memory root. See current-state.md for the latest status.\n`;

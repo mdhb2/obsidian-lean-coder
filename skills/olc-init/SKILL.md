@@ -19,7 +19,11 @@ Inisialisasi proyek OLC: mengusulkan `project_id`, mengonfirmasi vault path, men
 1. Panggil `initProject({ projectRoot })` — dapatkan usulan `project_id` (turunan nama repo yang disanitasi).
 2. Bila `status: "needs-decision"`, tanyakan ke user: konfirmasi `projectId`, isi `vaultPath`, atau selesaikan duplikat id sesuai pesan.
 3. Panggil ulang dengan `{ projectRoot, projectId, vaultPath }` hingga `status: "ready"`.
-4. Laporkan ringkasan `created` / `preserved` / `attention` ke user dalam bahasa sederhana.
+4. Tanyakan ke user: "Apakah ada aturan tambahan proyek selain yang ada di
+   AGENTS.md utama?" Bila ada, tulis ke bagian "Aturan tambahan proyek" di
+   `<repo>/.olc/AGENTS.md` (file itu create-only — bila sudah ada dan sudah
+   berisi aturan, jangan ditimpa; gabungkan hanya bila user meminta).
+5. Laporkan ringkasan `created` / `preserved` / `attention` ke user dalam bahasa sederhana.
 5. Untuk pratinjau tanpa menulis: `initProject({ ..., dryRun: true })` — `created` berarti "akan dibuat".
 
 ## Yang dibuat (hanya bila belum ada)

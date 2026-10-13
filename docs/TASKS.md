@@ -543,6 +543,20 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Verification commands/results:** `npm run typecheck` clean; `npm run build` OK; `npm test` → 146 pass / 0 fail; `npm pack --dry-run` → 63 files as `obsidian-lean-coder-0.3.0.tgz` incl. all 5 `skills/*/SKILL.md`. No publish by agent — user runs `npm publish`.
 - **Evidence/files/commit:** This commit (`agents/`, `skills/` ×4, `bin/olc-setup.js`, `tests/setup.test.ts`, `package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
 - **Remaining issues:** Publish of 0.3.0 requires the user. `/api/agent|skill` discovery gap still open (TUI-side verification pending user report after reinstall).
+- **Next task:** OLC-077 — default-like agents + project rules.
+
+### OLC-077 — Default-like agents + project rules
+- **Status:** DONE (user-requested 2026-10-14: agent "tidak sesuai seperti yg saya minta. isinya harusnya sama seperti defaultnya dari opencode, lalu ditambahi untuk membaca file agents.md tambahan yg ada di .olc/AGENTS.md, lalu juga berikan instruksi tentang OLC ini"; locked decisions: OpenCode default wins conflicts with shown conflict + fix suggestion + stop; concise ~60 lines/file; enrich `.olc/AGENTS.md` template + ask user for additions)
+- **Priority:** P0
+- **Depends on:** OLC-076
+- **Goal:** Agents behave like OpenCode defaults first, read project `.olc/AGENTS.md`, carry concise OLC instructions.
+- **Work:** Rewrite `agents/olc-plan.md` + `agents/olc-build.md` (default-first behavior, conditional `.olc/AGENTS.md` read, conflict-shows-and-stops rule, concise skill map; mode stays primary); enrich `.olc/AGENTS.md` template ("Aturan tambahan proyek") in `src/init/index.ts` (create-only preserved); ask-for-additions step in `skills/olc-init/SKILL.md` (module stays non-interactive); release 0.4.0.
+- **Acceptance criteria:** Both agent files lead with default behavior + conditional project-rules read + conflict rule; stub contains the new section; init skill asks about additions without overwriting existing rules; full suite green.
+- **Date:** 2026-10-14
+- **Implemented:** Agent rewrites (~60 lines each); `AGENTS_STUB` + "Aturan tambahan proyek" section; init skill step 4 (ask, merge-only-on-request); version 0.4.0 (`package.json` via `npm pkg set` + lockfile sync; `src/index.ts` `OLC_VERSION`); `CHANGELOG.md` 0.4.0 entry; README (behavior paragraph, head version).
+- **Verification commands/results:** `npm run typecheck` clean; `npm run build` OK; `npm test` → 146 pass / 0 fail; `npm pack --dry-run` file check. No publish by agent — user runs `npm publish`.
+- **Evidence/files/commit:** This commit (`agents/` ×2, `src/init/index.ts`, `skills/olc-init/SKILL.md`, `package.json`, `package-lock.json`, `src/index.ts`, `CHANGELOG.md`, `README.md`, `docs/TASKS.md`).
+- **Remaining issues:** Publish of 0.4.0 requires the user. `/api/agent|skill` discovery gap still open.
 
 ## Deferred
 
