@@ -1,26 +1,26 @@
 ---
 name: olc-memory
-description: Cari dan perbarui catatan memori proyek secara progresif — baca yang kecil dulu, hanya yang relevan dengan query. Tidak pernah memindai seluruh vault.
+description: Search and update project memory notes progressively — read small first, only what's relevant to the query. Never scans the whole vault.
 ---
 
 # olc-memory
 
-Ingatan berlingkup proyek: baca `index.md` + `current-state.md` dulu, lalu hanya dokumen `memory/` + `decisions/`, doc task, dan event log yang relevan dengan query. Tulis balik hanya di scope proyek yang tervalidasi.
+Project-scoped memory: read `index.md` + `current-state.md` first, then only the `memory/` + `decisions/` documents, task docs, and log events relevant to the query. Write back only within the validated project scope.
 
-## Aturan keras
+## Hard rules
 
-1. **Identitas dulu.** `validateIdentity` harus lolos sebelum baca/tulis apa pun. Proyek salah atau vault tak tersedia → gagal dengan nol file tersentuh.
-2. **Tidak memindai folder proyek lain.** Semua path di-resolve di dalam `<vault>/OLC/Projects/<id>/`; folder lain tidak tersentuh secara konstruksi.
-3. **Tulis terkontrol.** `recordMemory` butuh nama polos (huruf/angka/dash/underscore, tanpa path/ekstensi) + konten non-kosong; file yang sudah ada tidak ditimpa diam-diam (`overwrite` eksplisit).
+1. **Identity first.** `validateIdentity` must pass before any read/write. Wrong project or unavailable vault → fail with zero files touched.
+2. **Never scans other projects' folders.** Every path resolves inside `<vault>/OLC/Projects/<id>/`; other folders are untouched by construction.
+3. **Controlled writes.** `recordMemory` requires a plain name (letters/digits/dash/underscore, no path/extension) plus non-empty content; existing files are never silently overwritten (`overwrite` must be explicit).
 
-## Alur
+## Flow
 
-1. Panggil `recallMemory({ projectRoot, config, query?, taskId?, includeLogs?, logLimit?, limit? })` — tanpa query = konteks dasar (index + state + log terbaru, tanpa filter).
-2. Dengan query: token query difilter stopwords, skor per dokumen `memory/` + `decisions/` (bobot nama file), kutipan dibatasi 1200 karakter dengan flag truncasi, urutan skor terbaik dulu.
-3. Dengan `taskId`: sertakan status doc intent/plan task itu (hilang → null, bukan error).
-4. Untuk menyimpan: `recordMemory({ projectRoot, config, name, content, overwrite? })` → `memory/<name>.md` atomik. `content` harus menyertakan section `## Terkait` berisi wikilink relatif ke `[[../index]]`, `[[../current-state]]`, dan dokumen task/decision terkait — ini menjaga catatan memori tetap tersambung di graph vault (second brain), bukan pulau terisolasi.
+1. Call `recallMemory({ projectRoot, config, query?, taskId?, includeLogs?, logLimit?, limit? })` — no query = base context (index + state + recent log, unfiltered).
+2. With a query: query tokens are filtered for stopwords, each `memory/` + `decisions/` document is scored (filename weighted), excerpts are capped at 1200 characters with a truncation flag, best score first.
+3. With `taskId`: include that task's intent/plan doc status (missing → null, not an error).
+4. To save: `recordMemory({ projectRoot, config, name, content, overwrite? })` → atomic write to `memory/<name>.md`. `content` must include a `## Terkait` section with relative wikilinks to `[[../index]]`, `[[../current-state]]`, and any related task/decision document — this keeps the memory note connected in the vault graph (second brain) instead of an isolated island.
 
-## Verifikasi skill ini
+## Verifying this skill
 
-- Ingatan proyek A tidak pernah muncul saat recall di proyek B (isolasi multi-proyek).
-- Setiap klaim relevansi bisa ditelusur ke dokumen + barisnya, bukan karangan.
+- Project A's memory never shows up on recall in project B (multi-project isolation).
+- Every relevance claim is traceable to a document + line, not invented.

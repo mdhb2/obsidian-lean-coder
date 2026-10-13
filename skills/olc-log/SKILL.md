@@ -1,26 +1,26 @@
 ---
 name: olc-log
-description: Catat event penting, checkpoint, dan ringkasan sesi ke log aktivitas harian yang tahan lama. Terverifikasi anti rusak dan anti bocor rahasia.
+description: Record important events, checkpoints, and session summaries into a durable daily activity log. Verified crash-safe and secret-leak-safe.
 ---
 
 # olc-log
 
-Log aktivitas abadi per proyek di `<vault>/OLC/Projects/<project_id>/logs/YYYY-MM-DD.md` (satu file per hari — itulah rotasinya, tanpa rotasi ukuran untuk MVP).
+Durable per-project activity log at `<vault>/OLC/Projects/<project_id>/logs/YYYY-MM-DD.md` (one file per day — that's its only rotation, no size-based rotation for MVP).
 
-## Aturan keras
+## Hard rules
 
-1. **Hanya event eksplisit.** Modul tidak hook ke tool call — tidak ada noise per-tool-call secara konstruksi. Catat hanya milestone, checkpoint, verifikasi, dan ringkasan sesi.
-2. **Rahasia disensor, tidak disimpan.** Pola kredensial yang dikenal di summary/details diganti `[redacted]` dan entri ditandai.
-3. **Append aman.** Satu write `O_APPEND` per entri; interupsi tidak pernah merusak entri sebelumnya. File tanpa newline akhir (sisa crash) dinormalisasi sebelum append berikutnya.
-4. **Identitas dulu.** Vault salah → throw dengan nol file dibuat.
+1. **Explicit events only.** The module never hooks tool calls — no per-tool-call noise by construction. Log only milestones, checkpoints, verifications, and session summaries.
+2. **Secrets are redacted, never stored.** Known credential patterns in summary/details are replaced with `[redacted]` and the entry is flagged.
+3. **Safe appends.** One `O_APPEND` write per entry; an interruption never corrupts earlier entries. A file missing its trailing newline (crash remnant) is normalized before the next append.
+4. **Identity first.** Wrong vault → throw with zero files created.
 
-## Alur
+## Flow
 
-1. Tulis: `logEvent({ projectRoot, config, event: { kind, summary, taskId?, details?, gitSha?, date? } })` — `kind` mis. `milestone|checkpoint|verify|session`; `summary` non-kosong wajib.
-2. Baca: `readLogDay(vaultRoot, projectId, day)` atau `readLastEvents(vaultRoot, projectId, limit)` (urutan terbaru dulu — verifikasi terakhir terlihat di sana).
-3. Akhir sesi normal: panggil `buildSessionSummary` (modul `session`) — teks Indonesia via template `session-summary` + footer jujur hard-kill, klaim faktual hanya dari `VerifyOutcome`/SHA/checkpoint nyata — lalu tampilkan ke user. Sesi yang mati mendadak tidak menghasilkan ringkasan; event log terakhir adalah titik pemulihan (lihat resume).
+1. Write: `logEvent({ projectRoot, config, event: { kind, summary, taskId?, details?, gitSha?, date? } })` — `kind` e.g. `milestone|checkpoint|verify|session`; non-empty `summary` is required.
+2. Read: `readLogDay(vaultRoot, projectId, day)` or `readLastEvents(vaultRoot, projectId, limit)` (newest first — the last verification shows up there).
+3. Normal session end: call `buildSessionSummary` (module `session`) — rendered via the `session-summary` template with an honest hard-kill footer, factual claims sourced only from a real `VerifyOutcome`/SHA/checkpoint — then show it to the user. A session that dies abruptly produces no summary; the last log event is the recovery point (see resume).
 
-## Verifikasi skill ini
+## Verifying this skill
 
-- Rahasia pola `sk-...`, `ghp_...`, `AKIA...` di summary tidak pernah sampai ke vault (jadi `[redacted]`).
-- Interupsi di tengah append tidak merusak entri sebelumnya.
+- Secret patterns like `sk-...`, `ghp_...`, `AKIA...` in a summary never reach the vault (they become `[redacted]`).
+- An interruption mid-append never corrupts earlier entries.
