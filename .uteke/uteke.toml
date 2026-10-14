@@ -1,0 +1,5 @@
+[store]
+namespace = "olc"
+
+[logging]
+level = "warn"
