@@ -190,7 +190,7 @@ export function validateIdentity(startDir: string, config: ResolvedConfig): Proj
     throw new IdentityError(
       "UNREGISTERED_PROJECT",
       `project_id "${config.projectId}" is not registered in vault ${vaultRoot}. ` +
-        "Run init to register it before using project memory, plans, or checkpoints.",
+        "Run init to register it before using project plans, logs, or checkpoints.",
     );
   }
   if (resolve(entry.repoRoot) !== repoRoot) {
@@ -198,7 +198,7 @@ export function validateIdentity(startDir: string, config: ResolvedConfig): Proj
       "PROJECT_MISMATCH",
       `project_id "${config.projectId}" is registered to a different repository ` +
         `(${resolve(entry.repoRoot)}) than the one you are in (${repoRoot}). ` +
-        "Refusing to touch the wrong project's memory. Use init with a new project_id for this checkout, or move to the registered repository.",
+        "Refusing to touch the wrong project's data. Use init with a new project_id for this checkout, or move to the registered repository.",
     );
   }
   return { repoRoot, branch, projectId: config.projectId, vaultRoot };

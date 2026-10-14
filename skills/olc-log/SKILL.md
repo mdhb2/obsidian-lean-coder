@@ -20,7 +20,7 @@ The modules below are exposed as agent-callable tools under the `olc` namespace.
 Call the tools, not the library functions directly.
 
 1. Write: `olc_log_event` with `{ kind, summary, taskId?, details?, gitSha?, date? }` — `kind` e.g. `milestone|checkpoint|verify|session`; non-empty `summary` is required.
-2. Read: `olc_memory_recall` (recent events included by default) or `olc_session_summary` for the latest.
+2. Read: recent events surface in the resume context and in `olc_session_summary` output; the raw day files live at `<vault>/OLC/Projects/<project_id>/logs/YYYY-MM-DD.md`.
 3. Normal session end: call `olc_session_summary` — rendered via the `session-summary` template with an honest hard-kill footer, factual claims sourced only from a real verification/SHA/checkpoint — then show its markdown to the user. A session that dies abruptly produces no summary; the last log event is the recovery point (see resume).
 
 ## Verifying this skill

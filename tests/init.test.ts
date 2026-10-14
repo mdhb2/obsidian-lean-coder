@@ -126,3 +126,40 @@ test("proposeProjectId sanitizes repository names", () => {
   assert.equal(proposeProjectId("/x/demo-app"), "demo-app");
   assert.equal(proposeProjectId("/x/My Cool_App!"), "my-cool_app");
 });
+
+test("init removes legacy decisions/memory/taste scope directories", () => {
+  const repo = makeRepo();
+  const vault = makeVault();
+  const ready = initProject({ projectRoot: repo, projectId: "demo-app", vaultPath: vault, env: {} });
+  assert.equal(ready.status, "ready");
+  const scope = join(vault, "OLC", "Projects", "demo-app");
+  for (const legacy of ["decisions", "memory", "taste"]) {
+    mkdirSync(join(scope, legacy), { recursive: true });
+    writeFileSync(join(scope, legacy, "old.md"), "legacy\n");
+  }
+  const second = initProject({ projectRoot: repo, projectId: "demo-app", vaultPath: vault, env: {} });
+  assert.equal(second.status, "ready");
+  for (const legacy of ["decisions", "memory", "taste"]) {
+    assert.equal(existsSync(join(scope, legacy)), false, `${legacy}/ must be gone`);
+    assert.ok(
+      second.entries.some((e) => e.path === join(scope, legacy) && e.action === "removed"),
+      `${legacy}/ reported as removed`,
+    );
+  }
+  assert.ok(existsSync(join(scope, "tasks")), "tasks/ is preserved");
+  assert.ok(existsSync(join(scope, "logs")), "logs/ is preserved");
+});
+
+test("dry-run reports legacy removal but deletes nothing", () => {
+  const repo = makeRepo();
+  const vault = makeVault();
+  const ready = initProject({ projectRoot: repo, projectId: "demo-app", vaultPath: vault, env: {} });
+  assert.equal(ready.status, "ready");
+  const scope = join(vault, "OLC", "Projects", "demo-app");
+  mkdirSync(join(scope, "memory"), { recursive: true });
+  writeFileSync(join(scope, "memory", "old.md"), "legacy\n");
+  const report = initProject({ projectRoot: repo, projectId: "demo-app", vaultPath: vault, env: {}, dryRun: true });
+  assert.equal(report.status, "ready");
+  assert.ok(report.entries.some((e) => e.path === join(scope, "memory") && e.action === "removed"));
+  assert.equal(existsSync(join(scope, "memory", "old.md")), true);
+});

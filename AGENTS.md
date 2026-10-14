@@ -2,7 +2,7 @@
 
 ## Project goal
 
-Build OLC (Obsidian Lean Coder), an installable OpenCode extension distributed through npm. OLC provides two agents (`olc-plan`, `olc-build`) and supporting skills for project-scoped Obsidian Markdown memory, planning, logs, Git checkpoints, safe resume, and user-approved taste rules.
+Build OLC (Obsidian Lean Coder), an installable OpenCode extension distributed through npm. OLC provides two agents (`olc-plan`, `olc-build`) and supporting skills for project-scoped Obsidian Markdown planning, logs, Git checkpoints, and safe resume.
 
 The source of truth for requirements is `docs/PRD.md`. The task list and task statuses are in `docs/TASKS.md`. If these files are missing, create/read the current PRD and task list before implementing significant features.
 
@@ -43,7 +43,7 @@ The source of truth for requirements is `docs/PRD.md`. The task list and task st
 7. Never access or modify the wrong project's vault notes. Validate `project_id`, repo root, and vault registry before important reads/writes.
 8. If configured vault is missing or unavailable, stop OLC-dependent operations. Do not create a hidden local fallback.
 9. Never silently overwrite existing config, instructions, templates, plans, logs, or notes. `olc-init` must be idempotent and report created/preserved/skipped/attention-needed files.
-10. Do not activate a taste rule, revise approved scope, mark a task done, or continue after an ambiguous resume without the required user approval.
+10. Do not revise approved scope, mark a task done, or continue after an ambiguous resume without the required user approval.
 11. Do not expose credentials, access tokens, secrets, or private vault contents in logs, docs, or test fixtures.
 12. Do not make network calls or publish packages during tests unless explicitly requested.
 
@@ -69,7 +69,7 @@ Minimum release checks:
 - Tests that preserve unrelated modified and untracked files.
 - Test `npm pack --dry-run` or `npm pack` and inspect included resources.
 - A clean OpenCode profile smoke test against the documented supported version.
-- Verify resume, scope escalation, taste-rule approval, and end-of-session plain-language summary.
+- Verify resume, scope escalation, and end-of-session plain-language summary.
 
 If a check cannot be run in the current environment, explicitly mark it NOT RUN and explain why. Never fabricate results.
 
@@ -77,14 +77,10 @@ If a check cannot be run in the current environment, explicitly mark it NOT RUN 
 
 At the end of every normal working session:
 
-1. **Reflection pass (persist what's worth keeping).** Evidence only — never
-   fabricate. Use the OLC tools (namespace `olc`): reusable fact →
-   `olc_memory_record`; repeated preference/correction → `olc_taste_propose`
-   (stays `pending`, activate only via `olc_taste_review` after explicit user
-   approval); design decision → `olc_decision_record` (writes
-   `decisions/<YYYY-MM-DD>-<slug>.md`); important event → `olc_log_event`. If
-   the tools or vault are unavailable, say so — never claim a save that did
-   not happen.
+1. **Reflection pass (log what's worth keeping).** Evidence only — never
+   fabricate. Use the OLC tools (namespace `olc`): important event →
+   `olc_log_event`. If the tools or vault are unavailable, say so — never
+   claim a save that did not happen.
 2. **Summarize.** Call `olc_session_summary` and show its markdown.
 3. **Report in simple language**: what was done, the observed result,
    tests/checks run with their outcomes, what remains or is blocked, the next

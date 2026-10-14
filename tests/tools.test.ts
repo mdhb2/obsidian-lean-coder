@@ -63,107 +63,30 @@ function parse(content: string): any {
   return JSON.parse(content);
 }
 
-test("registers all 8 olc tools", async () => {
+test("registers both olc tools (log_event, session_summary)", async () => {
   const { repo, cleanup } = setup();
   try {
     const { ctx, tools } = makeCtx(repo);
     await registerOlcTools(ctx);
     const names = [...tools.keys()].sort();
-    assert.deepEqual(
-      names,
-      [
-        "decision_record",
-        "log_event",
-        "memory_recall",
-        "memory_record",
-        "session_summary",
-        "taste_list",
-        "taste_propose",
-        "taste_review",
-      ].sort(),
-    );
+    assert.deepEqual(names, ["log_event", "session_summary"].sort());
   } finally {
     cleanup();
   }
 });
 
-test("memory_record + memory_recall round-trip through tool handlers", async () => {
-  const { repo, cleanup } = setup();
-  try {
-    const { ctx, tools } = makeCtx(repo);
-    await registerOlcTools(ctx);
-
-    const write = parse(
-      (await tools.get("memory_record")!.execute({ name: "auth-notes", content: "Token expiry uses <= not <." })).content,
-    );
-    assert.equal(write.ok, true);
-    assert.equal(write.path, "memory/auth-notes.md");
-
-    const read = parse(
-      (await tools.get("memory_recall")!.execute({ query: "token expiry" })).content,
-    );
-    assert.equal(read.ok, true);
-    assert.ok(read.matches.some((m: any) => m.file === "auth-notes.md"));
-  } finally {
-    cleanup();
-  }
-});
-
-test("taste_propose creates pending; taste_review approves to active", async () => {
-  const { repo, cleanup } = setup();
-  try {
-    const { ctx, tools } = makeCtx(repo);
-    await registerOlcTools(ctx);
-
-    const proposed = parse(
-      (await tools.get("taste_propose")!.execute({
-        name: "no-any",
-        rule: "Avoid the `any` type in TypeScript.",
-        examples: ["User corrected the `any` usage in utils.ts"],
-      })).content,
-    );
-    assert.equal(proposed.ok, true);
-    assert.equal(proposed.status, "pending");
-
-    const approved = parse(
-      (await tools.get("taste_review")!.execute({ name: "no-any", approve: true })).content,
-    );
-    assert.equal(approved.ok, true);
-    assert.equal(approved.status, "active");
-  } finally {
-    cleanup();
-  }
-});
-
-test("decision_record writes decisions/<date>-<slug>.md (create-only)", async () => {
+test("log_event appends through the tool handler", async () => {
   const { repo, cleanup } = setup();
   try {
     const { ctx, tools } = makeCtx(repo);
     await registerOlcTools(ctx);
 
     const out = parse(
-      (await tools.get("decision_record")!.execute({
-        title: "Use SQLite for MVP",
-        context: "Postgres adds ops burden for local dev.",
-        decision: "Ship with SQLite; migrate later if needed.",
-        consequences: "db/migrations stay dialect-light.",
-        date: "2026-10-12",
-      })).content,
+      (await tools.get("log_event")!.execute({ kind: "milestone", summary: "Token check shipped." })).content,
     );
     assert.equal(out.ok, true);
-    assert.match(out.file, /decisions\/2026-10-12-use-sqlite-for-mvp\.md$/);
-
-    const again = JSON.parse(
-      (await tools.get("decision_record")!.execute({
-        title: "Use SQLite for MVP",
-        context: "x",
-        decision: "y",
-        consequences: "z",
-        date: "2026-10-12",
-      })).content,
-    );
-    assert.equal(again.ok, false);
-    assert.equal(again.error.code, "ALREADY_EXISTS");
+    assert.match(out.file, /logs\/.*\.md$/);
+    assert.equal(out.entry.summary, "Token check shipped.");
   } finally {
     cleanup();
   }
@@ -174,7 +97,7 @@ test("tools surface actionable error (ok:false) instead of throwing on missing c
   try {
     const { ctx, tools } = makeCtx(repo);
     await registerOlcTools(ctx);
-    const res = parse((await tools.get("memory_recall")!.execute({})).content);
+    const res = parse((await tools.get("log_event")!.execute({ kind: "milestone", summary: "x" })).content);
     assert.equal(res.ok, false);
     assert.equal(res.error.code, "MISSING_CONFIG");
   } finally {

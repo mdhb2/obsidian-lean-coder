@@ -6,7 +6,7 @@ import { join, resolve, dirname } from "node:path";
 import { test } from "node:test";
 
 import type { ResolvedConfig } from "../src/config/index.js";
-import { renderTemplate, VaultError } from "../src/vault/index.js";
+import { renderTemplate } from "../src/vault/index.js";
 import { initProject } from "../src/init/index.js";
 import { draftTaskDocs, reviseTaskDocs } from "../src/planning/index.js";
 import { logEvent, readLogDay } from "../src/log/index.js";
@@ -15,7 +15,7 @@ import { appendCheckpointRecord } from "../src/git/checkpoint.js";
 /**
  * OLC-079 — vault cross-linking for the second-brain graph.
  *
- * The vault is the project's long-term memory, so every document must link to
+ * The vault is the project's long-term record, so every document must link to
  * its neighbours under `## Terkait`. These tests pin that contract at two
  * levels: each template carries the expected wikilinks, and a full fixture
  * walk resolves every `[[...]]` target on disk — zero broken links.
@@ -70,14 +70,6 @@ function templateVars(): Record<string, string> {
     results: "r",
     remaining: "x",
     next_step: "n",
-    title: "t",
-    context: "c",
-    decision: "d",
-    consequences: "c",
-    related: "- [[../index]] — hub memori proyek",
-    name: "n",
-    rule: "r",
-    examples: "e",
   };
 }
 
@@ -102,7 +94,6 @@ test("every doc template ships a Terkait section with relative wikilinks", () =>
     checkpoint: ["[[../T-1/intent]]", "[[../T-1/plan]]", "[[../T-1/history]]"],
     "explore-report": ["[[../../T-1/intent]]", "[[../../T-1/plan]]", "[[../../index]]"],
     "activity-log": ["[[../index]]", "[[../current-state]]"],
-    "taste-rule": ["[[../index]]", "[[../current-state]]"],
   };
   for (const [name, links] of Object.entries(expected)) {
     const out = renderTemplate(name, templateVars());
@@ -113,17 +104,7 @@ test("every doc template ships a Terkait section with relative wikilinks", () =>
   }
 });
 
-test("decision template requires the related var and session-summary stays link-free", () => {
-  const withoutRelated = { ...templateVars() } as Record<string, string>;
-  delete withoutRelated["related"];
-  assert.throws(
-    () => renderTemplate("decision", withoutRelated),
-    (error: unknown) =>
-      error instanceof VaultError && error.code === "TEMPLATE_ERROR",
-    "decision.md without related must fail loudly, not silently render",
-  );
-  assert.ok(renderTemplate("decision", templateVars()).includes("## Terkait"));
-
+test("session-summary stays link-free", () => {
   // session-summary is returned in chat, never written to a fixed vault path,
   // so it must not carry links that would resolve to arbitrary locations.
   const summary = renderTemplate("session-summary", templateVars());

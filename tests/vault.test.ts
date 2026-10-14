@@ -80,19 +80,17 @@ test("frontmatter round-trip", () => {
 });
 
 test("template render substitutes all variables, missing ones error", () => {
-  const out = renderTemplate("decision", {
+  const out = renderTemplate("checkpoint", {
     project_id: "p",
-    status: "pending",
+    task_id: "T-1",
     date: "2026-10-12",
-    title: "T",
-    context: "C",
-    decision: "D",
-    consequences: "Q",
-    related: "- [[../index]]",
+    commit_sha: "abc123",
+    summary: "S",
+    verification: "V",
   });
   assert.ok(!out.includes("{{"), "no placeholder may survive");
-  assert.ok(out.includes("D"));
-  assertVaultError(() => renderTemplate("decision", { project_id: "p" }), "TEMPLATE_ERROR");
+  assert.ok(out.includes("abc123"));
+  assertVaultError(() => renderTemplate("checkpoint", { project_id: "p" }), "TEMPLATE_ERROR");
   assertVaultError(() => renderTemplate("no-such-template", {}), "TEMPLATE_ERROR");
   assertVaultError(() => renderTemplate("../package", {}), "TEMPLATE_ERROR");
 });
@@ -131,14 +129,6 @@ test("all bundled templates render and ship in the package", () => {
     results: "r",
     remaining: "x",
     next_step: "n",
-    title: "t",
-    context: "c",
-    decision: "d",
-    consequences: "q",
-    related: "- [[../index]] — hub memori proyek",
-    name: "n",
-    rule: "r",
-    examples: "e",
   };
   for (const name of BUNDLED_TEMPLATES) {
     const out = renderTemplate(name, vars);

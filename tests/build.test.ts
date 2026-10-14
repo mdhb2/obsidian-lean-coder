@@ -1,6 +1,6 @@
 import { strict as assert } from "node:assert";
 import { execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -11,7 +11,6 @@ import {
   beginTask,
   changedPaths,
   completeTask,
-  recordDecision,
 } from "../src/build/index.js";
 import { approveTaskDocs, draftTaskDocs } from "../src/planning/index.js";
 import { getTask, registerTask, setTaskStatus } from "../src/tasks/index.js";
@@ -138,13 +137,3 @@ test("undeclared new file blocks completion", () => {
   assert.equal(getTask(config.vaultPath, "proj", "t-new")?.status, "in_progress");
 });
 
-test("recorded decisions land in history.md", () => {
-  const { repo, config } = setup("t-dec", true);
-  const frame = beginTask({ config, taskId: "t-dec", touchPaths: [], startDir: repo, date: DATE });
-  recordDecision(frame, config, "chose X over Y because Z", DATE);
-  const history = readFileSync(
-    join(config.vaultPath, "OLC", "Projects", "proj", "tasks", "t-dec", "history.md"),
-    "utf8",
-  );
-  assert.match(history, /chose X over Y/);
-});

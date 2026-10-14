@@ -24,14 +24,15 @@ Initialize an OLC project: propose a `project_id`, confirm the vault path, set u
    section of `<repo>/.olc/AGENTS.md` (that file is create-only — if it
    already exists and already has rules, don't overwrite; merge only if the
    user asks).
-5. Report a `created` / `preserved` / `attention` summary to the user in plain language.
+5. Report a `created` / `preserved` / `removed` / `attention` summary to the user in plain language.
 5. To preview without writing: `initProject({ ..., dryRun: true })` — `created` means "would be created".
 
 ## What gets created (only if missing)
 
 - `<repo>/.olc/config.json` — `{ schemaVersion, projectId, vaultPath }`. Keys that look like credentials (`secret|token|password|api-key`) are rejected.
 - `<repo>/.olc/AGENTS.md` — instruction stub, asks the user to review and adjust.
-- `<vault>/OLC/Projects/<project_id>/{index.md, current-state.md, decisions/, tasks/, logs/, memory/, taste/}`
+- `<vault>/OLC/Projects/<project_id>/{index.md, current-state.md, tasks/, logs/}`
+- Legacy `decisions/`, `memory/`, `taste/` scope directories from older OLC versions are removed on init (reported as `removed`); everything else is left untouched.
 - An entry `{ projects: { "<id>": { repoRoot } } }` in `<vault>/OLC/registry.json`.
 
 ## Verifying this skill

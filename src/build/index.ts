@@ -8,8 +8,7 @@
  *    context (intent/plan bodies), never the whole vault. The caller declares
  *    which repo-relative paths it will touch; the registry task moves
  *    approved→in_progress.
- * 2. `recordDecision` — small in-scope technical decisions go to history.md.
- * 3. `completeTask` — identity re-checked, then the working tree is diffed:
+ * 2. `completeTask` — identity re-checked, then the working tree is diffed:
  *    any change outside the declared paths throws SCOPE_CHANGED (out-of-scope
  *    work is proposed via the error, not performed). Clean frames move the
  *    registry task in_progress→review.
@@ -163,23 +162,6 @@ export function beginTask(input: BeginTaskInput): BuildFrame {
     baseHead: git(repoRoot, "rev-parse", "HEAD"),
     startedAt: new Date().toISOString(),
   };
-}
-
-export function recordDecision(
-  frame: Pick<BuildFrame, "taskId">,
-  config: ResolvedConfig,
-  text: string,
-  date?: string,
-): void {
-  if (!text.trim()) throw new BuildError("NO_TASK", "Decision text must be non-empty.");
-  appendTaskHistory(
-    config.vaultPath,
-    config.projectId,
-    frame.taskId,
-    "build-decision",
-    text.trim(),
-    today(date),
-  );
 }
 
 export function completeTask(

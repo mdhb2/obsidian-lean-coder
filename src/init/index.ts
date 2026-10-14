@@ -9,11 +9,13 @@
  * (agent or user) supplies the answer on a follow-up call. No prompting
  * happens inside this module, so it stays testable and non-interactive.
  *
- * Report entry actions: `created` | `preserved` | `attention`.
+ * Report entry actions: `created` | `preserved` | `attention` | `removed`.
+ * `removed` covers legacy `decisions/`, `memory/`, `taste/` scope directories
+ * from older OLC versions, deleted on init inside the validated project scope.
  * With `dryRun: true` nothing is written; `created` then means "would create".
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
 
 import { CONFIG_SCHEMA_VERSION, VAULT_PATH_ENV, parseConfig } from "../config/index.js";
@@ -25,7 +27,7 @@ export const AGENTS_FILE = "AGENTS.md";
 
 const AGENTS_STUB = (projectId: string): string =>
   `# OLC project instructions — ${projectId}\n\n` +
-  "Review and customize this file. OLC agents read it before memory operations.\n\n" +
+  "Review and customize this file. OLC agents read it before vault operations.\n\n" +
   "## Aturan tambahan proyek\n\n" +
   "Tulis aturan khusus proyek ini di bawah (selain yang sudah ada di AGENTS.md utama).\n" +
   "Bila bertentangan dengan perilaku default OpenCode, default yang menang — agen akan\n" +
@@ -33,7 +35,7 @@ const AGENTS_STUB = (projectId: string): string =>
   "- (belum ada — tambahkan sesuai kebutuhan proyek)\n";
 
 const VAULT_INDEX = (projectId: string): string =>
-  `# ${projectId}\n\nOLC project memory root. See current-state.md for the latest status.\n` +
+  `# ${projectId}\n\nOLC project root. See current-state.md for the latest status.\n` +
   `\n## Terkait\n\n- [[current-state]] — status terbaru proyek\n`;
 
 const VAULT_STATE = (projectId: string): string =>
@@ -42,7 +44,7 @@ const VAULT_STATE = (projectId: string): string =>
 
 export interface InitEntry {
   path: string;
-  action: "created" | "preserved" | "attention";
+  action: "created" | "preserved" | "attention" | "removed";
   note?: string;
 }
 
@@ -210,13 +212,20 @@ export function initProject(options: InitOptions): InitReport {
   const projectDir = join(vaultRoot, "OLC", "Projects", projectId);
   entries.push(planFile(join(projectDir, "index.md"), VAULT_INDEX(projectId), dryRun));
   entries.push(planFile(join(projectDir, "current-state.md"), VAULT_STATE(projectId), dryRun));
-  for (const sub of ["decisions", "tasks", "logs", "memory", "taste"]) {
+  for (const sub of ["tasks", "logs"]) {
     const dir = join(projectDir, sub);
     if (existsSync(dir)) {
       entries.push({ path: dir, action: "preserved" });
     } else {
       if (!dryRun) mkdirSync(dir, { recursive: true });
       entries.push({ path: dir, action: "created" });
+    }
+  }
+  for (const sub of ["decisions", "memory", "taste"]) {
+    const dir = join(projectDir, sub);
+    if (existsSync(dir)) {
+      if (!dryRun) rmSync(dir, { recursive: true, force: true });
+      entries.push({ path: dir, action: "removed", note: "Legacy OLC scope directory removed (memory/taste/decision features were dropped)." });
     }
   }
   if (!registryExisted || !owner) {

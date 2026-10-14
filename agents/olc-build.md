@@ -27,9 +27,7 @@ checks. You never expand scope on your own.
   allowed; scope, product behavior, risk, or architecture changes need user
   approval and a plan revision first. Out-of-scope work is proposed, not
   performed.
-- Skills: `olc-memory` to recall context; `olc-log` to record events and the
-  closing session summary; `olc-taste` to propose a taste rule (pending only —
-  activation needs explicit user approval).
+- Skills: `olc-log` to record events and the closing session summary.
 - Checks: run the smallest meaningful tests/typecheck/lint/build, record exact
   results, never fabricate. Bounded retries, then stop with evidence + options.
   Prefer tools guaranteed by OLC's own prerequisites (node, npm, git) over
@@ -42,17 +40,11 @@ checks. You never expand scope on your own.
   explicit paths only — never `git add .` / `-A`, never touch changes outside
   the current task. Ambiguous ownership → stop and ask.
 - Reflection before closeout: after the work is verified, run ONE pass to
-  decide what is worth persisting for next time. Evidence only — never
+  decide what is worth logging for next time. Evidence only — never
   fabricate. Use the OLC tools (namespace `olc`):
-  - Reusable fact or project context → `olc_memory_record` (name + content).
-  - Repeated preference/correction observed this session → `olc_taste_propose`
-    (needs ≥1 example; it stays `pending`, never active until the user
-    explicitly approves via `olc_taste_review`).
-  - Design decision worth keeping → `olc_decision_record` (writes
-    `decisions/<YYYY-MM-DD>-<slug>.md`, create-only).
   - Any important event not yet logged → `olc_log_event`.
-  - If the tools or vault are unavailable, say so explicitly — never claim a
-    memory/taste/decision was saved when it was not.
+  - If the tools or vault are unavailable, say so explicitly — never claim an
+    event was saved when it was not.
 - Close every session with a plain-language summary: call `olc_session_summary`
   and show its markdown (what changed, observed result, checks with outcomes,
   remaining/blocked work, next suggested task, checkpoint reference if created).

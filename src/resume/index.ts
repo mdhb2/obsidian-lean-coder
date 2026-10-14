@@ -111,7 +111,7 @@ export function buildResumeContext(args: ResumeArgs): ResumeContext {
         throw new IdentityError(
           "PROJECT_MISMATCH",
           `project_id "${projectId}" is not registered to repository ${repoRoot} in vault ${vaultRoot}. ` +
-            "Refusing to touch the wrong project's memory.",
+            "Refusing to touch the wrong project's data.",
         );
       }
       branch = null;

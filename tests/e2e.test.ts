@@ -17,7 +17,6 @@ import { approveTaskDocs, draftTaskDocs } from "../src/planning/index.js";
 import { buildResumeContext } from "../src/resume/index.js";
 import { buildSessionSummary } from "../src/session/index.js";
 import { getTask, registerTask, setTaskStatus } from "../src/tasks/index.js";
-import { getTasteRule, listTasteRules, proposeTasteRule, reviewTasteRule } from "../src/taste/index.js";
 import { assertContextCurrent, startSession } from "../src/validation/index.js";
 import { verifyChecks } from "../src/verify/index.js";
 import { completeTaskWithVerification } from "../src/verify/index.js";
@@ -31,7 +30,7 @@ function git(dir: string, ...args: string[]): string {
   return execFileSync("git", args, { cwd: dir, encoding: "utf8" }).trim();
 }
 
-test("OLC-072 full MVP journey: init → plan → build → checkpoint → resume → restore → taste → summary", () => {
+test("OLC-072 full journey: init → plan → build → checkpoint → resume → restore → summary", () => {
   // 1. INIT dummy app + vault.
   const repo = mkdtempSync(join(tmpdir(), "olc072-app-"));
   git(repo, "init", "-q", "-b", "main");
@@ -101,23 +100,15 @@ test("OLC-072 full MVP journey: init → plan → build → checkpoint → resum
   assert.equal(readFileSync(join(repo, "app.txt"), "utf8"), v2);
   assert.equal(git(repo, "merge-base", "--is-ancestor", `${sha2}`, "HEAD"), "");
 
-  // 7. TASTE: pending is inactive; only approval activates.
-  proposeTasteRule({ projectRoot: repo, config, name: "no-any", rule: "Hindari `any`; pakai tipe eksplisit.", examples: ["T-1: koreksi `any` ke `unknown`"] });
-  assert.equal(getTasteRule(repo, config, "no-any")?.status, "pending");
-  assert.deepEqual(listTasteRules({ projectRoot: repo, config, status: "active" }), []);
-  reviewTasteRule({ projectRoot: repo, config, name: "no-any", approve: true });
-  assert.equal(listTasteRules({ projectRoot: repo, config, status: "active" }).length, 1);
-
-  // 8. SUMMARY in plain language, claims mapped to real data.
+  // 7. SUMMARY in plain language, claims mapped to real data.
   const outcome = verifyChecks([{ name: "smoke", command: [NODE, "-e", "process.exit(0)"] }], repo);
   const summary = buildSessionSummary({ projectRoot: repo, config, whatDone: ["Menyelesaikan subtotal T-1."], verifyOutcome: outcome, checkpointSha: sha1, checkpointTaskId: "T-1", remaining: [], nextStep: "Minta persetujuan menutup T-1.", date: DATE });
   assert.match(summary.markdown, /1\/1 pemeriksaan berhasil/);
   assert.match(summary.markdown, new RegExp(sha1));
   assert.match(summary.markdown, /berakhir normal/);
 
-  // 9. WRONG-PROJECT gate still blocks at every layer.
+  // 8. WRONG-PROJECT gate still blocks at every layer.
   const wrong: ResolvedConfig = { ...config, projectId: "ghost" };
   assert.throws(() => buildResumeContext({ projectRoot: repo, config: wrong }), IdentityError);
-  assert.throws(() => getTasteRule(repo, wrong, "no-any"), IdentityError);
   assert.throws(() => completeTask(frame, wrong, repo, DATE), (e: unknown) => e instanceof BuildError && e.code === "CONTEXT_MISMATCH");
 });

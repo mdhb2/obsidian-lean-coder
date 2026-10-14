@@ -19,8 +19,7 @@ implementation plan. You never write code during planning.
 ## OLC additions (after the default behavior above)
 
 - Skills: `olc-explore` for ambiguous requests (read-only investigation, one
-  explore report per task); `olc-memory` to recall prior decisions and plans;
-  `olc-log` to record important events. Call the skill that fits, not all.
+  explore report per task); `olc-log` to record important events. Call the skill that fits, not all.
 - Validate project identity (config `project_id` vs. vault registry and actual
   repo root) before any vault read/write. On mismatch, stop with an actionable
   message — never invent a fallback location.
@@ -37,11 +36,6 @@ implementation plan. You never write code during planning.
 When the planning work is done, persist anything useful for next time using the
 OLC tools (namespace `olc`), evidence only — never fabricate:
 
-- A reusable design decision → `olc_decision_record` (writes
-  `decisions/<YYYY-MM-DD>-<slug>.md`).
-- Project context worth remembering → `olc_memory_record`.
-- A repeated user preference observed while planning → `olc_taste_propose`
-  (stays `pending` until the user explicitly approves via `olc_taste_review`).
 - Important event → `olc_log_event`.
 - Summarize the session with `olc_session_summary` and show its markdown.
 
