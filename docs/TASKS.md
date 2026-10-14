@@ -620,7 +620,7 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Date:** 2026-10-14
 - **Implemented:** `skills/olc-todoc/SKILL.md`, `bin/olc-setup.js`, `tests/setup.test.ts`, `README.md`, `AGENTS.md`, `docs/TASKS.md`, version 0.8.0 (`package.json` via `npm pkg set` + lockfile root sync; `src/index.ts` `OLC_VERSION`; `CHANGELOG.md` 0.8.0 entry).
 - **Verification commands/results:** `npm run typecheck` clean; `npm run build` clean; `npm test` → 156 pass / 0 fail (incl. updated `tests/setup.test.ts` counts 6→7); `npm pack --dry-run` → 62 files incl. `skills/olc-todoc/SKILL.md`, no memory/taste/decision remnants; `node bin/olc-setup.js setup --dry-run` → 7 created (2 agents + 5 skills). No publish — requires separate explicit user approval.
-- **Evidence/files/commit:** Pending — commit + tag `v0.8.0` + tag push per user request.
+- **Evidence/files/commit:** `c41b468` "OLC-082: standalone olc-todoc skill, release 0.8.0" (10 files listed under Implemented); tag `v0.8.0` (annotated) pushed to `origin`.
 - **Remaining issues:** Publish of 0.8.0 requires the user — never run by the agent.
 - **Next task:** None yet — pending verification then user direction.
 
