@@ -57,7 +57,7 @@ test("clean interruption surfaces state, task, docs, events, checkpoint", () => 
   const config = configFor(vault);
   writeVaultDoc(resolveVaultDoc(vault, "proj", "current-state.md"), "# State\n\nWorking on T1.\n");
   seedTask(vault, "T1", "main", "2026-10-12T10:00:00.000Z");
-  setTaskStatus(vault, "proj", "T1", "approved", "2026-10-12T10:01:00.000Z");
+  setTaskStatus(vault, "proj", "T1", "active", "2026-10-12T10:01:00.000Z");
   logEvent({ projectRoot: repo, config, event: { kind: "session", summary: "did stuff", date: "2026-10-12T10:02:00.000Z" } });
   logEvent({ projectRoot: repo, config, event: { kind: "verify", summary: "tests green", date: "2026-10-12T10:03:00.000Z" } });
   logEvent({ projectRoot: repo, config, event: { kind: "checkpoint", summary: "cp1", taskId: "T1", gitSha: head, date: "2026-10-12T10:04:00.000Z" } });

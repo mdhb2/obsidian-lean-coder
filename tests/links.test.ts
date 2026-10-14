@@ -9,6 +9,8 @@ import type { ResolvedConfig } from "../src/config/index.js";
 import { renderTemplate } from "../src/vault/index.js";
 import { initProject } from "../src/init/index.js";
 import { draftTaskDocs, reviseTaskDocs } from "../src/planning/index.js";
+import { finalizeTask } from "../src/finalize/index.js";
+import { registerTask, setTaskStatus } from "../src/tasks/index.js";
 import { logEvent, readLogDay } from "../src/log/index.js";
 import { appendCheckpointRecord } from "../src/git/checkpoint.js";
 
@@ -70,6 +72,11 @@ function templateVars(): Record<string, string> {
     results: "r",
     remaining: "x",
     next_step: "n",
+    objective: "o",
+    plan: "p",
+    history: "h",
+    checkpoints: "c",
+    highlights: "hl",
   };
 }
 
@@ -89,11 +96,12 @@ function markdownFiles(dir: string): string[] {
 
 test("every doc template ships a Terkait section with relative wikilinks", () => {
   const expected: Record<string, string[]> = {
-    intent: ["[[../T-1/plan]]", "[[../../index]]", "[[../../current-state]]"],
-    plan: ["[[../T-1/intent]]", "[[../T-1/history]]", "[[../../index]]", "[[../../current-state]]"],
+    intent: ["[[../T-1/plan]]", "[[../../../index]]", "[[../../../current-state]]"],
+    plan: ["[[../T-1/intent]]", "[[../T-1/history]]", "[[../../../index]]", "[[../../../current-state]]"],
     checkpoint: ["[[../T-1/intent]]", "[[../T-1/plan]]", "[[../T-1/history]]"],
-    "explore-report": ["[[../../T-1/intent]]", "[[../../T-1/plan]]", "[[../../index]]"],
+    "explore-report": ["[[../../T-1/intent]]", "[[../../T-1/plan]]", "[[../../../index]]"],
     "activity-log": ["[[../index]]", "[[../current-state]]"],
+    knowledge: ["[[../index]]", "[[../current-state]]", "[[../tasks/done/T-1/intent]]"],
   };
   for (const [name, links] of Object.entries(expected)) {
     const out = renderTemplate(name, templateVars());
@@ -135,6 +143,7 @@ function buildFixture(): { repo: string; vault: string; config: ResolvedConfig }
     tests: "npm test",
     risks: "None",
   };
+  registerTask(vault, PROJECT_ID, TASK_ID, "main", "2026-10-13");
   draftTaskDocs(vault, PROJECT_ID, TASK_ID, vars, vars);
   reviseTaskDocs(vault, PROJECT_ID, TASK_ID, "Scope narrowed.", "2026-10-13");
   appendCheckpointRecord(vault, PROJECT_ID, TASK_ID, {
@@ -160,8 +169,8 @@ function buildFixture(): { repo: string; vault: string; config: ResolvedConfig }
   return { repo, vault, config };
 }
 
-test("fixture vault has zero broken wikilinks across every document", () => {
-  const { vault } = buildFixture();
+/** Every `[[wikilink]]` under the project scope must resolve to a real file. */
+function scanLinks(vault: string): { broken: string[]; checked: number } {
   const scope = resolve(vault, "OLC", "Projects", PROJECT_ID);
   const broken: string[] = [];
   let checked = 0;
@@ -178,8 +187,24 @@ test("fixture vault has zero broken wikilinks across every document", () => {
       if (!existsSync(resolved)) broken.push(`${file} → [[${path}]]`);
     }
   }
+  return { broken, checked };
+}
+
+test("fixture vault has zero broken wikilinks across every document", () => {
+  const { vault } = buildFixture();
+  const { broken, checked } = scanLinks(vault);
   assert.ok(checked > 10, `fixture produced a linked graph (${checked} links checked)`);
   assert.deepEqual(broken, [], `broken links: ${broken.join("; ")}`);
+});
+
+test("finalizing keeps every wikilink resolving (log links rewritten)", () => {
+  const { repo, vault, config } = buildFixture();
+  setTaskStatus(vault, PROJECT_ID, TASK_ID, "active", "2026-10-13T10:00:00.000Z");
+  const out = finalizeTask({ projectRoot: repo, config, taskId: TASK_ID, date: DATE });
+  assert.ok(out.linksRewritten >= 1, "at least the day log was rewritten");
+  const { broken, checked } = scanLinks(vault);
+  assert.ok(checked > 10, `graph still linked after finalize (${checked} links checked)`);
+  assert.deepEqual(broken, [], `broken links after finalize: ${broken.join("; ")}`);
 });
 
 test("hub index.md and current-state.md link to each other", () => {
@@ -214,7 +239,7 @@ test("log entries link to their task docs and still round-trip", () => {
   const terkaitLines = text.split("\n").filter((line) => line.startsWith("- terkait:"));
   assert.equal(terkaitLines.length, 1, "only the task event carries Terkait links");
   assert.ok(
-    text.includes(`- terkait: [[../tasks/${TASK_ID}/intent]], [[../tasks/${TASK_ID}/plan]]`),
+    text.includes(`- terkait: [[../tasks/active/${TASK_ID}/intent]], [[../tasks/active/${TASK_ID}/plan]]`),
     "task event carries Terkait links into the daily log",
   );
   // The unknown `terkait` key must not leak into parsed data.

@@ -46,7 +46,7 @@ function seedTask(vault: string): void {
     { what: "w", why: "y", nonGoals: "n", openQuestions: "q" },
     { approach: "a", steps: "s", acceptanceCriteria: "c", tests: "t", risks: "r" },
   );
-  setTaskStatus(vault, "proj", "T-7", "approved", DATE);
+  setTaskStatus(vault, "proj", "T-7", "active", DATE);
 }
 
 test("normal completion: Indonesian summary maps real outcome, checkpoint, log", () => {
@@ -107,7 +107,7 @@ test("blocked session: work done, failing tests, blocker stated, no checkpoint c
   assert.match(result.markdown, /Tidak ada checkpoint baru/);
   assert.match(result.markdown, /typecheck: gagal \(2 percobaan\)/);
   // Open-task line + no failed-claim overreach.
-  assert.match(result.markdown, /Task terbuka: T-7 \(approved\)/);
+  assert.match(result.markdown, /Task terbuka: T-7 \(active\)/);
   assert.doesNotMatch(result.markdown, /Checkpoint tersimpan/);
 });
 

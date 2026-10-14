@@ -11,8 +11,8 @@ import {
   resumeAfterRevision,
 } from "../src/approval/index.js";
 import { approveTaskDocs, draftTaskDocs, getDocStatuses } from "../src/planning/index.js";
-import { getTask, registerTask, setTaskStatus } from "../src/tasks/index.js";
-import { readVaultDoc, resolveVaultDoc } from "../src/vault/index.js";
+import { getTask, registerTask, resolveTaskDir, setTaskStatus } from "../src/tasks/index.js";
+import { readVaultDoc } from "../src/vault/index.js";
 
 const DATE = "2026-10-12";
 
@@ -30,7 +30,7 @@ function setupTask(taskId: string, branch: string | null = "main"): string {
 }
 
 function readBody(vault: string, taskId: string, doc: string): string {
-  return readVaultDoc(resolveVaultDoc(vault, "proj", "tasks", taskId, doc));
+  return readVaultDoc(join(resolveTaskDir(vault, "proj", taskId), doc));
 }
 
 function assertApprovalError(fn: () => unknown, code: string): ApprovalError {
@@ -58,24 +58,24 @@ test("registry draft with approved docs still blocks (cross-check)", () => {
   assert.match(err.message, /registry status is draft/);
 });
 
-test("approved plan passes the build gate", () => {
+test("approved plan passes the build gate when active or pending", () => {
   const vault = setupTask("t-ok");
-  setTaskStatus(vault, "proj", "t-ok", "approved", DATE);
+  setTaskStatus(vault, "proj", "t-ok", "active", DATE);
   approveTaskDocs(vault, "proj", "t-ok", DATE);
   assertBuildReady(vault, "proj", "t-ok");
-  setTaskStatus(vault, "proj", "t-ok", "in_progress", DATE);
+  setTaskStatus(vault, "proj", "t-ok", "pending", DATE);
   assertBuildReady(vault, "proj", "t-ok");
 });
 
 test("revision request parks the task without touching approved bodies", () => {
   const vault = setupTask("t-scope");
-  setTaskStatus(vault, "proj", "t-scope", "approved", DATE);
+  setTaskStatus(vault, "proj", "t-scope", "active", DATE);
   approveTaskDocs(vault, "proj", "t-scope", DATE);
   const beforeIntent = readBody(vault, "t-scope", "intent.md");
   const beforePlan = readBody(vault, "t-scope", "plan.md");
   const moved = requestScopeChange(vault, "proj", "t-scope", "user wants Postgres instead", DATE);
-  assert.deepEqual(moved, { registryFrom: "approved", registryTo: "draft" });
-  assert.equal(getTask(vault, "proj", "t-scope")?.status, "draft");
+  assert.deepEqual(moved, { registryFrom: "active", registryTo: "pending" });
+  assert.equal(getTask(vault, "proj", "t-scope")?.status, "pending");
   assert.deepEqual(getDocStatuses(vault, "proj", "t-scope"), { intent: "draft", plan: "draft" });
   // Bodies byte-identical: the approved plan was NOT silently replaced.
   const stripStatus = (text: string): string => text.replace(/^status: .*$/m, "");
@@ -88,16 +88,16 @@ test("revision request parks the task without touching approved bodies", () => {
   assertApprovalError(() => assertBuildReady(vault, "proj", "t-scope"), "NOT_APPROVED");
 });
 
-test("scope change from in_progress parks to review, resume restores execution", () => {
+test("scope change from pending stays parked, resume restores execution", () => {
   const vault = setupTask("t-resume");
-  setTaskStatus(vault, "proj", "t-resume", "approved", DATE);
+  setTaskStatus(vault, "proj", "t-resume", "active", DATE);
   approveTaskDocs(vault, "proj", "t-resume", DATE);
-  setTaskStatus(vault, "proj", "t-resume", "in_progress", DATE);
+  setTaskStatus(vault, "proj", "t-resume", "pending", DATE);
   const moved = requestScopeChange(vault, "proj", "t-resume", "API shape changed", DATE);
-  assert.deepEqual(moved, { registryFrom: "in_progress", registryTo: "review" });
+  assert.deepEqual(moved, { registryFrom: "pending", registryTo: "pending" });
   assertApprovalError(() => assertBuildReady(vault, "proj", "t-resume"), "NOT_APPROVED");
   const resumed = resumeAfterRevision(vault, "proj", "t-resume", DATE);
-  assert.deepEqual(resumed, { registryFrom: "review", registryTo: "in_progress" });
+  assert.deepEqual(resumed, { registryFrom: "pending", registryTo: "active" });
   assert.deepEqual(getDocStatuses(vault, "proj", "t-resume"), {
     intent: "approved",
     plan: "approved",
@@ -115,8 +115,8 @@ test("scope change and resume reject invalid states", () => {
   // Unknown task.
   assertApprovalError(() => requestScopeChange(vault, "proj", "nope", "x", DATE), "INVALID_STATE");
   assertApprovalError(() => resumeAfterRevision(vault, "proj", "nope", DATE), "INVALID_STATE");
-  // Approved but never parked → nothing to resume.
-  setTaskStatus(vault, "proj", "t-invalid", "approved", DATE);
+  // Active but never parked → nothing to resume.
+  setTaskStatus(vault, "proj", "t-invalid", "active", DATE);
   approveTaskDocs(vault, "proj", "t-invalid", DATE);
   assertApprovalError(() => resumeAfterRevision(vault, "proj", "t-invalid", DATE), "INVALID_STATE");
   // Double scope change while parked → already parked.

@@ -197,4 +197,5 @@ export const BUNDLED_TEMPLATES = [
   "checkpoint",
   "activity-log",
   "session-summary",
+  "knowledge",
 ] as const;

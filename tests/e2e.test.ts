@@ -54,12 +54,12 @@ test("OLC-072 full journey: init → plan → build → checkpoint → resume �
   draftTaskDocs(vault, "shop", "T-1", INTENT, PLAN);
   assert.throws(() => beginTask({ config, taskId: "T-1", touchPaths: ["app.txt"], startDir: repo, date: DATE }), (e: unknown) => e instanceof BuildError && e.code === "NOT_READY");
   approveTaskDocs(vault, "shop", "T-1", DATE);
-  setTaskStatus(vault, "shop", "T-1", "approved", DATE);
+  setTaskStatus(vault, "shop", "T-1", "active", DATE);
   assertBuildReady(vault, "shop", "T-1");
 
   // 3. BUILD + TEST. Out-of-scope completion must be blocked.
   const frame = beginTask({ config, taskId: "T-1", touchPaths: ["app.txt"], startDir: repo, date: DATE });
-  assert.equal(getTask(vault, "shop", "T-1")?.status, "in_progress");
+  assert.equal(getTask(vault, "shop", "T-1")?.status, "active");
   writeFileSync(join(repo, "smuggled.txt"), "x\n");
   assert.throws(
     () => completeTaskWithVerification(frame, config, repo, [{ name: "smoke", command: [NODE, "-e", "process.exit(0)"] }], { date: DATE }),
@@ -69,7 +69,7 @@ test("OLC-072 full journey: init → plan → build → checkpoint → resume �
   writeFileSync(join(repo, "app.txt"), "v2 subtotal\n");
   const done = completeTaskWithVerification(frame, config, repo, [{ name: "smoke", command: [NODE, "-e", "process.exit(0)"] }], { date: DATE });
   assert.equal(done.verified, true);
-  assert.equal(getTask(vault, "shop", "T-1")?.status, "review");
+  assert.equal(getTask(vault, "shop", "T-1")?.status, "active");
   logEvent({ projectRoot: repo, config, event: { kind: "verify", summary: "smoke tests green for T-1", taskId: "T-1", date: DATE } });
 
   // 4. CHECKPOINT twice (second commit = later history to preserve).

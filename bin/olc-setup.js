@@ -34,6 +34,7 @@ const OWNED_FILES = [
   ["agents/olc-build.md", ".opencode/agents/olc-build.md"],
   ["skills/olc-init/SKILL.md", ".opencode/skills/olc-init/SKILL.md"],
   ["skills/olc-explore/SKILL.md", ".opencode/skills/olc-explore/SKILL.md"],
+  ["skills/olc-task/SKILL.md", ".opencode/skills/olc-task/SKILL.md"],
   ["skills/olc-log/SKILL.md", ".opencode/skills/olc-log/SKILL.md"],
 ];
 

@@ -6,24 +6,26 @@
  *    approval gate (OLC-034) must pass, otherwise implementation is blocked
  *    before it starts. Returns a frame carrying ONLY the approved task's
  *    context (intent/plan bodies), never the whole vault. The caller declares
- *    which repo-relative paths it will touch; the registry task moves
- *    approved→in_progress.
+ *    which repo-relative paths it will touch; a `pending` task is resumed
+ *    (moved back to `active`), an `active` task stays put.
  * 2. `completeTask` — identity re-checked, then the working tree is diffed:
  *    any change outside the declared paths throws SCOPE_CHANGED (out-of-scope
- *    work is proposed via the error, not performed). Clean frames move the
- *    registry task in_progress→review.
+ *    work is proposed via the error, not performed). Clean frames stay
+ *    `active` and record a history entry (closing the task is a separate,
+ *    user-confirmed finalization).
  *
  * Git access here is deliberately minimal (HEAD sha + porcelain status);
  * the full inspection module is OLC-051's job and may consolidate these.
  */
 
 import { execFileSync } from "node:child_process";
+import { join } from "node:path";
 
 import { assertBuildReady } from "../approval/index.js";
 import type { ResolvedConfig } from "../config/index.js";
 import { validateIdentity } from "../core/project-identity.js";
-import { getTask, setTaskStatus } from "../tasks/index.js";
-import { readVaultDoc, resolveVaultDoc, writeVaultDoc } from "../vault/index.js";
+import { getTask, resolveTaskDir, setTaskStatus } from "../tasks/index.js";
+import { readVaultDoc, writeVaultDoc } from "../vault/index.js";
 
 export type BuildErrorCode =
   | "NOT_READY"
@@ -107,7 +109,7 @@ function appendTaskHistory(
   reason: string,
   date: string,
 ): void {
-  const history = resolveVaultDoc(vaultRoot, projectId, "tasks", taskId, "history.md");
+  const history = join(resolveTaskDir(vaultRoot, projectId, taskId), "history.md");
   let existing = "";
   try {
     existing = readVaultDoc(history);
@@ -151,13 +153,14 @@ export function beginTask(input: BeginTaskInput): BuildFrame {
   if (task === null) {
     throw new BuildError("NO_TASK", `Build blocked: task "${input.taskId}" is not registered.`);
   }
-  if (task.status === "approved") {
-    setTaskStatus(vaultRoot, projectId, input.taskId, "in_progress", today(input.date));
+  if (task.status === "pending") {
+    setTaskStatus(vaultRoot, projectId, input.taskId, "active", today(input.date));
   }
+  const taskDir = resolveTaskDir(vaultRoot, projectId, input.taskId);
   return {
     taskId: input.taskId,
-    intentBody: readVaultDoc(resolveVaultDoc(vaultRoot, projectId, "tasks", input.taskId, "intent.md")),
-    planBody: readVaultDoc(resolveVaultDoc(vaultRoot, projectId, "tasks", input.taskId, "plan.md")),
+    intentBody: readVaultDoc(join(taskDir, "intent.md")),
+    planBody: readVaultDoc(join(taskDir, "plan.md")),
     declaredPaths: (input.touchPaths ?? []).map(normalize),
     baseHead: git(repoRoot, "rev-parse", "HEAD"),
     startedAt: new Date().toISOString(),
@@ -187,8 +190,8 @@ export function completeTask(
     );
   }
   const task = getTask(config.vaultPath, config.projectId, frame.taskId);
-  if (task !== null && task.status === "in_progress") {
-    setTaskStatus(config.vaultPath, config.projectId, frame.taskId, "review", today(date));
+  if (task !== null && task.status === "pending") {
+    setTaskStatus(config.vaultPath, config.projectId, frame.taskId, "active", today(date));
   }
   appendTaskHistory(
     config.vaultPath,

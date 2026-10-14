@@ -59,14 +59,14 @@ test("draft creates both docs with draft status", () => {
 test("draft twice does not silently replace", () => {
   const vault = makeVault();
   draftTaskDocs(vault, "proj", "T-1", INTENT, PLAN);
-  const before = readVaultDoc(join(vault, "OLC", "Projects", "proj", "tasks", "T-1", "plan.md"));
+  const before = readVaultDoc(join(vault, "OLC", "Projects", "proj", "tasks", "active", "T-1", "plan.md"));
   try {
     draftTaskDocs(vault, "proj", "T-1", INTENT, PLAN);
     assert.fail("expected second draft to throw");
   } catch (error) {
     assert.ok(error instanceof Error);
   }
-  assert.equal(readVaultDoc(join(vault, "OLC", "Projects", "proj", "tasks", "T-1", "plan.md")), before);
+  assert.equal(readVaultDoc(join(vault, "OLC", "Projects", "proj", "tasks", "active", "T-1", "plan.md")), before);
 });
 
 test("gate blocks implementation before approval, passes after", () => {
@@ -91,10 +91,10 @@ test("revision preserves history and requires re-approval", () => {
   });
   assert.deepEqual(getDocStatuses(vault, "proj", "T-1"), { intent: "draft", plan: "draft" });
   assertPlanningError(() => assertApproved(vault, "proj", "T-1"), "NOT_APPROVED");
-  const history = readVaultDoc(join(vault, "OLC", "Projects", "proj", "tasks", "T-1", "history.md"));
+  const history = readVaultDoc(join(vault, "OLC", "Projects", "proj", "tasks", "active", "T-1", "history.md"));
   assert.ok(history.includes("Scope grew: also handle Z."));
   assert.ok(history.includes("approved"), "approval event is preserved in history");
-  assert.ok(readVaultDoc(join(vault, "OLC", "Projects", "proj", "tasks", "T-1", "plan.md")).includes("medium now"));
+  assert.ok(readVaultDoc(join(vault, "OLC", "Projects", "proj", "tasks", "active", "T-1", "plan.md")).includes("medium now"));
   approveTaskDocs(vault, "proj", "T-1", DATE);
   assertApproved(vault, "proj", "T-1");
 });
@@ -109,7 +109,7 @@ test("rejected plan blocks the gate and records the reason", () => {
   });
   const err = assertPlanningError(() => assertApproved(vault, "proj", "T-1"), "NOT_APPROVED");
   assert.match(err.message, /rejected/);
-  const history = readVaultDoc(join(vault, "OLC", "Projects", "proj", "tasks", "T-1", "history.md"));
+  const history = readVaultDoc(join(vault, "OLC", "Projects", "proj", "tasks", "active", "T-1", "history.md"));
   assert.ok(history.includes("Wrong direction entirely."));
 });
 

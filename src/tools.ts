@@ -17,8 +17,15 @@
 import type { Plugin } from "@opencode/plugin";
 
 import { loadConfig } from "./config/index.js";
+import { finalizeTask } from "./finalize/index.js";
 import { logEvent, type LogEventArgs, type LogEventKind } from "./log/index.js";
+import { buildResumeContext } from "./resume/index.js";
 import { buildSessionSummary, type SessionSummaryInput } from "./session/index.js";
+import {
+  listOpenTasks,
+  migrateTaskLayout,
+  recommendNext,
+} from "./tasks/index.js";
 
 /** Error shape every module throws with (some have `code`, some do not). */
 function toOlcError(error: unknown): { code: string; message: string } {
@@ -139,6 +146,99 @@ export async function registerOlcTools(
           };
           const result = buildSessionSummary(input);
           return ok({ markdown: result.markdown, logFile: result.logFile, date: result.date });
+        } catch (error) {
+          return fail(error);
+        }
+      },
+    });
+    editor.add({
+      name: "next_task",
+      description:
+        "Answer 'what is the next task?': recommend the most recently active open task (current branch preferred). Read-only, never resumes anything by itself.",
+      input: {
+        type: "object",
+        properties: {
+          branch: { type: "string", description: "Current git branch. Omit when unknown." },
+        },
+        additionalProperties: false,
+      },
+      options: { namespace: "olc" },
+      execute: async (raw: unknown) => {
+        const r = (raw ?? {}) as Record<string, unknown>;
+        try {
+          const config = loadConfig(dir);
+          migrateTaskLayout(config.vaultPath, config.projectId);
+          const branch = typeof r.branch === "string" && r.branch.trim() !== "" ? r.branch : null;
+          const rec = recommendNext(config.vaultPath, config.projectId, branch);
+          const open = listOpenTasks(config.vaultPath, config.projectId).map((t) => ({
+            taskId: t.taskId,
+            status: t.entry.status,
+            branch: t.entry.branch,
+            updatedAt: t.entry.updatedAt,
+          }));
+          return ok({ recommendedTaskId: rec.taskId, note: rec.note, openTasks: open });
+        } catch (error) {
+          return fail(error);
+        }
+      },
+    });
+
+    editor.add({
+      name: "project_status",
+      description:
+        "Answer 'what is the project status?': full resume context with every open task, recent events, last checkpoint, and which task to continue. Read-only.",
+      input: {
+        type: "object",
+        properties: {
+          lastEventsLimit: { type: "number", description: "Max recent log events. Default 5." },
+        },
+        additionalProperties: false,
+      },
+      options: { namespace: "olc" },
+      execute: async (raw: unknown) => {
+        const r = (raw ?? {}) as Record<string, unknown>;
+        try {
+          const config = loadConfig(dir);
+          const ctx = buildResumeContext({
+            projectRoot: dir,
+            config,
+            lastEventsLimit: r.lastEventsLimit as number | undefined,
+          });
+          const rec = recommendNext(config.vaultPath, config.projectId, ctx.branch);
+          return ok({ ...ctx, recommendedTaskId: rec.taskId, recommendationNote: rec.note });
+        } catch (error) {
+          return fail(error);
+        }
+      },
+    });
+
+    editor.add({
+      name: "task_finalize",
+      description:
+        "Finalize a task ONLY on explicit user request ('task X selesai'). Writes knowledge/<task>.md, moves the task to tasks/done/, marks it done (immutable), and logs the event.",
+      input: {
+        type: "object",
+        properties: {
+          taskId: { type: "string", description: "Registered task id to finalize." },
+          highlights: { type: "string", description: "Optional extra notes for the knowledge file." },
+          date: { type: "string", description: "ISO timestamp. Default now." },
+        },
+        required: ["taskId"],
+        additionalProperties: false,
+      },
+      options: { namespace: "olc" },
+      execute: async (raw: unknown) => {
+        const r = (raw ?? {}) as Record<string, unknown>;
+        try {
+          const config = loadConfig(dir);
+          const out = finalizeTask({
+            projectRoot: dir,
+            config,
+            taskId: r.taskId as string,
+            highlights: r.highlights as string | undefined,
+            date: r.date as string | undefined,
+          });
+          return ok({ taskId: out.taskId, knowledgeFile: out.knowledgeFile, taskDir: out.taskDir, linksRewritten: out.linksRewritten, date: out.date });
         } catch (error) {
           return fail(error);
         }

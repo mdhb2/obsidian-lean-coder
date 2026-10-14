@@ -176,7 +176,7 @@ export type CompleteWithVerificationResult =
 
 /**
  * Verify first, complete only on pass. On failure the task registry is left
- * untouched (still in_progress) and the caller must stop + report the
+ * untouched (still active) and the caller must stop + report the
  * outcome (escalation) instead of claiming success.
  */
 export function completeTaskWithVerification(

@@ -25,5 +25,5 @@ project: {{project_id}}
 ## Terkait (dokumen terkait)
 
 - [[../{{task_id}}/plan]] — rencana kerja untuk intent ini
-- [[../../index]] — hub memori proyek
-- [[../../current-state]] — status terbaru proyek
+- [[../../../index]] — hub memori proyek
+- [[../../../current-state]] — status terbaru proyek

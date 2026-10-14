@@ -29,6 +29,7 @@ import { readLastEvents, type LoggedEvent } from "../log/index.js";
 import { getDocStatuses } from "../planning/index.js";
 import {
   TERMINAL_STATUSES,
+  migrateTaskLayout,
   readRegistry,
   recommendResume,
   type TaskEntry,
@@ -120,6 +121,8 @@ export function buildResumeContext(args: ResumeArgs): ResumeContext {
     }
   }
   const head = git(repoRoot, ["rev-parse", "HEAD"]);
+  // Bring pre-multitask vaults onto the current layout before reading.
+  migrateTaskLayout(vaultRoot, projectId);
   const sets = parsePorcelain(git(repoRoot, ["status", "--porcelain=v1", "-uall"]));
   const registry = readRegistry(vaultRoot, projectId);
   const openTasks: ResumeTask[] = Object.entries(registry.tasks)

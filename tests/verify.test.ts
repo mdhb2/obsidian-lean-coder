@@ -45,7 +45,7 @@ function setup(taskId: string): { repo: string; config: ResolvedConfig } {
     { what: "w", why: "y", nonGoals: "n", openQuestions: "q" },
     { approach: "a", steps: "s", acceptanceCriteria: "c", tests: "t", risks: "r" },
   );
-  setTaskStatus(vault, "proj", taskId, "approved", DATE);
+  setTaskStatus(vault, "proj", taskId, "active", DATE);
   approveTaskDocs(vault, "proj", taskId, DATE);
   const config: ResolvedConfig = { schemaVersion: 1, projectId: "proj", vaultPath: vault };
   return { repo, config };
@@ -126,7 +126,7 @@ test("failed verification leaves the registry untouched", () => {
   if (result.verified) return;
   assert.equal(result.status, "verify-failed");
   assert.match(result.report, /FAIL/);
-  assert.equal(getTask(config.vaultPath, "proj", "t-verify-fail")!.status, "in_progress");
+  assert.equal(getTask(config.vaultPath, "proj", "t-verify-fail")!.status, "active");
 });
 
 test("passed verification delegates to completion", () => {
@@ -139,5 +139,5 @@ test("passed verification delegates to completion", () => {
   assert.equal(result.verified, true);
   if (!result.verified) return;
   assert.deepEqual(result.changed, ["app.txt"]);
-  assert.equal(getTask(config.vaultPath, "proj", "t-verify-pass")!.status, "review");
+  assert.equal(getTask(config.vaultPath, "proj", "t-verify-pass")!.status, "active");
 });

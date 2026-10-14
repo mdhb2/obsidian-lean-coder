@@ -38,7 +38,7 @@ function makeVault(projectId: string, repoRoot: string): string {
 
 const DATE = "2026-10-12T00:00:00.000Z";
 
-function setup(status: "in_progress" | "review" | "done" = "in_progress"): {
+function setup(status: "active" | "pending" | "done" = "active"): {
   repo: string;
   vault: string;
   config: ResolvedConfig;
@@ -46,10 +46,9 @@ function setup(status: "in_progress" | "review" | "done" = "in_progress"): {
   const repo = makeRepo();
   const vault = makeVault("proj", repo);
   registerTask(vault, "proj", "T-1", "main", DATE);
-  setTaskStatus(vault, "proj", "T-1", "approved", DATE);
-  setTaskStatus(vault, "proj", "T-1", "in_progress", DATE);
-  if (status === "review" || status === "done") {
-    setTaskStatus(vault, "proj", "T-1", "review", DATE);
+  setTaskStatus(vault, "proj", "T-1", "active", DATE);
+  if (status === "pending") {
+    setTaskStatus(vault, "proj", "T-1", "pending", DATE);
   }
   if (status === "done") {
     setTaskStatus(vault, "proj", "T-1", "done", DATE);
@@ -141,11 +140,11 @@ test("unchanged tree creates no commit and no record", () => {
   });
   assert.equal(result.status, "clean");
   assert.equal(commitCount(repo), "1");
-  assert.equal(existsSync(join(vault, "OLC", "Projects", "proj", "tasks", "T-1", "checkpoint.md")), false);
+  assert.equal(existsSync(join(vault, "OLC", "Projects", "proj", "tasks", "active", "T-1", "checkpoint.md")), false);
 });
 
 test("task-final without a verification outcome is not-ready with zero mutation", () => {
-  const { repo, config } = setup("review");
+  const { repo, config } = setup("active");
   writeFileSync(join(repo, "app.txt"), "v1\nWORK\n");
   const result = maybeCheckpointPolicy({
     projectRoot: repo,
@@ -161,7 +160,7 @@ test("task-final without a verification outcome is not-ready with zero mutation"
 });
 
 test("task-final with failing verification returns verify-failed, registry untouched", () => {
-  const { repo, vault, config } = setup("in_progress");
+  const { repo, vault, config } = setup("active");
   writeFileSync(join(repo, "app.txt"), "v1\nWORK\n");
   const result = maybeCheckpointPolicy({
     projectRoot: repo,
@@ -181,11 +180,11 @@ test("task-final with failing verification returns verify-failed, registry untou
   const registry = JSON.parse(
     readFileSync(join(vault, "OLC", "Projects", "proj", "tasks", "registry.json"), "utf8"),
   );
-  assert.equal(registry.tasks["T-1"].status, "in_progress");
+  assert.equal(registry.tasks["T-1"].status, "active");
 });
 
-test("task-final with passing checks but task not in review is not-ready", () => {
-  const { repo, config } = setup("in_progress");
+test("task-final with passing checks but pending task is not-ready", () => {
+  const { repo, config } = setup("pending");
   writeFileSync(join(repo, "app.txt"), "v1\nWORK\n");
   const outcome = verifyChecks(
     [{ name: "ok", command: ["node", "-e", "process.exit(0)"] }],
@@ -204,12 +203,12 @@ test("task-final with passing checks but task not in review is not-ready", () =>
   });
   assert.equal(result.status, "not-ready");
   if (result.status !== "not-ready") return;
-  assert.match(result.reason, /review/);
+  assert.match(result.reason, /"active"/);
   assert.equal(commitCount(repo), "1");
 });
 
-test("task-final full flow commits, flags user confirmation, leaves registry in review", () => {
-  const { repo, vault, config } = setup("review");
+test("task-final full flow commits, flags user confirmation, leaves registry active", () => {
+  const { repo, vault, config } = setup("active");
   writeFileSync(join(repo, "app.txt"), "v1\nWORK\n");
   const outcome = verifyChecks(
     [{ name: "checks", command: ["node", "-e", "process.exit(0)"] }],
@@ -232,7 +231,7 @@ test("task-final full flow commits, flags user confirmation, leaves registry in 
   const registry = JSON.parse(
     readFileSync(join(vault, "OLC", "Projects", "proj", "tasks", "registry.json"), "utf8"),
   );
-  assert.equal(registry.tasks["T-1"].status, "review");
+  assert.equal(registry.tasks["T-1"].status, "active");
 });
 
 test("task-final on an already closed task is not-ready", () => {

@@ -141,7 +141,7 @@ function formatEntry(event: Required<Pick<LogEventInput, "kind" | "summary">> & 
   // is a clickable node in the vault graph (second-brain navigation).
   if (event.taskId) {
     lines.push(
-      `- terkait: [[../tasks/${event.taskId}/intent]], [[../tasks/${event.taskId}/plan]]`,
+      `- terkait: [[../tasks/active/${event.taskId}/intent]], [[../tasks/active/${event.taskId}/plan]]`,
     );
   }
   return lines.join("\n") + "\n";

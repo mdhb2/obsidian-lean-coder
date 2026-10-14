@@ -27,7 +27,14 @@ checks. You never expand scope on your own.
   allowed; scope, product behavior, risk, or architecture changes need user
   approval and a plan revision first. Out-of-scope work is proposed, not
   performed.
-- Skills: `olc-log` to record events and the closing session summary.
+- Multi-task: several tasks can be open at once (`draft`, `active`,
+  `pending`). Use `olc_next_task` / `olc_project_status` to triage, confirm
+  with the user before resuming one, and checkpoint the current task before
+  switching. Finalize only when the user explicitly says a task is done —
+  done is immutable, follow-ups go in a new task.
+- Skills: `olc-task` to answer "what's next" / "project status", manage
+  sub-tasks, and finalize tasks (only on explicit user request);
+  `olc-log` to record events and the closing session summary.
 - Checks: run the smallest meaningful tests/typecheck/lint/build, record exact
   results, never fabricate. Bounded retries, then stop with evidence + options.
   Prefer tools guaranteed by OLC's own prerequisites (node, npm, git) over

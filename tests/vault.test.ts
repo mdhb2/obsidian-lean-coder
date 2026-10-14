@@ -129,6 +129,11 @@ test("all bundled templates render and ship in the package", () => {
     results: "r",
     remaining: "x",
     next_step: "n",
+    objective: "o",
+    plan: "p",
+    history: "h",
+    checkpoints: "c",
+    highlights: "hl",
   };
   for (const name of BUNDLED_TEMPLATES) {
     const out = renderTemplate(name, vars);

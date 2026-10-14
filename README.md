@@ -30,8 +30,8 @@ Requirements: OpenCode 2.x (V2 plugin API), Node >= 18.18.
 
 ### What `npx obsidian-lean-coder setup` does
 
-Installs `agents/olc-plan.md`, `agents/olc-build.md`, and the three skills
-(`olc-init`, `olc-explore`, `olc-log`) under
+Installs `agents/olc-plan.md`, `agents/olc-build.md`, and the four skills
+(`olc-init`, `olc-explore`, `olc-task`, `olc-log`) under
 `.opencode/` (project scope by default). `--global` installs under
 `~/.config/opencode` instead; `--dry-run` previews with no writes. Missing
 directories are created; existing OLC agent/skill files are overwritten with
@@ -57,13 +57,27 @@ What it creates (only when missing):
 
 - `<repo>/.olc/config.json` — `{ schemaVersion, projectId, vaultPath }`. No secrets (keys matching `secret|token|password|api-key` are rejected).
 - `<repo>/.olc/AGENTS.md` — stub instructions for agents. Review and customize.
-- `<vault>/OLC/Projects/<project_id>/{index.md, current-state.md, tasks/, logs/}`
+- `<vault>/OLC/Projects/<project_id>/{index.md, current-state.md, tasks/active/, tasks/done/, knowledge/, logs/}`
 - `<vault>/OLC/registry.json` — `{ projects: { "<id>": { repoRoot } } }` entry for this repo.
 
 Vault path precedence: explicit `vaultPath` > `OLC_VAULT_PATH` env > existing
 config. OLC never invents a vault location — missing path returns
 `needs-decision`, never a silent default. Re-running init is always safe:
 `created` becomes `preserved`.
+
+### Managing multiple tasks
+
+Several tasks can be open at once with statuses `draft`, `active`, `pending`
+(paused but resumable), and `done` (final, immutable — follow-ups go in a new
+task). Ask the agent "tugas selanjutnya apa?" (`olc_next_task`) or "status
+project apa?" (`olc_project_status`): it lists unfinished work and asks which
+task to continue. Sub-tasks (one level, own status) live under
+`tasks/active/<parent>/sub/<sub>/` and move along with their parent.
+
+Finalizing happens only on your explicit request ("task T-1 selesai"):
+the agent writes `knowledge/<task>.md` from the task's own records, moves the
+folder to `tasks/done/`, re-points the task's log links to `tasks/done/`, and
+logs the event — so the Obsidian graph stays unbroken.
 
 ### Contributing to OLC itself
 
@@ -75,7 +89,7 @@ npm test         # tsc -p tsconfig.tests.json && node --test "dist-tests/tests/*
 npm run typecheck
 ```
 
-Expected: build clean, typecheck clean, full suite green (currently 158
+Expected: build clean, typecheck clean, full suite green (currently 156
 tests). `npm pack --dry-run` shows what would ship (`dist/`, `agents/`,
 `skills/`, `templates/`).
 
@@ -115,7 +129,7 @@ file. Rules:
 
 1. `git pull` the OLC checkout.
 2. `npm ci && npm run build && npm test`.
-3. Re-run init for each consuming project (creates only missing files; your vault notes and checkpoints are untouched; legacy `decisions/`, `memory/`, `taste/` folders from older versions are removed).
+3. Re-run init for each consuming project (creates only missing files; your vault notes and checkpoints are untouched; legacy `decisions/`, `memory/`, `taste/` folders from older versions are removed; pre-multitask `tasks/<id>/` folders move to `tasks/active/` or `tasks/done/`).
 
 No migration step exists yet — templates live in the package (`templates/`); old vault documents are never auto-migrated.
 
@@ -126,7 +140,7 @@ Per consuming project:
 ```sh
 # 1. Remove OLC resources from the project
 rm -rf .opencode/agents/olc-plan.md .opencode/agents/olc-build.md \
-       .opencode/skills/olc-init .opencode/skills/olc-explore \
+       .opencode/skills/olc-init .opencode/skills/olc-explore .opencode/skills/olc-task \
        .opencode/skills/olc-log .olc
 # 2. Remove the plugin entry from opencode.json ("plugin": ["file:///..."])
 # 3. Optionally remove the vault scope (YOUR NOTES — back up first):

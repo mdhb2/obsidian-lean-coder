@@ -7,7 +7,7 @@
  *   never stack empty commits.
  * - `task-final`: the final checkpoint of a verified task. Created only when
  *   safe: verification fully passed AND the task registry already shows
- *   `review` (i.e. OLC-041 `completeTaskWithVerification` ran). Anything
+ *   `active` (i.e. `completeTaskWithVerification` ran). Anything
  *   else returns `not-ready` / `verify-failed` with zero git mutation.
  *
  * A commit is never treated as task completion: every result carries
@@ -111,11 +111,11 @@ export function maybeCheckpointPolicy(input: CheckpointPolicyInput): PolicyResul
       };
     }
     const task = getTask(config.vaultPath, config.projectId, taskId);
-    if (!task || task.status !== "review") {
+    if (!task || task.status !== "active") {
       return {
         status: "not-ready",
         reason:
-          `task-final checkpoint needs task ${taskId} in "review" status ` +
+          `task-final checkpoint needs task ${taskId} in "active" status ` +
           `(found: ${task ? `"${task.status}"` : "unregistered"}). ` +
           "Run completeTaskWithVerification first; the task still needs user confirmation to close. " +
           "No checkpoint created.",

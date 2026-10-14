@@ -63,13 +63,22 @@ function parse(content: string): any {
   return JSON.parse(content);
 }
 
-test("registers both olc tools (log_event, session_summary)", async () => {
+test("registers all 5 olc tools", async () => {
   const { repo, cleanup } = setup();
   try {
     const { ctx, tools } = makeCtx(repo);
     await registerOlcTools(ctx);
     const names = [...tools.keys()].sort();
-    assert.deepEqual(names, ["log_event", "session_summary"].sort());
+    assert.deepEqual(
+      names,
+      [
+        "log_event",
+        "next_task",
+        "project_status",
+        "session_summary",
+        "task_finalize",
+      ].sort(),
+    );
   } finally {
     cleanup();
   }
@@ -119,6 +128,83 @@ test("session_summary builds markdown and returns ok", async () => {
     );
     assert.equal(res.ok, true);
     assert.match(res.markdown, /Fixed token check/);
+  } finally {
+    cleanup();
+  }
+});
+
+test("next_task recommends the most recently active open task", async () => {
+  const { repo, config, cleanup } = setup();
+  try {
+    const { registerTask, setTaskStatus } = await import("../src/tasks/index.js");
+    registerTask(config.vaultPath, "proj", "T-2", "main", "d1");
+    registerTask(config.vaultPath, "proj", "T-1", "main", "d2");
+    setTaskStatus(config.vaultPath, "proj", "T-1", "active", "d3");
+    const { ctx, tools } = makeCtx(repo);
+    await registerOlcTools(ctx);
+    const res = parse((await tools.get("next_task")!.execute({ branch: "main" })).content);
+    assert.equal(res.ok, true);
+    assert.equal(res.recommendedTaskId, "T-1");
+    assert.equal(res.openTasks.length, 2);
+  } finally {
+    cleanup();
+  }
+});
+
+test("project_status reports open tasks and asks which to continue", async () => {
+  const { repo, config, cleanup } = setup();
+  try {
+    const { registerTask, setTaskStatus } = await import("../src/tasks/index.js");
+    registerTask(config.vaultPath, "proj", "T-1", "main", "d1");
+    setTaskStatus(config.vaultPath, "proj", "T-1", "active", "d2");
+    setTaskStatus(config.vaultPath, "proj", "T-1", "pending", "d3");
+    const { ctx, tools } = makeCtx(repo);
+    await registerOlcTools(ctx);
+    const res = parse((await tools.get("project_status")!.execute({})).content);
+    assert.equal(res.ok, true);
+    assert.equal(res.recommendedTaskId, "T-1");
+    assert.equal(res.openTasks.length, 1);
+    assert.equal(res.needsConfirmation, true);
+  } finally {
+    cleanup();
+  }
+});
+
+test("task_finalize closes the task and writes knowledge", async () => {
+  const { repo, config, cleanup } = setup();
+  try {
+    const { registerTask, setTaskStatus, getTask } = await import("../src/tasks/index.js");
+    const { draftTaskDocs } = await import("../src/planning/index.js");
+    registerTask(config.vaultPath, "proj", "T-1", "main", "d1");
+    setTaskStatus(config.vaultPath, "proj", "T-1", "active", "d2");
+    draftTaskDocs(
+      config.vaultPath,
+      "proj",
+      "T-1",
+      { what: "w", why: "y", nonGoals: "n", openQuestions: "q" },
+      { approach: "a", steps: "s", acceptanceCriteria: "c", tests: "t", risks: "r" },
+    );
+    const { ctx, tools } = makeCtx(repo);
+    await registerOlcTools(ctx);
+    const res = parse(
+      (await tools.get("task_finalize")!.execute({ taskId: "T-1", highlights: "Shipped." })).content,
+    );
+    assert.equal(res.ok, true);
+    assert.equal(res.taskId, "T-1");
+    assert.match(res.knowledgeFile, /knowledge\/T-1\.md$/);
+    assert.equal(getTask(config.vaultPath, "proj", "T-1")?.status, "done");
+  } finally {
+    cleanup();
+  }
+});
+
+test("task_finalize without explicit task refuses loudly", async () => {
+  const { repo, cleanup } = setup();
+  try {
+    const { ctx, tools } = makeCtx(repo);
+    await registerOlcTools(ctx);
+    const res = parse((await tools.get("task_finalize")!.execute({ taskId: "ghost" })).content);
+    assert.equal(res.ok, false);
   } finally {
     cleanup();
   }

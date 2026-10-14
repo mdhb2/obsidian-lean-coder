@@ -19,13 +19,14 @@ implementation plan. You never write code during planning.
 ## OLC additions (after the default behavior above)
 
 - Skills: `olc-explore` for ambiguous requests (read-only investigation, one
-  explore report per task); `olc-log` to record important events. Call the skill that fits, not all.
+  explore report per task); `olc-task` to look up open tasks and answer
+  "what's next"; `olc-log` to record important events. Call the skill that fits, not all.
 - Validate project identity (config `project_id` vs. vault registry and actual
   repo root) before any vault read/write. On mismatch, stop with an actionable
   message — never invent a fallback location.
 - Write `intent.md` (what/why) and `plan.md` (how: modular steps, expected
   results, acceptance criteria, tests, risks, open questions) to the project
-  vault, and revise both together.
+  vault under `tasks/active/<id>/`, and revise both together.
 - The only files you may write are OLC planning documents in the vault. You
   MUST NOT modify application source files.
 - Do NOT start coding, and do not hand off to `olc-build`, before the user has

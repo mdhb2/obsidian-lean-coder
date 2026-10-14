@@ -122,6 +122,34 @@ test("invalid existing config is flagged, never overwritten", () => {
   assert.equal(readFileSync(join(repo, ".olc", "config.json"), "utf8"), "{ broken");
 });
 
+test("fresh init creates the multitask layout (tasks/active, tasks/done)", () => {
+  const repo = makeRepo();
+  const vault = makeVault();
+  const report = initProject({ projectRoot: repo, projectId: "demo-app", vaultPath: vault, env: {} });
+  assert.equal(report.status, "ready");
+  const scope = join(vault, "OLC", "Projects", "demo-app");
+  assert.ok(report.entries.some((e) => e.path === join(scope, "tasks", "active") && e.action === "created"));
+  assert.ok(report.entries.some((e) => e.path === join(scope, "tasks", "done") && e.action === "created"));
+});
+
+test("init migrates a pre-multitask tasks/<id> layout", () => {
+  const repo = makeRepo();
+  const vault = makeVault();
+  const scope = join(vault, "OLC", "Projects", "demo-app");
+  mkdirSync(join(scope, "tasks"), { recursive: true });
+  mkdirSync(join(scope, "tasks", "T-old"), { recursive: true });
+  writeFileSync(join(scope, "tasks", "T-old", "intent.md"), "old\n");
+  writeFileSync(
+    join(scope, "tasks", "registry.json"),
+    JSON.stringify({ tasks: { "T-old": { status: "in_progress", branch: "main", updatedAt: "d1" } } }),
+  );
+  const report = initProject({ projectRoot: repo, projectId: "demo-app", vaultPath: vault, env: {} });
+  assert.equal(report.status, "ready");
+  assert.ok(existsSync(join(scope, "tasks", "active", "T-old", "intent.md")), "folder moved to tasks/active");
+  assert.ok(!existsSync(join(scope, "tasks", "T-old")), "old folder gone");
+  assert.ok(report.entries.some((e) => e.action === "created" && e.note !== undefined && e.note.includes("multitask")));
+});
+
 test("proposeProjectId sanitizes repository names", () => {
   assert.equal(proposeProjectId("/x/demo-app"), "demo-app");
   assert.equal(proposeProjectId("/x/My Cool_App!"), "my-cool_app");

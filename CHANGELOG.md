@@ -4,6 +4,43 @@ All notable changes to OLC (Obsidian Lean Coder) are recorded here.
 OLC is pre-release: versions are `0.x` until a controlled-testing release says otherwise.
 `package.json` shipped `"private": true` through 0.1.0; the flag was removed at publish time with explicit user approval, and 0.1.0 is live as [`obsidian-lean-coder`](https://www.npmjs.com/package/obsidian-lean-coder). Publishing a new version is still a separate explicitly approved action, never automatic.
 
+## [0.7.0] — 2026-10-14 — drop memory/taste/decision, multitask state
+
+Two changes since 0.6.0. First, the memory, taste, and decision features are
+removed entirely; the activity log (`olc_log_event`, `olc_session_summary`)
+is kept. Deleted: `src/memory/`, `src/taste/`, the `memory_*`, `taste_*`,
+and `decision_record` plugin tools, `recordDecision` in `src/build`, the
+`olc-memory`/`olc-taste` skills, and the `decision.md`/`taste-rule.md`
+templates. `init` no longer creates `decisions/`, `memory/`, or `taste/`
+folders and removes them from existing vaults (reported as `removed`).
+
+Second, tasks are now multitask-aware. Registry statuses are simplified to
+`draft → active ⇄ pending → done` (plus `rejected`; `pending` = paused but
+resumable, `done` = terminal and immutable — follow-ups go in a new task).
+Open work lives in `tasks/active/<id>/`, finished work moves to
+`tasks/done/<id>/`, and one-level sub-tasks with their own statuses live at
+`tasks/active/<parent>/sub/<sub>/`. Each finalized task keeps one knowledge
+file at `knowledge/<id>.md`, composed from its own records. New plugin tools
+`olc_next_task` ("tugas selanjutnya"), `olc_project_status` ("status
+project", lists unfinished work and asks which task to continue), and
+`olc_task_finalize` (explicit user request only — writes knowledge, moves the
+folder, marks `done`, logs the event), plus a new `olc-task` skill (four
+shipped skills total). Pre-multitask vaults migrate automatically on init and
+resume (old statuses mapped, `tasks/<id>/` folders moved). Finalization also
+re-points the task's log links to `tasks/done/`, and copied record content is
+sanitized to plain text, so the Obsidian link graph stays unbroken —
+`templates/intent.md`, `plan.md`, and `explore-report.md` hub links were
+adjusted one level deeper for the new layout.
+
+- **Verification:** typecheck/build clean; full suite green (156 tests,
+  including new finalize, subtask, migration, triage-tool, and
+  post-finalize link-integrity tests); `npm pack --dry-run` ships no
+  memory/taste/decision remnants.
+- **Upgrade:** `npm install obsidian-lean-coder@0.7.0`, re-run `npx
+  obsidian-lean-coder setup` (skill set changed), and re-run init per
+  consuming project (migrates the task layout; legacy
+  `decisions/`/`memory/`/`taste/` folders are removed).
+
 ## [0.6.0] — 2026-10-14 — OLC plugin tools + end-of-session reflection
 Agents can finally persist learnings. Previously the memory/taste/log/session modules were library-internal and the skills only described pseudo-function calls the agent could not invoke, so completing tasks saved nothing. `src/tools.ts` now exposes 8 `olc`-namespace tools that call those modules: `olc_memory_recall`, `olc_memory_record`, `olc_taste_propose`, `olc_taste_list`, `olc_taste_review`, `olc_log_event`, `olc_session_summary`, and a new `olc_decision_record` (renders `templates/decision.md` to `decisions/<YYYY-MM-DD>-<slug>.md`, create-only). Each tool returns `{ ok: true, ... }` or `{ ok: false, error: { code, message } }` with the module's own actionable message; no writes happen at plugin load. Reflection is now a required instruction (no new tool) in root `AGENTS.md`, `agents/olc-build.md`, and `agents/olc-plan.md`, and the skill Flow sections reference the real tools.
 - **Verification:** typecheck/build clean; full suite green (158 tests, 8 new covering every tool + error mapping); `npm pack --dry-run` file check.

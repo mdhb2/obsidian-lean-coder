@@ -20,6 +20,7 @@ import { basename, join, resolve } from "node:path";
 
 import { CONFIG_SCHEMA_VERSION, VAULT_PATH_ENV, parseConfig } from "../config/index.js";
 import { REGISTRY_REL_PATH, resolveRepoRoot, type VaultRegistry } from "../core/project-identity.js";
+import { migrateTaskLayout } from "../tasks/index.js";
 
 export const OLC_DIR = ".olc";
 export const CONFIG_FILE = "config.json";
@@ -212,7 +213,7 @@ export function initProject(options: InitOptions): InitReport {
   const projectDir = join(vaultRoot, "OLC", "Projects", projectId);
   entries.push(planFile(join(projectDir, "index.md"), VAULT_INDEX(projectId), dryRun));
   entries.push(planFile(join(projectDir, "current-state.md"), VAULT_STATE(projectId), dryRun));
-  for (const sub of ["tasks", "logs"]) {
+  for (const sub of ["tasks/active", "tasks/done", "logs"]) {
     const dir = join(projectDir, sub);
     if (existsSync(dir)) {
       entries.push({ path: dir, action: "preserved" });
@@ -239,6 +240,15 @@ export function initProject(options: InitOptions): InitReport {
     entries.push({ path: registryPath, action: "created" });
   } else {
     entries.push({ path: registryPath, action: "preserved" });
+  }
+  if (!dryRun) {
+    const migration = migrateTaskLayout(vaultRoot, projectId);
+    for (const moved of migration.moved) {
+      entries.push({ path: moved, action: "created", note: "Migrated to the multitask layout (tasks/active/ or tasks/done/)." });
+    }
+    for (const change of migration.statusChanges) {
+      entries.push({ path: registryPath, action: "preserved", note: `Task status migrated: ${change}.` });
+    }
   }
   return { ...base, status: "ready" };
 }

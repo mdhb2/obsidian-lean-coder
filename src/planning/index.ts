@@ -11,12 +11,16 @@
  *   and are `approved`, naming the offending document.
  */
 
+import { join } from "node:path";
+
+import {
+  resolveTaskDir,
+} from "../tasks/index.js";
 import {
   VaultError,
   parseFrontmatter,
   readVaultDoc,
   renderTemplate,
-  resolveVaultDoc,
   withFrontmatter,
   writeVaultDoc,
 } from "../vault/index.js";
@@ -51,10 +55,11 @@ export interface PlanVars {
 }
 
 function docPaths(vaultRoot: string, projectId: string, taskId: string) {
+  const dir = resolveTaskDir(vaultRoot, projectId, taskId);
   return {
-    intent: resolveVaultDoc(vaultRoot, projectId, "tasks", taskId, "intent.md"),
-    plan: resolveVaultDoc(vaultRoot, projectId, "tasks", taskId, "plan.md"),
-    history: resolveVaultDoc(vaultRoot, projectId, "tasks", taskId, "history.md"),
+    intent: join(dir, "intent.md"),
+    plan: join(dir, "plan.md"),
+    history: join(dir, "history.md"),
   };
 }
 

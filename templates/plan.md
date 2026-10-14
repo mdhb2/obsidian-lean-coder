@@ -30,5 +30,5 @@ project: {{project_id}}
 
 - [[../{{task_id}}/intent]] — maksud dari rencana ini
 - [[../{{task_id}}/history]] — riwayat revisi keputusan
-- [[../../index]] — hub memori proyek
-- [[../../current-state]] — status terbaru proyek
+- [[../../../index]] — hub memori proyek
+- [[../../../current-state]] — status terbaru proyek

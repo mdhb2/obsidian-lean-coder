@@ -18,16 +18,16 @@
  */
 
 import { readFileSync } from "node:fs";
-import { relative, resolve, sep } from "node:path";
+import { join, relative, resolve, sep } from "node:path";
 
 import type { ResolvedConfig } from "../config/index.js";
 import { validateIdentity } from "../core/project-identity.js";
+import { resolveTaskDir } from "../tasks/index.js";
 import { assertContextCurrent, type SessionContext } from "../validation/index.js";
 import {
   parseFrontmatter,
   readVaultDoc,
   renderTemplate,
-  resolveVaultDoc,
   writeVaultDoc,
 } from "../vault/index.js";
 import { git, gitRaw, inspectTree } from "./inspection.js";
@@ -94,7 +94,8 @@ function normalizeOwned(repoRoot: string, ownedPaths: string[]): string[] {
 }
 
 /**
- * Append a checkpoint-template entry to `tasks/<taskId>/checkpoint.md`.
+ * Append a checkpoint-template entry to the task's `checkpoint.md`
+ * (under `tasks/active/` or `tasks/done/` via the task resolver).
  * First call writes the full template; later calls append the body after `---`.
  * Returns the vault-absolute record path. Exported for reuse by `restore.ts`.
  */
@@ -105,7 +106,7 @@ export function appendCheckpointRecord(
   vars: Record<string, string>,
 ): string {
   const entry = renderTemplate("checkpoint", vars);
-  const recordPath = resolveVaultDoc(vaultRoot, projectId, "tasks", taskId, "checkpoint.md");
+  const recordPath = join(resolveTaskDir(vaultRoot, projectId, taskId), "checkpoint.md");
   let record: string;
   try {
     const existing = readVaultDoc(recordPath);

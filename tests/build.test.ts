@@ -45,7 +45,7 @@ function setup(taskId: string, approved: boolean): { repo: string; vault: string
     { approach: "a", steps: "s", acceptanceCriteria: "c", tests: "t", risks: "r" },
   );
   if (approved) {
-    setTaskStatus(vault, "proj", taskId, "approved", DATE);
+    setTaskStatus(vault, "proj", taskId, "active", DATE);
     approveTaskDocs(vault, "proj", taskId, DATE);
   }
   const config: ResolvedConfig = { schemaVersion: 1, projectId: "proj", vaultPath: vault };
@@ -90,7 +90,7 @@ test("begin is blocked on identity mismatch", () => {
   assert.match(err.message, /different repository/);
 });
 
-test("begin returns a scoped frame and moves approved to in_progress", () => {
+test("begin returns a scoped frame for an active task", () => {
   const { repo, vault, config } = setup("t-begin", true);
   const frame = beginTask({ config, taskId: "t-begin", touchPaths: ["app.txt"], startDir: repo, date: DATE });
   assert.deepEqual(Object.keys(frame).sort(), [
@@ -105,16 +105,16 @@ test("begin returns a scoped frame and moves approved to in_progress", () => {
   assert.match(frame.planBody, /acceptance/i);
   assert.deepEqual(frame.declaredPaths, ["app.txt"]);
   assert.equal(frame.baseHead, git(repo, "rev-parse", "HEAD"));
-  assert.equal(getTask(vault, "proj", "t-begin")?.status, "in_progress");
+  assert.equal(getTask(vault, "proj", "t-begin")?.status, "active");
 });
 
-test("clean completion moves task to review", () => {
+test("clean completion keeps the task active", () => {
   const { repo, config } = setup("t-clean", true);
   const frame = beginTask({ config, taskId: "t-clean", touchPaths: ["app.txt"], startDir: repo, date: DATE });
   writeFileSync(join(repo, "app.txt"), "v2\n");
   const result = completeTask(frame, config, repo, DATE);
   assert.deepEqual(result.changed, ["app.txt"]);
-  assert.equal(getTask(config.vaultPath, "proj", "t-clean")?.status, "review");
+  assert.equal(getTask(config.vaultPath, "proj", "t-clean")?.status, "active");
 });
 
 test("undeclared tracked edit blocks completion and names the file", () => {
@@ -125,7 +125,7 @@ test("undeclared tracked edit blocks completion and names the file", () => {
   const err = assertBuildError(() => completeTask(frame, config, repo, DATE), "SCOPE_CHANGED");
   assert.deepEqual(err.details, ["other.txt"]);
   assert.match(err.message, /plan revision/);
-  assert.equal(getTask(config.vaultPath, "proj", "t-scope")?.status, "in_progress");
+  assert.equal(getTask(config.vaultPath, "proj", "t-scope")?.status, "active");
 });
 
 test("undeclared new file blocks completion", () => {
@@ -134,6 +134,6 @@ test("undeclared new file blocks completion", () => {
   writeFileSync(join(repo, "scratch.txt"), "oops\n");
   assert.deepEqual(changedPaths(repo), ["scratch.txt"]);
   assertBuildError(() => completeTask(frame, config, repo, DATE), "SCOPE_CHANGED");
-  assert.equal(getTask(config.vaultPath, "proj", "t-new")?.status, "in_progress");
+  assert.equal(getTask(config.vaultPath, "proj", "t-new")?.status, "active");
 });
 
