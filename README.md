@@ -30,8 +30,8 @@ Requirements: OpenCode 2.x (V2 plugin API), Node >= 18.18.
 
 ### What `npx obsidian-lean-coder setup` does
 
-Installs `agents/olc-plan.md`, `agents/olc-build.md`, and the four skills
-(`olc-init`, `olc-explore`, `olc-task`, `olc-log`) under
+Installs `agents/olc-plan.md`, `agents/olc-build.md`, and the five skills
+(`olc-init`, `olc-explore`, `olc-task`, `olc-log`, `olc-todoc`) under
 `.opencode/` (project scope by default). `--global` installs under
 `~/.config/opencode` instead; `--dry-run` previews with no writes. Missing
 directories are created; existing OLC agent/skill files are overwritten with
@@ -141,7 +141,7 @@ Per consuming project:
 # 1. Remove OLC resources from the project
 rm -rf .opencode/agents/olc-plan.md .opencode/agents/olc-build.md \
        .opencode/skills/olc-init .opencode/skills/olc-explore .opencode/skills/olc-task \
-       .opencode/skills/olc-log .olc
+       .opencode/skills/olc-log .opencode/skills/olc-todoc .olc
 # 2. Remove the plugin entry from opencode.json ("plugin": ["file:///..."])
 # 3. Optionally remove the vault scope (YOUR NOTES — back up first):
 #    rm -rf "$VAULT/OLC/Projects/<project_id>"

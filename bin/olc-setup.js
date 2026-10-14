@@ -36,6 +36,7 @@ const OWNED_FILES = [
   ["skills/olc-explore/SKILL.md", ".opencode/skills/olc-explore/SKILL.md"],
   ["skills/olc-task/SKILL.md", ".opencode/skills/olc-task/SKILL.md"],
   ["skills/olc-log/SKILL.md", ".opencode/skills/olc-log/SKILL.md"],
+  ["skills/olc-todoc/SKILL.md", ".opencode/skills/olc-todoc/SKILL.md"],
 ];
 
 function usage() {

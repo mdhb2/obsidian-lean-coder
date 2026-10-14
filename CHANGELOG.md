@@ -4,6 +4,23 @@ All notable changes to OLC (Obsidian Lean Coder) are recorded here.
 OLC is pre-release: versions are `0.x` until a controlled-testing release says otherwise.
 `package.json` shipped `"private": true` through 0.1.0; the flag was removed at publish time with explicit user approval, and 0.1.0 is live as [`obsidian-lean-coder`](https://www.npmjs.com/package/obsidian-lean-coder). Publishing a new version is still a separate explicitly approved action, never automatic.
 
+## [0.8.0] — 2026-10-14 — new standalone `olc-todoc` skill
+
+New fifth skill `olc-todoc`: writes any information, request, or conversation
+context into a reusable Markdown document. Content-first (no forced template),
+faithful to the source (fact vs decision vs assumption kept apart, nothing
+invented), with a recommended `kebab-case.md` filename and a user-confirmed
+storage location — nothing is created before both are settled, and existing
+files are checked before any update. Standalone by design: no new `src/`
+module and no new plugin tool. `npx obsidian-lean-coder setup` now installs
+8 owned files (2 agents + 5 skills).
+
+- **Verification:** typecheck/build clean; full suite green (156 tests,
+  including updated setup counts 6→7); `npm pack --dry-run` ships
+  `skills/olc-todoc/SKILL.md` with no memory/taste/decision remnants.
+- **Upgrade:** `npm install obsidian-lean-coder@0.8.0`, re-run `npx
+  obsidian-lean-coder setup` (skill set changed).
+
 ## [0.7.0] — 2026-10-14 — drop memory/taste/decision, multitask state
 
 Two changes since 0.6.0. First, the memory, taste, and decision features are

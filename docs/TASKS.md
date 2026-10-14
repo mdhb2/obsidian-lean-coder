@@ -610,6 +610,20 @@ Only one task should normally be `IN_PROGRESS` at a time. Do not set `DONE` base
 - **Evidence/files/commit:** Logged at task completion; commit pending user approval (see Git-safety rule — `VERSION` working-tree change belongs to user, never staged by agent).
 - **Remaining issues:** None known. Publish of 0.6.0 requires the user — never run by the agent.
 
+### OLC-082 — Standalone `olc-todoc` skill (write anything to Markdown)
+- **Status:** DONE (2026-10-14)
+- **Priority:** P1
+- **Depends on:** OLC-075, OLC-076
+- **Goal:** Ship a standalone skill that writes any information, request, or conversation context into a reusable Markdown document with adaptive structure, a recommended filename, and a user-confirmed storage location.
+- **Work:** New `skills/olc-todoc/SKILL.md` in English (frontmatter `name`+`description`; Hard rules: content-first/no forced template, faithful/no fabrication with fact-vs-decision-vs-assumption separation, user-controlled storage with no assumed destination, check-before-write with no silent overwrite, no secrets/no false claims, resolved-path validation; Flow: understand → prepare → recommend `kebab-case.md` filename → confirm location → create/update → validate+report). No `src/` module and no new `olc_*` tool by design (standalone). Wiring: `bin/olc-setup.js` `OWNED_FILES` +1 entry; `tests/setup.test.ts` `OWNED` +1 entry with counts 6→7; `README.md` (five skills + uninstall snippet) and `AGENTS.md` (four→five skills) updated.
+- **Acceptance criteria:** Per `docs/todoc-skill.md` §6: writes varied content to Markdown, preserves relevant conversation context, never forces a handoff/task template, picks structure from content without asking for a document type, recommends a filename, asks for unset name/location, creates nothing before storage is settled, checks existing files when accessible, produces accurate standalone-readable content, and reports storage accurately.
+- **Date:** 2026-10-14
+- **Implemented:** `skills/olc-todoc/SKILL.md`, `bin/olc-setup.js`, `tests/setup.test.ts`, `README.md`, `AGENTS.md`, `docs/TASKS.md`, version 0.8.0 (`package.json` via `npm pkg set` + lockfile root sync; `src/index.ts` `OLC_VERSION`; `CHANGELOG.md` 0.8.0 entry).
+- **Verification commands/results:** `npm run typecheck` clean; `npm run build` clean; `npm test` → 156 pass / 0 fail (incl. updated `tests/setup.test.ts` counts 6→7); `npm pack --dry-run` → 62 files incl. `skills/olc-todoc/SKILL.md`, no memory/taste/decision remnants; `node bin/olc-setup.js setup --dry-run` → 7 created (2 agents + 5 skills). No publish — requires separate explicit user approval.
+- **Evidence/files/commit:** Pending — commit + tag `v0.8.0` + tag push per user request.
+- **Remaining issues:** Publish of 0.8.0 requires the user — never run by the agent.
+- **Next task:** None yet — pending verification then user direction.
+
 ## Deferred
 
 | ID | Item | Status | Reason |

@@ -14,7 +14,7 @@ What OLC is now (post-MVP, all `docs/TASKS.md` M0–M7 DONE):
   a time, evidence-backed verification). On conflict between root `AGENTS.md`
   and `.olc/AGENTS.md`, the OpenCode default wins — show conflict, suggest
   fix, stop for user choice.
-- Four shipped skills: `olc-init`, `olc-explore`, `olc-task`, `olc-log`.
+- Five shipped skills: `olc-init`, `olc-explore`, `olc-task`, `olc-log`, `olc-todoc`.
   There are intentionally **no** `olc-memory` / `olc-taste` skills and no
   `memory_*` / `taste_*` / `decision_record` tools (removed in 0.7.0).
 - Plugin tools under namespace `olc`: `olc_status`, `olc_log_event`,
