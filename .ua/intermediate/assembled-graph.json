@@ -1,0 +1,951 @@
+{
+  "nodes": [
+    {
+      "id": "pipeline:.github/workflows/ci.yml",
+      "type": "pipeline",
+      "name": "ci.yml",
+      "filePath": ".github/workflows/ci.yml",
+      "summary": "Workflow definition for CI/CD automation in ci.yml.",
+      "tags": [
+        "ci-cd",
+        "automation",
+        "deployment"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:AGENTS.md",
+      "type": "document",
+      "name": "AGENTS.md",
+      "filePath": "AGENTS.md",
+      "summary": "Project documentation covering AGENTS.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:CHANGELOG.md",
+      "type": "document",
+      "name": "CHANGELOG.md",
+      "filePath": "CHANGELOG.md",
+      "summary": "Project documentation covering CHANGELOG.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "Project documentation covering README.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "package.json",
+      "summary": "Configuration file controlling runtime or build behavior for package.json.",
+      "tags": [
+        "configuration",
+        "project",
+        "runtime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "tsconfig.json",
+      "summary": "Configuration file controlling runtime or build behavior for tsconfig.json.",
+      "tags": [
+        "configuration",
+        "project",
+        "runtime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:tsconfig.tests.json",
+      "type": "config",
+      "name": "tsconfig.tests.json",
+      "filePath": "tsconfig.tests.json",
+      "summary": "Configuration file controlling runtime or build behavior for tsconfig.tests.json.",
+      "tags": [
+        "configuration",
+        "project",
+        "runtime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/DECISIONS.md",
+      "type": "document",
+      "name": "DECISIONS.md",
+      "filePath": "docs/DECISIONS.md",
+      "summary": "Project documentation covering DECISIONS.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/PRD.md",
+      "type": "document",
+      "name": "PRD.md",
+      "filePath": "docs/PRD.md",
+      "summary": "Project documentation covering PRD.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/TASKS.md",
+      "type": "document",
+      "name": "TASKS.md",
+      "filePath": "docs/TASKS.md",
+      "summary": "Project documentation covering TASKS.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:templates/activity-log.md",
+      "type": "document",
+      "name": "activity-log.md",
+      "filePath": "templates/activity-log.md",
+      "summary": "Project documentation covering activity-log.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/checkpoint.md",
+      "type": "document",
+      "name": "checkpoint.md",
+      "filePath": "templates/checkpoint.md",
+      "summary": "Project documentation covering checkpoint.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/explore-report.md",
+      "type": "document",
+      "name": "explore-report.md",
+      "filePath": "templates/explore-report.md",
+      "summary": "Project documentation covering explore-report.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/intent.md",
+      "type": "document",
+      "name": "intent.md",
+      "filePath": "templates/intent.md",
+      "summary": "Project documentation covering intent.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/knowledge.md",
+      "type": "document",
+      "name": "knowledge.md",
+      "filePath": "templates/knowledge.md",
+      "summary": "Project documentation covering knowledge.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/plan.md",
+      "type": "document",
+      "name": "plan.md",
+      "filePath": "templates/plan.md",
+      "summary": "Project documentation covering plan.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/session-summary.md",
+      "type": "document",
+      "name": "session-summary.md",
+      "filePath": "templates/session-summary.md",
+      "summary": "Project documentation covering session-summary.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.opencode/goals/state.json.sessions/.migration-v1-complete",
+      "type": "file",
+      "name": ".migration-v1-complete",
+      "filePath": ".opencode/goals/state.json.sessions/.migration-v1-complete",
+      "summary": "Code file implementing project logic in .migration-v1-complete.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.opencode/goals/state.json.sessions/669477566eb181eda20d119cd719c38cc84773e680d74501de8e33dee2eb4cbd/state.json",
+      "type": "config",
+      "name": "state.json",
+      "filePath": ".opencode/goals/state.json.sessions/669477566eb181eda20d119cd719c38cc84773e680d74501de8e33dee2eb4cbd/state.json",
+      "summary": "Configuration file controlling runtime or build behavior for state.json.",
+      "tags": [
+        "configuration",
+        "project",
+        "runtime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.uteke/uteke-rule.md",
+      "type": "document",
+      "name": "uteke-rule.md",
+      "filePath": ".uteke/uteke-rule.md",
+      "summary": "Project documentation covering uteke-rule.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.uteke/uteke.toml",
+      "type": "config",
+      "name": "uteke.toml",
+      "filePath": ".uteke/uteke.toml",
+      "summary": "Configuration file controlling runtime or build behavior for uteke.toml.",
+      "tags": [
+        "configuration",
+        "project",
+        "runtime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:agents/olc-build.md",
+      "type": "document",
+      "name": "olc-build.md",
+      "filePath": "agents/olc-build.md",
+      "summary": "Project documentation covering olc-build.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:agents/olc-plan.md",
+      "type": "document",
+      "name": "olc-plan.md",
+      "filePath": "agents/olc-plan.md",
+      "summary": "Project documentation covering olc-plan.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:bin/olc-setup.js",
+      "type": "file",
+      "name": "olc-setup.js",
+      "filePath": "bin/olc-setup.js",
+      "summary": "Code file implementing project logic in olc-setup.js.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:skills/olc-explore/SKILL.md",
+      "type": "document",
+      "name": "SKILL.md",
+      "filePath": "skills/olc-explore/SKILL.md",
+      "summary": "Project documentation covering SKILL.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:skills/olc-init/SKILL.md",
+      "type": "document",
+      "name": "SKILL.md",
+      "filePath": "skills/olc-init/SKILL.md",
+      "summary": "Project documentation covering SKILL.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:skills/olc-log/SKILL.md",
+      "type": "document",
+      "name": "SKILL.md",
+      "filePath": "skills/olc-log/SKILL.md",
+      "summary": "Project documentation covering SKILL.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:skills/olc-task/SKILL.md",
+      "type": "document",
+      "name": "SKILL.md",
+      "filePath": "skills/olc-task/SKILL.md",
+      "summary": "Project documentation covering SKILL.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/approval/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/approval/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/config/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/config/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/core/project-identity.ts",
+      "type": "file",
+      "name": "project-identity.ts",
+      "filePath": "src/core/project-identity.ts",
+      "summary": "Code file implementing project logic in project-identity.ts.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/finalize/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/finalize/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/git/checkpoint.ts",
+      "type": "file",
+      "name": "checkpoint.ts",
+      "filePath": "src/git/checkpoint.ts",
+      "summary": "Code file implementing project logic in checkpoint.ts.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/git/inspection.ts",
+      "type": "file",
+      "name": "inspection.ts",
+      "filePath": "src/git/inspection.ts",
+      "summary": "Code file implementing project logic in inspection.ts.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/git/policy.ts",
+      "type": "file",
+      "name": "policy.ts",
+      "filePath": "src/git/policy.ts",
+      "summary": "Code file implementing project logic in policy.ts.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/git/restore.ts",
+      "type": "file",
+      "name": "restore.ts",
+      "filePath": "src/git/restore.ts",
+      "summary": "Code file implementing project logic in restore.ts.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/init/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/init/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/log/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/log/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/planning/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/planning/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/plugin.ts",
+      "type": "file",
+      "name": "plugin.ts",
+      "filePath": "src/plugin.ts",
+      "summary": "Code file implementing project logic in plugin.ts.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/resume/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/resume/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/session/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/session/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/tasks/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/tasks/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/tools.ts",
+      "type": "file",
+      "name": "tools.ts",
+      "filePath": "src/tools.ts",
+      "summary": "Code file implementing project logic in tools.ts.",
+      "tags": [
+        "code",
+        "module",
+        "logic",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/validation/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/validation/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/vault/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/vault/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/verify/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/verify/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:templates/.gitkeep",
+      "type": "file",
+      "name": ".gitkeep",
+      "filePath": "templates/.gitkeep",
+      "summary": "Code file implementing project logic in .gitkeep.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/.gitkeep",
+      "type": "file",
+      "name": ".gitkeep",
+      "filePath": "tests/.gitkeep",
+      "summary": "Code file implementing project logic in .gitkeep.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/approval.test.ts",
+      "type": "file",
+      "name": "approval.test.ts",
+      "filePath": "tests/approval.test.ts",
+      "summary": "Code file implementing project logic in approval.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/build.test.ts",
+      "type": "file",
+      "name": "build.test.ts",
+      "filePath": "tests/build.test.ts",
+      "summary": "Code file implementing project logic in build.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/config.test.ts",
+      "type": "file",
+      "name": "config.test.ts",
+      "filePath": "tests/config.test.ts",
+      "summary": "Code file implementing project logic in config.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/e2e.test.ts",
+      "type": "file",
+      "name": "e2e.test.ts",
+      "filePath": "tests/e2e.test.ts",
+      "summary": "Code file implementing project logic in e2e.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/explore.test.ts",
+      "type": "file",
+      "name": "explore.test.ts",
+      "filePath": "tests/explore.test.ts",
+      "summary": "Code file implementing project logic in explore.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/finalize.test.ts",
+      "type": "file",
+      "name": "finalize.test.ts",
+      "filePath": "tests/finalize.test.ts",
+      "summary": "Code file implementing project logic in finalize.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/git.test.ts",
+      "type": "file",
+      "name": "git.test.ts",
+      "filePath": "tests/git.test.ts",
+      "summary": "Code file implementing project logic in git.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/identity.test.ts",
+      "type": "file",
+      "name": "identity.test.ts",
+      "filePath": "tests/identity.test.ts",
+      "summary": "Code file implementing project logic in identity.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/init.test.ts",
+      "type": "file",
+      "name": "init.test.ts",
+      "filePath": "tests/init.test.ts",
+      "summary": "Code file implementing project logic in init.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/links.test.ts",
+      "type": "file",
+      "name": "links.test.ts",
+      "filePath": "tests/links.test.ts",
+      "summary": "Code file implementing project logic in links.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/log.test.ts",
+      "type": "file",
+      "name": "log.test.ts",
+      "filePath": "tests/log.test.ts",
+      "summary": "Code file implementing project logic in log.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/planning.test.ts",
+      "type": "file",
+      "name": "planning.test.ts",
+      "filePath": "tests/planning.test.ts",
+      "summary": "Code file implementing project logic in planning.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/policy.test.ts",
+      "type": "file",
+      "name": "policy.test.ts",
+      "filePath": "tests/policy.test.ts",
+      "summary": "Code file implementing project logic in policy.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:tests/restore.test.ts",
+      "type": "file",
+      "name": "restore.test.ts",
+      "filePath": "tests/restore.test.ts",
+      "summary": "Code file implementing project logic in restore.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:tests/resume.test.ts",
+      "type": "file",
+      "name": "resume.test.ts",
+      "filePath": "tests/resume.test.ts",
+      "summary": "Code file implementing project logic in resume.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/session.test.ts",
+      "type": "file",
+      "name": "session.test.ts",
+      "filePath": "tests/session.test.ts",
+      "summary": "Code file implementing project logic in session.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/setup.test.ts",
+      "type": "file",
+      "name": "setup.test.ts",
+      "filePath": "tests/setup.test.ts",
+      "summary": "Code file implementing project logic in setup.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/tasks.test.ts",
+      "type": "file",
+      "name": "tasks.test.ts",
+      "filePath": "tests/tasks.test.ts",
+      "summary": "Code file implementing project logic in tasks.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/tools.test.ts",
+      "type": "file",
+      "name": "tools.test.ts",
+      "filePath": "tests/tools.test.ts",
+      "summary": "Code file implementing project logic in tools.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/validation.test.ts",
+      "type": "file",
+      "name": "validation.test.ts",
+      "filePath": "tests/validation.test.ts",
+      "summary": "Code file implementing project logic in validation.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/vault.test.ts",
+      "type": "file",
+      "name": "vault.test.ts",
+      "filePath": "tests/vault.test.ts",
+      "summary": "Code file implementing project logic in vault.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/verify.test.ts",
+      "type": "file",
+      "name": "verify.test.ts",
+      "filePath": "tests/verify.test.ts",
+      "summary": "Code file implementing project logic in verify.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/tools.ts",
+      "target": "file:tests/tools.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5,
+      "description": "Path-based pairing (deterministic)"
+    }
+  ]
+}

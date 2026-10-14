@@ -1,0 +1,330 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/session/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/session/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/tasks/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/tasks/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/tools.ts",
+      "type": "file",
+      "name": "tools.ts",
+      "filePath": "src/tools.ts",
+      "summary": "Code file implementing project logic in tools.ts.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/validation/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/validation/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/vault/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/vault/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/verify/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/verify/index.ts",
+      "summary": "Code file implementing project logic in index.ts.",
+      "tags": [
+        "entry-point",
+        "module",
+        "exports"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:templates/.gitkeep",
+      "type": "file",
+      "name": ".gitkeep",
+      "filePath": "templates/.gitkeep",
+      "summary": "Code file implementing project logic in .gitkeep.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/.gitkeep",
+      "type": "file",
+      "name": ".gitkeep",
+      "filePath": "tests/.gitkeep",
+      "summary": "Code file implementing project logic in .gitkeep.",
+      "tags": [
+        "code",
+        "module",
+        "logic"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/approval.test.ts",
+      "type": "file",
+      "name": "approval.test.ts",
+      "filePath": "tests/approval.test.ts",
+      "summary": "Code file implementing project logic in approval.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/build.test.ts",
+      "type": "file",
+      "name": "build.test.ts",
+      "filePath": "tests/build.test.ts",
+      "summary": "Code file implementing project logic in build.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/config.test.ts",
+      "type": "file",
+      "name": "config.test.ts",
+      "filePath": "tests/config.test.ts",
+      "summary": "Code file implementing project logic in config.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/e2e.test.ts",
+      "type": "file",
+      "name": "e2e.test.ts",
+      "filePath": "tests/e2e.test.ts",
+      "summary": "Code file implementing project logic in e2e.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/explore.test.ts",
+      "type": "file",
+      "name": "explore.test.ts",
+      "filePath": "tests/explore.test.ts",
+      "summary": "Code file implementing project logic in explore.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/finalize.test.ts",
+      "type": "file",
+      "name": "finalize.test.ts",
+      "filePath": "tests/finalize.test.ts",
+      "summary": "Code file implementing project logic in finalize.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/git.test.ts",
+      "type": "file",
+      "name": "git.test.ts",
+      "filePath": "tests/git.test.ts",
+      "summary": "Code file implementing project logic in git.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/identity.test.ts",
+      "type": "file",
+      "name": "identity.test.ts",
+      "filePath": "tests/identity.test.ts",
+      "summary": "Code file implementing project logic in identity.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/init.test.ts",
+      "type": "file",
+      "name": "init.test.ts",
+      "filePath": "tests/init.test.ts",
+      "summary": "Code file implementing project logic in init.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/links.test.ts",
+      "type": "file",
+      "name": "links.test.ts",
+      "filePath": "tests/links.test.ts",
+      "summary": "Code file implementing project logic in links.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/log.test.ts",
+      "type": "file",
+      "name": "log.test.ts",
+      "filePath": "tests/log.test.ts",
+      "summary": "Code file implementing project logic in log.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/planning.test.ts",
+      "type": "file",
+      "name": "planning.test.ts",
+      "filePath": "tests/planning.test.ts",
+      "summary": "Code file implementing project logic in planning.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/policy.test.ts",
+      "type": "file",
+      "name": "policy.test.ts",
+      "filePath": "tests/policy.test.ts",
+      "summary": "Code file implementing project logic in policy.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:tests/restore.test.ts",
+      "type": "file",
+      "name": "restore.test.ts",
+      "filePath": "tests/restore.test.ts",
+      "summary": "Code file implementing project logic in restore.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:tests/resume.test.ts",
+      "type": "file",
+      "name": "resume.test.ts",
+      "filePath": "tests/resume.test.ts",
+      "summary": "Code file implementing project logic in resume.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/session.test.ts",
+      "type": "file",
+      "name": "session.test.ts",
+      "filePath": "tests/session.test.ts",
+      "summary": "Code file implementing project logic in session.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/setup.test.ts",
+      "type": "file",
+      "name": "setup.test.ts",
+      "filePath": "tests/setup.test.ts",
+      "summary": "Code file implementing project logic in setup.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": []
+}

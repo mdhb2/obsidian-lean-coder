@@ -1,0 +1,49 @@
+{
+  "projectRoot": "/home/mdhb2/workspace/projects/personal/olc",
+  "batchFiles": [
+    {
+      "path": "AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 222,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "language": "markdown",
+      "sizeLines": 185,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 179,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "package.json",
+      "language": "json",
+      "sizeLines": 42,
+      "fileCategory": "config"
+    },
+    {
+      "path": "tsconfig.json",
+      "language": "json",
+      "sizeLines": 17,
+      "fileCategory": "config"
+    },
+    {
+      "path": "tsconfig.tests.json",
+      "language": "json",
+      "sizeLines": 10,
+      "fileCategory": "config"
+    }
+  ],
+  "batchImportData": {
+    "AGENTS.md": [],
+    "CHANGELOG.md": [],
+    "README.md": [],
+    "package.json": [],
+    "tsconfig.json": [],
+    "tsconfig.tests.json": []
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "projectRoot": "/home/mdhb2/workspace/projects/personal/olc",
+  "batchFiles": [
+    {
+      "path": "templates/activity-log.md",
+      "language": "markdown",
+      "sizeLines": 15,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "templates/checkpoint.md",
+      "language": "markdown",
+      "sizeLines": 30,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "templates/explore-report.md",
+      "language": "markdown",
+      "sizeLines": 29,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "templates/intent.md",
+      "language": "markdown",
+      "sizeLines": 29,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "templates/knowledge.md",
+      "language": "markdown",
+      "sizeLines": 42,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "templates/plan.md",
+      "language": "markdown",
+      "sizeLines": 34,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "templates/session-summary.md",
+      "language": "markdown",
+      "sizeLines": 26,
+      "fileCategory": "docs"
+    }
+  ],
+  "batchImportData": {
+    "templates/activity-log.md": [],
+    "templates/checkpoint.md": [],
+    "templates/explore-report.md": [],
+    "templates/intent.md": [],
+    "templates/knowledge.md": [],
+    "templates/plan.md": [],
+    "templates/session-summary.md": []
+  }
+}

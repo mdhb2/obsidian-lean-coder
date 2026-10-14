@@ -1,0 +1,42 @@
+{
+  "projectRoot": "/home/mdhb2/workspace/projects/personal/olc",
+  "batchFiles": [
+    {
+      "path": "tests/tasks.test.ts",
+      "language": "typescript",
+      "sizeLines": 200,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/tools.test.ts",
+      "language": "typescript",
+      "sizeLines": 211,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/validation.test.ts",
+      "language": "typescript",
+      "sizeLines": 148,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/vault.test.ts",
+      "language": "typescript",
+      "sizeLines": 142,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/verify.test.ts",
+      "language": "typescript",
+      "sizeLines": 143,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "tests/tasks.test.ts": [],
+    "tests/tools.test.ts": [],
+    "tests/validation.test.ts": [],
+    "tests/vault.test.ts": [],
+    "tests/verify.test.ts": []
+  }
+}

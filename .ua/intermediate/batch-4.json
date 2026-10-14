@@ -1,0 +1,96 @@
+{
+  "nodes": [
+    {
+      "id": "document:templates/activity-log.md",
+      "type": "document",
+      "name": "activity-log.md",
+      "filePath": "templates/activity-log.md",
+      "summary": "Project documentation covering activity-log.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/checkpoint.md",
+      "type": "document",
+      "name": "checkpoint.md",
+      "filePath": "templates/checkpoint.md",
+      "summary": "Project documentation covering checkpoint.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/explore-report.md",
+      "type": "document",
+      "name": "explore-report.md",
+      "filePath": "templates/explore-report.md",
+      "summary": "Project documentation covering explore-report.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/intent.md",
+      "type": "document",
+      "name": "intent.md",
+      "filePath": "templates/intent.md",
+      "summary": "Project documentation covering intent.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/knowledge.md",
+      "type": "document",
+      "name": "knowledge.md",
+      "filePath": "templates/knowledge.md",
+      "summary": "Project documentation covering knowledge.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/plan.md",
+      "type": "document",
+      "name": "plan.md",
+      "filePath": "templates/plan.md",
+      "summary": "Project documentation covering plan.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:templates/session-summary.md",
+      "type": "document",
+      "name": "session-summary.md",
+      "filePath": "templates/session-summary.md",
+      "summary": "Project documentation covering session-summary.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,28 @@
+{
+  "projectRoot": "/home/mdhb2/workspace/projects/personal/olc",
+  "batchFiles": [
+    {
+      "path": "docs/DECISIONS.md",
+      "language": "markdown",
+      "sizeLines": 18,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/PRD.md",
+      "language": "markdown",
+      "sizeLines": 344,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/TASKS.md",
+      "language": "markdown",
+      "sizeLines": 646,
+      "fileCategory": "docs"
+    }
+  ],
+  "batchImportData": {
+    "docs/DECISIONS.md": [],
+    "docs/PRD.md": [],
+    "docs/TASKS.md": []
+  }
+}

@@ -1,0 +1,4946 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "8cefef976051c8759696dbf705816a73b9a73262",
+  "generatedAt": "2026-10-14T11:25:07.993Z",
+  "files": {
+    ".github/workflows/ci.yml": {
+      "filePath": ".github/workflows/ci.yml",
+      "contentHash": "6573cb7797a5280aa71ef692c3c0f839e48cb40ee46f50fab54c1da96fc7385e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 20,
+      "hasStructuralAnalysis": false
+    },
+    ".opencode/goals/state.json.sessions/.migration-v1-complete": {
+      "filePath": ".opencode/goals/state.json.sessions/.migration-v1-complete",
+      "contentHash": "1824779e5852202c24223d50d6e3253374720a3480a408602fab0340878f2f66",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 4,
+      "hasStructuralAnalysis": false
+    },
+    ".opencode/goals/state.json.sessions/669477566eb181eda20d119cd719c38cc84773e680d74501de8e33dee2eb4cbd/state.json": {
+      "filePath": ".opencode/goals/state.json.sessions/669477566eb181eda20d119cd719c38cc84773e680d74501de8e33dee2eb4cbd/state.json",
+      "contentHash": "79bde41b84b80b97e3b1d4078a080b0c3b74a8afbfa3495b4081c07359e25d3f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 7,
+      "hasStructuralAnalysis": false
+    },
+    ".uteke/uteke-rule.md": {
+      "filePath": ".uteke/uteke-rule.md",
+      "contentHash": "2db1b32366949fedbf1e8bb66bd1a8b86f8569689df55f59eba2bffa5ca7efcc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 56,
+      "hasStructuralAnalysis": false
+    },
+    ".uteke/uteke.toml": {
+      "filePath": ".uteke/uteke.toml",
+      "contentHash": "60e8fdd65e4f7a09f1f1496d4005b5fe812bebc7dbf7c8b1171fe7154ed6e7c4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": false
+    },
+    "AGENTS.md": {
+      "filePath": "AGENTS.md",
+      "contentHash": "1b0efb11b0836e42e8a03d4bfc32588dd922f4396ed78cfc772684eac03c7a98",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 223,
+      "hasStructuralAnalysis": false
+    },
+    "CHANGELOG.md": {
+      "filePath": "CHANGELOG.md",
+      "contentHash": "f79ff942b6f8c66654cfbdf5b2ffd91efdacc1d747156db0042fb844481e859c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 186,
+      "hasStructuralAnalysis": false
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "f3ff6b5adf2dbdda0b9d06a3d47369130c33d9bace9528c06076ed6d87eb798b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 180,
+      "hasStructuralAnalysis": false
+    },
+    "agents/olc-build.md": {
+      "filePath": "agents/olc-build.md",
+      "contentHash": "aaee756f9c083326d35ef1bc8fa684a9ae813de0c0f83d1b8a50e481ab4f64b2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 58,
+      "hasStructuralAnalysis": false
+    },
+    "agents/olc-plan.md": {
+      "filePath": "agents/olc-plan.md",
+      "contentHash": "8ee597a7d67b8161e03f26a6438ad554183c9c7c240e2ab0b03cb1af47bfd2eb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 45,
+      "hasStructuralAnalysis": false
+    },
+    "bin/olc-setup.js": {
+      "filePath": "bin/olc-setup.js",
+      "contentHash": "8a3c6637b87e0ad2da3180054c2f42bf888e76dff0c46edafaad96f5af913e9d",
+      "functions": [
+        {
+          "name": "usage",
+          "params": [],
+          "exported": false,
+          "lineCount": 14
+        },
+        {
+          "name": "fail",
+          "params": [
+            "message"
+          ],
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "parseArgs",
+          "params": [
+            "argv"
+          ],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "packageRoot",
+          "params": [],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "scopeRoot",
+          "params": [
+            "scope"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "main",
+          "params": [],
+          "exported": false,
+          "lineCount": 46
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdirSync",
+            "readFileSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "dirname",
+            "join",
+            "resolve"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "homedir"
+          ]
+        },
+        {
+          "source": "node:url",
+          "specifiers": [
+            "fileURLToPath"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 132,
+      "hasStructuralAnalysis": true
+    },
+    "docs/DECISIONS.md": {
+      "filePath": "docs/DECISIONS.md",
+      "contentHash": "428a55f086be25bbc91e1a90a977dd7f96b0fe7c0f76757c5d5bf9e70bf64b24",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 19,
+      "hasStructuralAnalysis": false
+    },
+    "docs/PRD.md": {
+      "filePath": "docs/PRD.md",
+      "contentHash": "c92dad080c769f6dca6fdc8139776028f497f58d5de5010215aaa961015f69fa",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 345,
+      "hasStructuralAnalysis": false
+    },
+    "docs/TASKS.md": {
+      "filePath": "docs/TASKS.md",
+      "contentHash": "828cbe5c6a1e8f8ad0e56ab2ebcfdc6d7390cd764270a3b85c5974d671828571",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 647,
+      "hasStructuralAnalysis": false
+    },
+    "package.json": {
+      "filePath": "package.json",
+      "contentHash": "029e22af53c29df58cba928a699576a9dd9fbf920724aa379e09c1cae6640c91",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 43,
+      "hasStructuralAnalysis": false
+    },
+    "skills/olc-explore/SKILL.md": {
+      "filePath": "skills/olc-explore/SKILL.md",
+      "contentHash": "ec83bf2a8e7abbb2fc9999edcccb07c1c9e2e1fa2ca3761173e5c4bf050636ba",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 36,
+      "hasStructuralAnalysis": false
+    },
+    "skills/olc-init/SKILL.md": {
+      "filePath": "skills/olc-init/SKILL.md",
+      "contentHash": "e4cf140e1ddaed3798f07c18ab806b451e4545dadb786040513c055c58d56d40",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 42,
+      "hasStructuralAnalysis": false
+    },
+    "skills/olc-log/SKILL.md": {
+      "filePath": "skills/olc-log/SKILL.md",
+      "contentHash": "1e25762d2802e127bac346d0a2c4630880671969aed2402cba5c8a6ccf13de40",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": false
+    },
+    "skills/olc-task/SKILL.md": {
+      "filePath": "skills/olc-task/SKILL.md",
+      "contentHash": "3f883f503a4ba6476fb040f944947df0990a9f0a56fc6ea795510f59eafdc441",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 57,
+      "hasStructuralAnalysis": false
+    },
+    "src/approval/index.ts": {
+      "filePath": "src/approval/index.ts",
+      "contentHash": "57df4a7be051787651cb1363b801c279f8e151737b0f8502c78e36ffc87b5af2",
+      "functions": [
+        {
+          "name": "assertBuildReady",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "requestScopeChange",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "reason",
+            "date"
+          ],
+          "returnType": "{ registryFrom: TaskStatus; registryTo: TaskStatus }",
+          "exported": true,
+          "lineCount": 53
+        },
+        {
+          "name": "resumeAfterRevision",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "date"
+          ],
+          "returnType": "{ registryFrom: TaskStatus; registryTo: TaskStatus }",
+          "exported": true,
+          "lineCount": 31
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApprovalError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "../planning/index.js",
+          "specifiers": [
+            "PlanningError",
+            "approveTaskDocs",
+            "assertApproved",
+            "reviseTaskDocs"
+          ]
+        },
+        {
+          "source": "../tasks/index.js",
+          "specifiers": [
+            "TaskRegistryError",
+            "getTask",
+            "setTaskStatus",
+            "TaskStatus"
+          ]
+        }
+      ],
+      "exports": [
+        "ApprovalError",
+        "assertBuildReady",
+        "requestScopeChange",
+        "resumeAfterRevision"
+      ],
+      "totalLines": 180,
+      "hasStructuralAnalysis": true
+    },
+    "src/config/index.ts": {
+      "filePath": "src/config/index.ts",
+      "contentHash": "c63337eed2f9d89b93a362d46ea7822486e1a882a2caf8d3925ae6fb06b51622",
+      "functions": [
+        {
+          "name": "isRecord",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "parseConfig",
+          "params": [
+            "json"
+          ],
+          "returnType": "OlcConfig",
+          "exported": true,
+          "lineCount": 67
+        },
+        {
+          "name": "readConfigFile",
+          "params": [
+            "projectRoot"
+          ],
+          "returnType": "OlcConfig | null",
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "resolveVaultPath",
+          "params": [
+            "config",
+            "projectRoot",
+            "env"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "loadConfig",
+          "params": [
+            "projectRoot",
+            "env"
+          ],
+          "returnType": "ResolvedConfig",
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [
+        {
+          "name": "ConfigError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "readFileSync"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "isAbsolute",
+            "resolve"
+          ]
+        }
+      ],
+      "exports": [
+        "CONFIG_SCHEMA_VERSION",
+        "CONFIG_REL_PATH",
+        "VAULT_PATH_ENV",
+        "ConfigError",
+        "parseConfig",
+        "readConfigFile",
+        "resolveVaultPath",
+        "loadConfig"
+      ],
+      "totalLines": 206,
+      "hasStructuralAnalysis": true
+    },
+    "src/core/project-identity.ts": {
+      "filePath": "src/core/project-identity.ts",
+      "contentHash": "353c50fc5a56f8eb029ebac009b883696d0979dfd538b1cdff63b4e939837428",
+      "functions": [
+        {
+          "name": "resolveRepoRoot",
+          "params": [
+            "startDir"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "git",
+          "params": [
+            "args",
+            "cwd"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "resolveBranch",
+          "params": [
+            "repoRoot"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "isRegistry",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "assertVaultAccessible",
+          "params": [
+            "vaultRoot"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "readRegistry",
+          "params": [
+            "vaultRoot"
+          ],
+          "returnType": "VaultRegistry",
+          "exported": true,
+          "lineCount": 34
+        },
+        {
+          "name": "validateIdentity",
+          "params": [
+            "startDir",
+            "config"
+          ],
+          "returnType": "ProjectIdentity",
+          "exported": true,
+          "lineCount": 30
+        }
+      ],
+      "classes": [
+        {
+          "name": "IdentityError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "readdirSync",
+            "readFileSync"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "dirname",
+            "isAbsolute",
+            "resolve"
+          ]
+        },
+        {
+          "source": "../config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        }
+      ],
+      "exports": [
+        "REGISTRY_REL_PATH",
+        "IdentityError",
+        "resolveRepoRoot",
+        "resolveBranch",
+        "assertVaultAccessible",
+        "readRegistry",
+        "validateIdentity"
+      ],
+      "totalLines": 206,
+      "hasStructuralAnalysis": true
+    },
+    "src/finalize/index.ts": {
+      "filePath": "src/finalize/index.ts",
+      "contentHash": "9f61c8ac983654b67396224ab347b09ab23afbc129849f49a49c787170041bf2",
+      "functions": [
+        {
+          "name": "readOrNull",
+          "params": [
+            "path"
+          ],
+          "returnType": "string | null",
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "plainTextLinks",
+          "params": [
+            "body"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "rewriteTaskLogLinks",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId"
+          ],
+          "returnType": "number",
+          "exported": false,
+          "lineCount": 31
+        },
+        {
+          "name": "finalizeTask",
+          "params": [
+            "input"
+          ],
+          "returnType": "FinalizeResult",
+          "exported": true,
+          "lineCount": 95
+        }
+      ],
+      "classes": [
+        {
+          "name": "FinalizeError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdirSync",
+            "readdirSync",
+            "renameSync"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "dirname",
+            "join"
+          ]
+        },
+        {
+          "source": "../config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../core/project-identity.js",
+          "specifiers": [
+            "validateIdentity"
+          ]
+        },
+        {
+          "source": "../log/index.js",
+          "specifiers": [
+            "readLastEvents"
+          ]
+        },
+        {
+          "source": "../log/index.js",
+          "specifiers": [
+            "logEvent"
+          ]
+        },
+        {
+          "source": "../tasks/index.js",
+          "specifiers": [
+            "TERMINAL_STATUSES",
+            "getTask",
+            "migrateTaskLayout",
+            "readRegistry",
+            "resolveTaskDir",
+            "setTaskStatus"
+          ]
+        },
+        {
+          "source": "../vault/index.js",
+          "specifiers": [
+            "projectScopeRoot",
+            "readVaultDoc",
+            "renderTemplate",
+            "resolveVaultDoc",
+            "writeVaultDoc"
+          ]
+        }
+      ],
+      "exports": [
+        "FinalizeError",
+        "finalizeTask"
+      ],
+      "totalLines": 233,
+      "hasStructuralAnalysis": true
+    },
+    "src/git/checkpoint.ts": {
+      "filePath": "src/git/checkpoint.ts",
+      "contentHash": "580ded7abb34bcd2979c15de7b66091e95adee73dffb9710ffa290d9a186d8ea",
+      "functions": [
+        {
+          "name": "normalizeOwned",
+          "params": [
+            "repoRoot",
+            "ownedPaths"
+          ],
+          "returnType": "string[]",
+          "exported": false,
+          "lineCount": 14
+        },
+        {
+          "name": "appendCheckpointRecord",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "vars"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "createCheckpoint",
+          "params": [
+            "input"
+          ],
+          "returnType": "CheckpointResult",
+          "exported": true,
+          "lineCount": 79
+        }
+      ],
+      "classes": [
+        {
+          "name": "CheckpointError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "readFileSync"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join",
+            "relative",
+            "resolve",
+            "sep"
+          ]
+        },
+        {
+          "source": "../config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../core/project-identity.js",
+          "specifiers": [
+            "validateIdentity"
+          ]
+        },
+        {
+          "source": "../tasks/index.js",
+          "specifiers": [
+            "resolveTaskDir"
+          ]
+        },
+        {
+          "source": "../validation/index.js",
+          "specifiers": [
+            "assertContextCurrent",
+            "SessionContext"
+          ]
+        },
+        {
+          "source": "../vault/index.js",
+          "specifiers": [
+            "parseFrontmatter",
+            "readVaultDoc",
+            "renderTemplate",
+            "writeVaultDoc"
+          ]
+        },
+        {
+          "source": "./inspection.js",
+          "specifiers": [
+            "git",
+            "gitRaw",
+            "inspectTree"
+          ]
+        }
+      ],
+      "exports": [
+        "CheckpointError",
+        "appendCheckpointRecord",
+        "createCheckpoint"
+      ],
+      "totalLines": 200,
+      "hasStructuralAnalysis": true
+    },
+    "src/git/inspection.ts": {
+      "filePath": "src/git/inspection.ts",
+      "contentHash": "e9b243dc184c7bf848ff18bad3a8010c5c0540df3ad86b72d223e0437c95a56a",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "repoRoot",
+            "args"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "gitRaw",
+          "params": [
+            "repoRoot",
+            "args"
+          ],
+          "returnType": "Buffer",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "parsePorcelain",
+          "params": [
+            "output"
+          ],
+          "returnType": "PorcelainSets",
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "inspectTree",
+          "params": [
+            "repoRoot"
+          ],
+          "returnType": "TreeState",
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "classes": [
+        {
+          "name": "GitError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "../core/project-identity.js",
+          "specifiers": [
+            "resolveBranch"
+          ]
+        }
+      ],
+      "exports": [
+        "GitError",
+        "git",
+        "gitRaw",
+        "parsePorcelain",
+        "inspectTree"
+      ],
+      "totalLines": 100,
+      "hasStructuralAnalysis": true
+    },
+    "src/git/policy.ts": {
+      "filePath": "src/git/policy.ts",
+      "contentHash": "ba913f320021f3a90077d7da18c47aaa842e21555c29b5d77157dddff85d681e",
+      "functions": [
+        {
+          "name": "oneLineVerifySummary",
+          "params": [
+            "outcome"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "maybeCheckpointPolicy",
+          "params": [
+            "input"
+          ],
+          "returnType": "PolicyResult",
+          "exported": true,
+          "lineCount": 65
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../tasks/index.js",
+          "specifiers": [
+            "getTask"
+          ]
+        },
+        {
+          "source": "../verify/index.js",
+          "specifiers": [
+            "formatVerifyReport",
+            "VerifyOutcome"
+          ]
+        },
+        {
+          "source": "./checkpoint.js",
+          "specifiers": [
+            "createCheckpoint",
+            "CheckpointResult"
+          ]
+        }
+      ],
+      "exports": [
+        "maybeCheckpointPolicy"
+      ],
+      "totalLines": 148,
+      "hasStructuralAnalysis": true
+    },
+    "src/git/restore.ts": {
+      "filePath": "src/git/restore.ts",
+      "contentHash": "f4e294eb09ada50790a22ba4d662426330b0f708588da37ade3bba7f3627f80a",
+      "functions": [
+        {
+          "name": "normalizeRestorePaths",
+          "params": [
+            "repoRoot",
+            "restorePaths"
+          ],
+          "returnType": "string[]",
+          "exported": false,
+          "lineCount": 14
+        },
+        {
+          "name": "isAncestor",
+          "params": [
+            "repoRoot",
+            "sha"
+          ],
+          "returnType": "boolean",
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "restoreCheckpoint",
+          "params": [
+            "input"
+          ],
+          "returnType": "RestoreResult",
+          "exported": true,
+          "lineCount": 112
+        }
+      ],
+      "classes": [
+        {
+          "name": "RestoreError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "spawnSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "relative",
+            "resolve",
+            "sep"
+          ]
+        },
+        {
+          "source": "../config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../core/project-identity.js",
+          "specifiers": [
+            "validateIdentity"
+          ]
+        },
+        {
+          "source": "../validation/index.js",
+          "specifiers": [
+            "assertContextCurrent",
+            "SessionContext"
+          ]
+        },
+        {
+          "source": "./checkpoint.js",
+          "specifiers": [
+            "appendCheckpointRecord"
+          ]
+        },
+        {
+          "source": "./inspection.js",
+          "specifiers": [
+            "GitError",
+            "git",
+            "gitRaw",
+            "inspectTree"
+          ]
+        }
+      ],
+      "exports": [
+        "RestoreError",
+        "restoreCheckpoint"
+      ],
+      "totalLines": 227,
+      "hasStructuralAnalysis": true
+    },
+    "src/index.ts": {
+      "filePath": "src/index.ts",
+      "contentHash": "e96d67932ca96d2a5079b9fb89b2d0a7bbfc6a5cb6d4ec91f56df0d63cb9bb83",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "OLC_VERSION",
+        "default"
+      ],
+      "totalLines": 15,
+      "hasStructuralAnalysis": true
+    },
+    "src/init/index.ts": {
+      "filePath": "src/init/index.ts",
+      "contentHash": "0a89c4865100a75eb65d73b2bdedc11cfd8e2ec72d2e7dd14f5eda09c3e5422b",
+      "functions": [
+        {
+          "name": "AGENTS_STUB",
+          "params": [
+            "projectId"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "VAULT_INDEX",
+          "params": [
+            "projectId"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "VAULT_STATE",
+          "params": [
+            "projectId"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "proposeProjectId",
+          "params": [
+            "repoRoot"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "readRegistryFile",
+          "params": [
+            "path"
+          ],
+          "returnType": "{ registry: VaultRegistry; existed: boolean }",
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "planFile",
+          "params": [
+            "path",
+            "content",
+            "dryRun"
+          ],
+          "returnType": "InitEntry",
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "initProject",
+          "params": [
+            "options"
+          ],
+          "returnType": "InitReport",
+          "exported": true,
+          "lineCount": 151
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdirSync",
+            "readFileSync",
+            "rmSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "basename",
+            "join",
+            "resolve"
+          ]
+        },
+        {
+          "source": "../config/index.js",
+          "specifiers": [
+            "CONFIG_SCHEMA_VERSION",
+            "VAULT_PATH_ENV",
+            "parseConfig"
+          ]
+        },
+        {
+          "source": "../core/project-identity.js",
+          "specifiers": [
+            "REGISTRY_REL_PATH",
+            "resolveRepoRoot",
+            "VaultRegistry"
+          ]
+        },
+        {
+          "source": "../tasks/index.js",
+          "specifiers": [
+            "migrateTaskLayout"
+          ]
+        }
+      ],
+      "exports": [
+        "OLC_DIR",
+        "CONFIG_FILE",
+        "AGENTS_FILE",
+        "proposeProjectId",
+        "initProject"
+      ],
+      "totalLines": 255,
+      "hasStructuralAnalysis": true
+    },
+    "src/log/index.ts": {
+      "filePath": "src/log/index.ts",
+      "contentHash": "bc4e34b880af304f96313dc47b06f9b536212ff72c52875dab15ef9fbee6f9b9",
+      "functions": [
+        {
+          "name": "scrubSecrets",
+          "params": [
+            "text"
+          ],
+          "returnType": "{ text: string; redacted: boolean }",
+          "exported": false,
+          "lineCount": 13
+        },
+        {
+          "name": "dayOf",
+          "params": [
+            "iso"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "logsDir",
+          "params": [
+            "vaultRoot",
+            "projectId"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "ensureDayFile",
+          "params": [
+            "path",
+            "projectId",
+            "day"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 19
+        },
+        {
+          "name": "formatEntry",
+          "params": [
+            "event",
+            "iso"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 19
+        },
+        {
+          "name": "logEvent",
+          "params": [
+            "args"
+          ],
+          "returnType": "{ file: string; entry: LoggedEvent }",
+          "exported": true,
+          "lineCount": 39
+        },
+        {
+          "name": "parseEntries",
+          "params": [
+            "text"
+          ],
+          "returnType": "LoggedEvent[]",
+          "exported": true,
+          "lineCount": 33
+        },
+        {
+          "name": "readLogDay",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "day"
+          ],
+          "returnType": "LoggedEvent[]",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "readLastEvents",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "limit"
+          ],
+          "returnType": "LoggedEvent[]",
+          "exported": true,
+          "lineCount": 24
+        }
+      ],
+      "classes": [
+        {
+          "name": "LogError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "appendFileSync",
+            "existsSync",
+            "mkdirSync",
+            "readdirSync",
+            "readFileSync"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../core/project-identity.js",
+          "specifiers": [
+            "validateIdentity"
+          ]
+        },
+        {
+          "source": "../vault/index.js",
+          "specifiers": [
+            "projectScopeRoot",
+            "withFrontmatter"
+          ]
+        }
+      ],
+      "exports": [
+        "LogError",
+        "logEvent",
+        "parseEntries",
+        "readLogDay",
+        "readLastEvents"
+      ],
+      "totalLines": 277,
+      "hasStructuralAnalysis": true
+    },
+    "src/planning/index.ts": {
+      "filePath": "src/planning/index.ts",
+      "contentHash": "35aea84e9427695d4a6f04cb8d6297275035b660c07690a4cb665cc8d965024b",
+      "functions": [
+        {
+          "name": "docPaths",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId"
+          ],
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "templateVars",
+          "params": [
+            "projectId",
+            "taskId",
+            "status",
+            "extra"
+          ],
+          "returnType": "Record<string, string>",
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "draftTaskDocs",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "intent",
+            "plan"
+          ],
+          "returnType": "{ intentPath: string; planPath: string }",
+          "exported": true,
+          "lineCount": 45
+        },
+        {
+          "name": "readStatus",
+          "params": [
+            "path",
+            "label"
+          ],
+          "returnType": "PlanningStatus",
+          "exported": false,
+          "lineCount": 19
+        },
+        {
+          "name": "getDocStatuses",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId"
+          ],
+          "returnType": "{ intent: PlanningStatus | \"missing\"; plan: PlanningStatus | \"missing\" }",
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "setStatus",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "status"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 17
+        },
+        {
+          "name": "appendHistory",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "kind",
+            "reason",
+            "date"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 24
+        },
+        {
+          "name": "approveTaskDocs",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "date"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "reviseTaskDocs",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "reason",
+            "date",
+            "updated"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 44
+        },
+        {
+          "name": "rejectTaskDocs",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "reason",
+            "date"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "assertApproved",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 17
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlanningError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "imports": [
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../tasks/index.js",
+          "specifiers": [
+            "resolveTaskDir"
+          ]
+        },
+        {
+          "source": "../vault/index.js",
+          "specifiers": [
+            "VaultError",
+            "parseFrontmatter",
+            "readVaultDoc",
+            "renderTemplate",
+            "withFrontmatter",
+            "writeVaultDoc"
+          ]
+        }
+      ],
+      "exports": [
+        "PlanningError",
+        "draftTaskDocs",
+        "getDocStatuses",
+        "approveTaskDocs",
+        "reviseTaskDocs",
+        "rejectTaskDocs",
+        "assertApproved"
+      ],
+      "totalLines": 302,
+      "hasStructuralAnalysis": true
+    },
+    "src/plugin.ts": {
+      "filePath": "src/plugin.ts",
+      "contentHash": "73b94453ff71bc36ce1948e42a110a3014d18f4fe1cb0f11c9f339485b7a82b2",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@opencode/plugin",
+          "specifiers": [
+            "Plugin"
+          ]
+        },
+        {
+          "source": "./index.js",
+          "specifiers": [
+            "OLC_VERSION"
+          ]
+        },
+        {
+          "source": "./tools.js",
+          "specifiers": [
+            "registerOlcTools"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 57,
+      "hasStructuralAnalysis": true
+    },
+    "src/resume/index.ts": {
+      "filePath": "src/resume/index.ts",
+      "contentHash": "ed22864f83de69ed3b7c4571f30c90283d7fb0a9211846b0d71eb26a59ba7173",
+      "functions": [
+        {
+          "name": "readCurrentState",
+          "params": [
+            "vaultRoot",
+            "projectId"
+          ],
+          "returnType": "string | null",
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "buildResumeContext",
+          "params": [
+            "args"
+          ],
+          "returnType": "ResumeContext",
+          "exported": true,
+          "lineCount": 90
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:path",
+          "specifiers": [
+            "resolve"
+          ]
+        },
+        {
+          "source": "../config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../core/project-identity.js",
+          "specifiers": [
+            "IdentityError",
+            "assertVaultAccessible",
+            "readVaultRegistry",
+            "resolveRepoRoot",
+            "validateIdentity"
+          ]
+        },
+        {
+          "source": "../git/inspection.js",
+          "specifiers": [
+            "git",
+            "parsePorcelain"
+          ]
+        },
+        {
+          "source": "../log/index.js",
+          "specifiers": [
+            "readLastEvents",
+            "LoggedEvent"
+          ]
+        },
+        {
+          "source": "../planning/index.js",
+          "specifiers": [
+            "getDocStatuses"
+          ]
+        },
+        {
+          "source": "../tasks/index.js",
+          "specifiers": [
+            "TERMINAL_STATUSES",
+            "migrateTaskLayout",
+            "readRegistry",
+            "recommendResume",
+            "TaskEntry"
+          ]
+        },
+        {
+          "source": "../vault/index.js",
+          "specifiers": [
+            "readVaultDoc",
+            "resolveVaultDoc"
+          ]
+        }
+      ],
+      "exports": [
+        "buildResumeContext"
+      ],
+      "totalLines": 179,
+      "hasStructuralAnalysis": true
+    },
+    "src/session/index.ts": {
+      "filePath": "src/session/index.ts",
+      "contentHash": "cb7e0931e1098a7337bf0c4cc9013a3a656dd4d4106c3b8036f65f414a6775df",
+      "functions": [
+        {
+          "name": "bullets",
+          "params": [
+            "items"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "oneLine",
+          "params": [
+            "text"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "buildSessionSummary",
+          "params": [
+            "input"
+          ],
+          "returnType": "SessionSummaryResult",
+          "exported": true,
+          "lineCount": 91
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../log/index.js",
+          "specifiers": [
+            "logEvent"
+          ]
+        },
+        {
+          "source": "../resume/index.js",
+          "specifiers": [
+            "buildResumeContext"
+          ]
+        },
+        {
+          "source": "../verify/index.js",
+          "specifiers": [
+            "VerifyOutcome"
+          ]
+        },
+        {
+          "source": "../vault/index.js",
+          "specifiers": [
+            "renderTemplate"
+          ]
+        }
+      ],
+      "exports": [
+        "buildSessionSummary"
+      ],
+      "totalLines": 160,
+      "hasStructuralAnalysis": true
+    },
+    "src/tasks/index.ts": {
+      "filePath": "src/tasks/index.ts",
+      "contentHash": "8e7c4f99b23bc3a3cd851facb444b06aada23ce2367d1c177b559fd697294244",
+      "functions": [
+        {
+          "name": "registryPath",
+          "params": [
+            "vaultRoot",
+            "projectId"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "isTaskStatus",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "parseRegistry",
+          "params": [
+            "text",
+            "path"
+          ],
+          "returnType": "TaskRegistry",
+          "exported": false,
+          "lineCount": 55
+        },
+        {
+          "name": "readRegistry",
+          "params": [
+            "vaultRoot",
+            "projectId"
+          ],
+          "returnType": "TaskRegistry",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "saveRegistry",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "registry"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "checkTaskId",
+          "params": [
+            "taskId"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "taskStatusDir",
+          "params": [
+            "status"
+          ],
+          "returnType": "\"active\" | \"done\"",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "resolveTaskDir",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "migrateTaskLayout",
+          "params": [
+            "vaultRoot",
+            "projectId"
+          ],
+          "returnType": "TaskMigrationReport",
+          "exported": true,
+          "lineCount": 66
+        },
+        {
+          "name": "registerTask",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "branch",
+            "date"
+          ],
+          "returnType": "TaskEntry",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "registerSubtask",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "parentId",
+            "subtaskId",
+            "branch",
+            "date"
+          ],
+          "returnType": "TaskEntry",
+          "exported": true,
+          "lineCount": 45
+        },
+        {
+          "name": "attachBranch",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "branch",
+            "date"
+          ],
+          "returnType": "TaskEntry",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "setTaskStatus",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId",
+            "to",
+            "date"
+          ],
+          "returnType": "TaskEntry",
+          "exported": true,
+          "lineCount": 30
+        },
+        {
+          "name": "getTask",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "taskId"
+          ],
+          "returnType": "TaskEntry | null",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "listOpenTasks",
+          "params": [
+            "vaultRoot",
+            "projectId"
+          ],
+          "returnType": "OpenTask[]",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "recommendResume",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "currentBranch"
+          ],
+          "returnType": "ResumeRecommendation",
+          "exported": true,
+          "lineCount": 33
+        },
+        {
+          "name": "recommendNext",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "currentBranch"
+          ],
+          "returnType": "ResumeRecommendation",
+          "exported": true,
+          "lineCount": 44
+        }
+      ],
+      "classes": [
+        {
+          "name": "TaskRegistryError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 15
+        }
+      ],
+      "imports": [
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdirSync",
+            "renameSync"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "../vault/index.js",
+          "specifiers": [
+            "readVaultDoc",
+            "resolveVaultDoc",
+            "writeVaultDoc"
+          ]
+        }
+      ],
+      "exports": [
+        "TRANSITIONS",
+        "TERMINAL_STATUSES",
+        "STATUS_MIGRATION",
+        "TaskRegistryError",
+        "readRegistry",
+        "taskStatusDir",
+        "resolveTaskDir",
+        "migrateTaskLayout",
+        "registerTask",
+        "registerSubtask",
+        "attachBranch",
+        "setTaskStatus",
+        "getTask",
+        "listOpenTasks",
+        "recommendResume",
+        "recommendNext"
+      ],
+      "totalLines": 541,
+      "hasStructuralAnalysis": true
+    },
+    "src/tools.ts": {
+      "filePath": "src/tools.ts",
+      "contentHash": "5e64a7cd9ba88069a8390b81839f8e7bed4c4d9f35a95c23d26a26571a816e7d",
+      "functions": [
+        {
+          "name": "toOlcError",
+          "params": [
+            "error"
+          ],
+          "returnType": "{ code: string; message: string }",
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "ok",
+          "params": [
+            "payload"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "fail",
+          "params": [
+            "error"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "registerOlcTools",
+          "params": [
+            "ctx"
+          ],
+          "returnType": "Promise<void>",
+          "exported": true,
+          "lineCount": 195
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@opencode/plugin",
+          "specifiers": [
+            "Plugin"
+          ]
+        },
+        {
+          "source": "./config/index.js",
+          "specifiers": [
+            "loadConfig"
+          ]
+        },
+        {
+          "source": "./finalize/index.js",
+          "specifiers": [
+            "finalizeTask"
+          ]
+        },
+        {
+          "source": "./log/index.js",
+          "specifiers": [
+            "logEvent",
+            "LogEventArgs",
+            "LogEventKind"
+          ]
+        },
+        {
+          "source": "./resume/index.js",
+          "specifiers": [
+            "buildResumeContext"
+          ]
+        },
+        {
+          "source": "./session/index.js",
+          "specifiers": [
+            "buildSessionSummary",
+            "SessionSummaryInput"
+          ]
+        },
+        {
+          "source": "./tasks/index.js",
+          "specifiers": [
+            "listOpenTasks",
+            "migrateTaskLayout",
+            "recommendNext"
+          ]
+        }
+      ],
+      "exports": [
+        "registerOlcTools"
+      ],
+      "totalLines": 249,
+      "hasStructuralAnalysis": true
+    },
+    "src/validation/index.ts": {
+      "filePath": "src/validation/index.ts",
+      "contentHash": "831cec1e24c2e9b668910bf8544602e1327c21f5d3fd49cb6ad071083da761d1",
+      "functions": [
+        {
+          "name": "startSession",
+          "params": [
+            "input"
+          ],
+          "returnType": "SessionContext",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "assertContextCurrent",
+          "params": [
+            "input"
+          ],
+          "returnType": "SessionContext",
+          "exported": true,
+          "lineCount": 26
+        }
+      ],
+      "classes": [
+        {
+          "name": "ValidationError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "node:path",
+          "specifiers": [
+            "resolve"
+          ]
+        },
+        {
+          "source": "../config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../core/project-identity.js",
+          "specifiers": [
+            "validateIdentity"
+          ]
+        }
+      ],
+      "exports": [
+        "ValidationError",
+        "startSession",
+        "assertContextCurrent"
+      ],
+      "totalLines": 108,
+      "hasStructuralAnalysis": true
+    },
+    "src/vault/index.ts": {
+      "filePath": "src/vault/index.ts",
+      "contentHash": "180a7274bc58fcd7b50475c4ac57f3afb73c494848efa3f797c7924be07055bc",
+      "functions": [
+        {
+          "name": "projectScopeRoot",
+          "params": [
+            "vaultRoot",
+            "projectId"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "checkSegment",
+          "params": [
+            "segment"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 15
+        },
+        {
+          "name": "resolveVaultDoc",
+          "params": [
+            "vaultRoot",
+            "projectId",
+            "...segments"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "parseFrontmatter",
+          "params": [
+            "text"
+          ],
+          "returnType": "FrontmatterDoc",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "withFrontmatter",
+          "params": [
+            "data",
+            "body"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "readVaultDoc",
+          "params": [
+            "path"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "writeVaultDoc",
+          "params": [
+            "path",
+            "content",
+            "options"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "findTemplatesDir",
+          "params": [],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "renderTemplate",
+          "params": [
+            "name",
+            "vars"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 36
+        }
+      ],
+      "classes": [
+        {
+          "name": "VaultError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [
+            "code"
+          ],
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "imports": [
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdirSync",
+            "readFileSync",
+            "renameSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "dirname",
+            "isAbsolute",
+            "join",
+            "relative",
+            "resolve",
+            "sep"
+          ]
+        },
+        {
+          "source": "node:url",
+          "specifiers": [
+            "fileURLToPath"
+          ]
+        }
+      ],
+      "exports": [
+        "VaultError",
+        "projectScopeRoot",
+        "resolveVaultDoc",
+        "parseFrontmatter",
+        "withFrontmatter",
+        "readVaultDoc",
+        "writeVaultDoc",
+        "findTemplatesDir",
+        "renderTemplate",
+        "BUNDLED_TEMPLATES"
+      ],
+      "totalLines": 202,
+      "hasStructuralAnalysis": true
+    },
+    "src/verify/index.ts": {
+      "filePath": "src/verify/index.ts",
+      "contentHash": "db3adf596dfe487bc803d5871dbe83716c9ab88854f0d73fe075a2d3d7d84839",
+      "functions": [
+        {
+          "name": "clip",
+          "params": [
+            "s"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "runCheck",
+          "params": [
+            "spec",
+            "cwd",
+            "attempt"
+          ],
+          "returnType": "CheckAttempt",
+          "exported": true,
+          "lineCount": 47
+        },
+        {
+          "name": "verifyChecks",
+          "params": [
+            "specs",
+            "cwd",
+            "options"
+          ],
+          "returnType": "VerifyOutcome",
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "formatVerifyReport",
+          "params": [
+            "outcome"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "completeTaskWithVerification",
+          "params": [
+            "frame",
+            "config",
+            "repoRoot",
+            "checks",
+            "options"
+          ],
+          "returnType": "CompleteWithVerificationResult",
+          "exported": true,
+          "lineCount": 13
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "spawnSync"
+          ]
+        },
+        {
+          "source": "../build/index.js",
+          "specifiers": [
+            "completeTask",
+            "BuildFrame"
+          ]
+        },
+        {
+          "source": "../config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        }
+      ],
+      "exports": [
+        "runCheck",
+        "verifyChecks",
+        "formatVerifyReport",
+        "completeTaskWithVerification"
+      ],
+      "totalLines": 195,
+      "hasStructuralAnalysis": true
+    },
+    "templates/.gitkeep": {
+      "filePath": "templates/.gitkeep",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "templates/activity-log.md": {
+      "filePath": "templates/activity-log.md",
+      "contentHash": "f91ca360e29c951d3d3f8ca5368eb1a67467222c4b88d335c958dacac3cee0a2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 16,
+      "hasStructuralAnalysis": false
+    },
+    "templates/checkpoint.md": {
+      "filePath": "templates/checkpoint.md",
+      "contentHash": "658700143ffa462a41d5d15bfbdbe660f99710104ccf5b7649aa03421e6698d5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": false
+    },
+    "templates/explore-report.md": {
+      "filePath": "templates/explore-report.md",
+      "contentHash": "32c76299119c35da0951a2e97dab618df24b81f6da215e6a45d4ba3b98046e14",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": false
+    },
+    "templates/intent.md": {
+      "filePath": "templates/intent.md",
+      "contentHash": "d0e49933b973f0ad22aa24cb3fa85c262d16cf22481250f90ffb4a698cfdbcaf",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": false
+    },
+    "templates/knowledge.md": {
+      "filePath": "templates/knowledge.md",
+      "contentHash": "526116a001b9a14da6d48538e119ef944d76a029c7ab1dc57522f75d40a90997",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 43,
+      "hasStructuralAnalysis": false
+    },
+    "templates/plan.md": {
+      "filePath": "templates/plan.md",
+      "contentHash": "bbd84b966c5f0d2176e0c0b5316ff98af0e968f9b37870ae1eb2561289e7b0f7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 35,
+      "hasStructuralAnalysis": false
+    },
+    "templates/session-summary.md": {
+      "filePath": "templates/session-summary.md",
+      "contentHash": "b868561ee42c23e613a1d6c1039e0b6185c721286f8727aaadbb51504c35533b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": false
+    },
+    "tests/.gitkeep": {
+      "filePath": "tests/.gitkeep",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "tests/approval.test.ts": {
+      "filePath": "tests/approval.test.ts",
+      "contentHash": "c2bb46accf55e1c600bacd74c5355957010e153358758e477c8c39c7ccc95077",
+      "functions": [
+        {
+          "name": "setupTask",
+          "params": [
+            "taskId",
+            "branch"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "readBody",
+          "params": [
+            "vault",
+            "taskId",
+            "doc"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "assertApprovalError",
+          "params": [
+            "fn",
+            "code"
+          ],
+          "returnType": "ApprovalError",
+          "exported": false,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdtempSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/approval/index.js",
+          "specifiers": [
+            "ApprovalError",
+            "assertBuildReady",
+            "requestScopeChange",
+            "resumeAfterRevision"
+          ]
+        },
+        {
+          "source": "../src/planning/index.js",
+          "specifiers": [
+            "approveTaskDocs",
+            "draftTaskDocs",
+            "getDocStatuses"
+          ]
+        },
+        {
+          "source": "../src/tasks/index.js",
+          "specifiers": [
+            "getTask",
+            "registerTask",
+            "resolveTaskDir",
+            "setTaskStatus"
+          ]
+        },
+        {
+          "source": "../src/vault/index.js",
+          "specifiers": [
+            "readVaultDoc"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 129,
+      "hasStructuralAnalysis": true
+    },
+    "tests/build.test.ts": {
+      "filePath": "tests/build.test.ts",
+      "contentHash": "81babb34aa21aa4a1266129772ffd27d87cfbbba6ede083205314823ba2941b8",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "dir",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "setup",
+          "params": [
+            "taskId",
+            "approved"
+          ],
+          "returnType": "{ repo: string; vault: string; config: ResolvedConfig }",
+          "exported": false,
+          "lineCount": 30
+        },
+        {
+          "name": "assertBuildError",
+          "params": [
+            "fn",
+            "code"
+          ],
+          "returnType": "BuildError",
+          "exported": false,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdirSync",
+            "mkdtempSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/build/index.js",
+          "specifiers": [
+            "BuildError",
+            "beginTask",
+            "changedPaths",
+            "completeTask"
+          ]
+        },
+        {
+          "source": "../src/planning/index.js",
+          "specifiers": [
+            "approveTaskDocs",
+            "draftTaskDocs"
+          ]
+        },
+        {
+          "source": "../src/tasks/index.js",
+          "specifiers": [
+            "getTask",
+            "registerTask",
+            "setTaskStatus"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 140,
+      "hasStructuralAnalysis": true
+    },
+    "tests/config.test.ts": {
+      "filePath": "tests/config.test.ts",
+      "contentHash": "0f9c7f71e93d1ede94de4a02b73d6ca3c88b12fe6edfc1d82e17fc64d858c904",
+      "functions": [
+        {
+          "name": "makeProject",
+          "params": [
+            "files"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "validConfig",
+          "params": [
+            "overrides"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "assertConfigError",
+          "params": [
+            "fn",
+            "code"
+          ],
+          "returnType": "ConfigError",
+          "exported": false,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdtempSync",
+            "mkdirSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join",
+            "resolve"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "CONFIG_SCHEMA_VERSION",
+            "ConfigError",
+            "loadConfig",
+            "parseConfig",
+            "readConfigFile",
+            "resolveVaultPath",
+            "OlcConfig"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 153,
+      "hasStructuralAnalysis": true
+    },
+    "tests/e2e.test.ts": {
+      "filePath": "tests/e2e.test.ts",
+      "contentHash": "ff613cf8d7a7483ebd62eb1cbc9bf902d286cf520d5a4073a0c3451009daf986",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "dir",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdtempSync",
+            "readFileSync",
+            "rmSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/approval/index.js",
+          "specifiers": [
+            "assertBuildReady"
+          ]
+        },
+        {
+          "source": "../src/build/index.js",
+          "specifiers": [
+            "BuildError",
+            "beginTask",
+            "completeTask"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/core/project-identity.js",
+          "specifiers": [
+            "IdentityError"
+          ]
+        },
+        {
+          "source": "../src/git/checkpoint.js",
+          "specifiers": [
+            "createCheckpoint"
+          ]
+        },
+        {
+          "source": "../src/git/restore.js",
+          "specifiers": [
+            "restoreCheckpoint"
+          ]
+        },
+        {
+          "source": "../src/init/index.js",
+          "specifiers": [
+            "initProject"
+          ]
+        },
+        {
+          "source": "../src/log/index.js",
+          "specifiers": [
+            "logEvent"
+          ]
+        },
+        {
+          "source": "../src/planning/index.js",
+          "specifiers": [
+            "approveTaskDocs",
+            "draftTaskDocs"
+          ]
+        },
+        {
+          "source": "../src/resume/index.js",
+          "specifiers": [
+            "buildResumeContext"
+          ]
+        },
+        {
+          "source": "../src/session/index.js",
+          "specifiers": [
+            "buildSessionSummary"
+          ]
+        },
+        {
+          "source": "../src/tasks/index.js",
+          "specifiers": [
+            "getTask",
+            "registerTask",
+            "setTaskStatus"
+          ]
+        },
+        {
+          "source": "../src/validation/index.js",
+          "specifiers": [
+            "assertContextCurrent",
+            "startSession"
+          ]
+        },
+        {
+          "source": "../src/verify/index.js",
+          "specifiers": [
+            "verifyChecks"
+          ]
+        },
+        {
+          "source": "../src/verify/index.js",
+          "specifiers": [
+            "completeTaskWithVerification"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 115,
+      "hasStructuralAnalysis": true
+    },
+    "tests/explore.test.ts": {
+      "filePath": "tests/explore.test.ts",
+      "contentHash": "d41e0348b0a0d4c22437e7356062fb909e5d18d666494204b38e4a61f3062817",
+      "functions": [
+        {
+          "name": "makeRepo",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "makeVault",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "appStatus",
+          "params": [
+            "repo"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdtempSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/planning/index.js",
+          "specifiers": [
+            "draftTaskDocs"
+          ]
+        },
+        {
+          "source": "../src/vault/index.js",
+          "specifiers": [
+            "readVaultDoc",
+            "renderTemplate",
+            "resolveVaultDoc",
+            "writeVaultDoc"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 83,
+      "hasStructuralAnalysis": true
+    },
+    "tests/finalize.test.ts": {
+      "filePath": "tests/finalize.test.ts",
+      "contentHash": "1cc84c77a8aa0cd696ab783ec7a4bff2088249db710b0bc2a6556479a11e344b",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "dir",
+            "...args"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "setup",
+          "params": [],
+          "returnType": "{ repo: string; vault: string; config: ResolvedConfig }",
+          "exported": false,
+          "lineCount": 16
+        },
+        {
+          "name": "seedTask",
+          "params": [
+            "vault",
+            "taskId"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "assertFinalizeError",
+          "params": [
+            "fn",
+            "code"
+          ],
+          "returnType": "FinalizeError",
+          "exported": false,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdtempSync",
+            "mkdirSync",
+            "readFileSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/finalize/index.js",
+          "specifiers": [
+            "FinalizeError",
+            "finalizeTask"
+          ]
+        },
+        {
+          "source": "../src/log/index.js",
+          "specifiers": [
+            "logEvent"
+          ]
+        },
+        {
+          "source": "../src/planning/index.js",
+          "specifiers": [
+            "draftTaskDocs"
+          ]
+        },
+        {
+          "source": "../src/tasks/index.js",
+          "specifiers": [
+            "getTask",
+            "registerSubtask",
+            "registerTask",
+            "setTaskStatus"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 115,
+      "hasStructuralAnalysis": true
+    },
+    "tests/git.test.ts": {
+      "filePath": "tests/git.test.ts",
+      "contentHash": "97f49214a168a5040aabf53dd7cdb440e2233a9486d448baa5b52c0d3ea77917",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "cwd",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "makeRepo",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "makeVault",
+          "params": [
+            "projectId",
+            "repoRoot"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "setup",
+          "params": [
+            "projectId"
+          ],
+          "returnType": "{ repo: string; vault: string; config: ResolvedConfig }",
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "commitCount",
+          "params": [
+            "repo"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "commitFiles",
+          "params": [
+            "repo"
+          ],
+          "returnType": "string[]",
+          "exported": false,
+          "lineCount": 4
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdtempSync",
+            "mkdirSync",
+            "readFileSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/git/checkpoint.js",
+          "specifiers": [
+            "CheckpointError",
+            "createCheckpoint"
+          ]
+        },
+        {
+          "source": "../src/core/project-identity.js",
+          "specifiers": [
+            "IdentityError"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 220,
+      "hasStructuralAnalysis": true
+    },
+    "tests/identity.test.ts": {
+      "filePath": "tests/identity.test.ts",
+      "contentHash": "871bf14e0ba8a05a46bdd277ee5f4e744278cbfad787cd4e46f2f7b67755bdb5",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "dir",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "makeRepo",
+          "params": [
+            "branch"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "makeVault",
+          "params": [
+            "registry"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "configFor",
+          "params": [
+            "repoRoot",
+            "vaultRoot",
+            "projectId"
+          ],
+          "returnType": "ResolvedConfig",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "assertIdentityError",
+          "params": [
+            "fn",
+            "code"
+          ],
+          "returnType": "IdentityError",
+          "exported": false,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "chmodSync",
+            "existsSync",
+            "mkdirSync",
+            "mkdtempSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join",
+            "resolve"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/core/project-identity.js",
+          "specifiers": [
+            "IdentityError",
+            "readRegistry",
+            "resolveBranch",
+            "resolveRepoRoot",
+            "validateIdentity"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 160,
+      "hasStructuralAnalysis": true
+    },
+    "tests/init.test.ts": {
+      "filePath": "tests/init.test.ts",
+      "contentHash": "b21f38b878baf668f0bf0c84baa8cff38ce98c0cb60db32863b78c7db589d3a9",
+      "functions": [
+        {
+          "name": "makeRepo",
+          "params": [
+            "name"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "makeVault",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdirSync",
+            "readFileSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdtempSync"
+          ]
+        },
+        {
+          "source": "../src/init/index.js",
+          "specifiers": [
+            "initProject",
+            "proposeProjectId"
+          ]
+        },
+        {
+          "source": "../src/core/project-identity.js",
+          "specifiers": [
+            "validateIdentity"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "loadConfig"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 194,
+      "hasStructuralAnalysis": true
+    },
+    "tests/links.test.ts": {
+      "filePath": "tests/links.test.ts",
+      "contentHash": "67dfaf6b64ba48b8d2956171a20d80cae3a01b92af5417a0329bb5551b6dc7d7",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "cwd",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "makeRepo",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "templateVars",
+          "params": [],
+          "returnType": "Record<string, string>",
+          "exported": false,
+          "lineCount": 36
+        },
+        {
+          "name": "markdownFiles",
+          "params": [
+            "dir"
+          ],
+          "returnType": "string[]",
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "buildFixture",
+          "params": [],
+          "returnType": "{ repo: string; vault: string; config: ResolvedConfig }",
+          "exported": false,
+          "lineCount": 43
+        },
+        {
+          "name": "scanLinks",
+          "params": [
+            "vault"
+          ],
+          "returnType": "{ broken: string[]; checked: number }",
+          "exported": false,
+          "lineCount": 19
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdtempSync",
+            "readFileSync",
+            "readdirSync",
+            "statSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join",
+            "resolve",
+            "dirname"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/vault/index.js",
+          "specifiers": [
+            "renderTemplate"
+          ]
+        },
+        {
+          "source": "../src/init/index.js",
+          "specifiers": [
+            "initProject"
+          ]
+        },
+        {
+          "source": "../src/planning/index.js",
+          "specifiers": [
+            "draftTaskDocs",
+            "reviseTaskDocs"
+          ]
+        },
+        {
+          "source": "../src/finalize/index.js",
+          "specifiers": [
+            "finalizeTask"
+          ]
+        },
+        {
+          "source": "../src/tasks/index.js",
+          "specifiers": [
+            "registerTask",
+            "setTaskStatus"
+          ]
+        },
+        {
+          "source": "../src/log/index.js",
+          "specifiers": [
+            "logEvent",
+            "readLogDay"
+          ]
+        },
+        {
+          "source": "../src/git/checkpoint.js",
+          "specifiers": [
+            "appendCheckpointRecord"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 248,
+      "hasStructuralAnalysis": true
+    },
+    "tests/log.test.ts": {
+      "filePath": "tests/log.test.ts",
+      "contentHash": "b4350592d6cd2bfd97589ca57eea6251240cf032aa2af9155a4bd64df40b5fc7",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "cwd",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "makeRepo",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "makeVault",
+          "params": [
+            "projectId",
+            "repoRoot"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "setup",
+          "params": [],
+          "returnType": "{ repo: string; vault: string; config: ResolvedConfig }",
+          "exported": false,
+          "lineCount": 6
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdtempSync",
+            "mkdirSync",
+            "readFileSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/core/project-identity.js",
+          "specifiers": [
+            "IdentityError"
+          ]
+        },
+        {
+          "source": "../src/log/index.js",
+          "specifiers": [
+            "LogError",
+            "logEvent",
+            "readLastEvents",
+            "readLogDay"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 192,
+      "hasStructuralAnalysis": true
+    },
+    "tests/planning.test.ts": {
+      "filePath": "tests/planning.test.ts",
+      "contentHash": "c1aeb1db4beaa3f57e40df8e057386f91ed42fae69ac4b1b47c2a161ccf2f23b",
+      "functions": [
+        {
+          "name": "makeVault",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "assertPlanningError",
+          "params": [
+            "fn",
+            "code"
+          ],
+          "returnType": "PlanningError",
+          "exported": false,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdtempSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/planning/index.js",
+          "specifiers": [
+            "PlanningError",
+            "approveTaskDocs",
+            "assertApproved",
+            "draftTaskDocs",
+            "getDocStatuses",
+            "rejectTaskDocs",
+            "reviseTaskDocs",
+            "IntentVars",
+            "PlanVars"
+          ]
+        },
+        {
+          "source": "../src/vault/index.js",
+          "specifiers": [
+            "parseFrontmatter",
+            "readVaultDoc"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 123,
+      "hasStructuralAnalysis": true
+    },
+    "tests/policy.test.ts": {
+      "filePath": "tests/policy.test.ts",
+      "contentHash": "e1c32cc432430251cd41687e9ac3b4a916c7a29f88ea4bf0c8bc1acfbd07591b",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "cwd",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "makeRepo",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "makeVault",
+          "params": [
+            "projectId",
+            "repoRoot"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "setup",
+          "params": [
+            "status"
+          ],
+          "returnType": "{\n  repo: string;\n  vault: string;\n  config: ResolvedConfig;\n}",
+          "exported": false,
+          "lineCount": 18
+        },
+        {
+          "name": "commitCount",
+          "params": [
+            "repo"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "failingOutcome",
+          "params": [],
+          "returnType": "VerifyOutcome",
+          "exported": false,
+          "lineCount": 16
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdtempSync",
+            "mkdirSync",
+            "readFileSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/git/policy.js",
+          "specifiers": [
+            "maybeCheckpointPolicy"
+          ]
+        },
+        {
+          "source": "../src/tasks/index.js",
+          "specifiers": [
+            "registerTask",
+            "setTaskStatus"
+          ]
+        },
+        {
+          "source": "../src/verify/index.js",
+          "specifiers": [
+            "verifyChecks",
+            "VerifyOutcome"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 257,
+      "hasStructuralAnalysis": true
+    },
+    "tests/restore.test.ts": {
+      "filePath": "tests/restore.test.ts",
+      "contentHash": "fda52dc95a48dcadeb3abcbfe06c25c2caa100f95715e45c8ace5e6d45d782c4",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "cwd",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "makeRepo",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "makeVault",
+          "params": [
+            "projectId",
+            "repoRoot"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "setup",
+          "params": [
+            "projectId"
+          ],
+          "returnType": "{ repo: string; config: ResolvedConfig }",
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "checkpoint",
+          "params": [
+            "repo",
+            "config",
+            "taskId",
+            "content",
+            "summary"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 21
+        },
+        {
+          "name": "commitCount",
+          "params": [
+            "repo"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "commitFiles",
+          "params": [
+            "repo"
+          ],
+          "returnType": "string[]",
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "expectRestoreError",
+          "params": [
+            "fn",
+            "code"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 6
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdtempSync",
+            "mkdirSync",
+            "readFileSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/git/checkpoint.js",
+          "specifiers": [
+            "createCheckpoint"
+          ]
+        },
+        {
+          "source": "../src/git/restore.js",
+          "specifiers": [
+            "RestoreError",
+            "restoreCheckpoint"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 304,
+      "hasStructuralAnalysis": true
+    },
+    "tests/resume.test.ts": {
+      "filePath": "tests/resume.test.ts",
+      "contentHash": "e0a9f3d54690af1f3c2c7679fb78bc5980dcf4aa7d8df2f8171c7afbbe9cb339",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "dir",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "makeRepo",
+          "params": [
+            "branch"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "makeVault",
+          "params": [
+            "repo",
+            "projectId"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "configFor",
+          "params": [
+            "vaultRoot",
+            "projectId"
+          ],
+          "returnType": "ResolvedConfig",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "seedTask",
+          "params": [
+            "vault",
+            "taskId",
+            "branch",
+            "date"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 4
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdirSync",
+            "mkdtempSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join",
+            "resolve"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/core/project-identity.js",
+          "specifiers": [
+            "IdentityError"
+          ]
+        },
+        {
+          "source": "../src/log/index.js",
+          "specifiers": [
+            "logEvent"
+          ]
+        },
+        {
+          "source": "../src/planning/index.js",
+          "specifiers": [
+            "draftTaskDocs"
+          ]
+        },
+        {
+          "source": "../src/resume/index.js",
+          "specifiers": [
+            "buildResumeContext"
+          ]
+        },
+        {
+          "source": "../src/tasks/index.js",
+          "specifiers": [
+            "registerTask",
+            "setTaskStatus"
+          ]
+        },
+        {
+          "source": "../src/vault/index.js",
+          "specifiers": [
+            "resolveVaultDoc",
+            "writeVaultDoc"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 155,
+      "hasStructuralAnalysis": true
+    },
+    "tests/session.test.ts": {
+      "filePath": "tests/session.test.ts",
+      "contentHash": "8ca656dd1207a268b270f803b7e79d27cdc2d0cb933c2eff9737545b4486fc21",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "cwd",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "setup",
+          "params": [],
+          "returnType": "{ repo: string; vault: string; config: ResolvedConfig }",
+          "exported": false,
+          "lineCount": 17
+        },
+        {
+          "name": "seedTask",
+          "params": [
+            "vault"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdtempSync",
+            "mkdirSync",
+            "readFileSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/log/index.js",
+          "specifiers": [
+            "logEvent"
+          ]
+        },
+        {
+          "source": "../src/planning/index.js",
+          "specifiers": [
+            "draftTaskDocs"
+          ]
+        },
+        {
+          "source": "../src/session/index.js",
+          "specifiers": [
+            "buildSessionSummary"
+          ]
+        },
+        {
+          "source": "../src/tasks/index.js",
+          "specifiers": [
+            "registerTask",
+            "setTaskStatus"
+          ]
+        },
+        {
+          "source": "../src/verify/index.js",
+          "specifiers": [
+            "verifyChecks"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 178,
+      "hasStructuralAnalysis": true
+    },
+    "tests/setup.test.ts": {
+      "filePath": "tests/setup.test.ts",
+      "contentHash": "01419b5b30b3a61c8d9b7d11f7815bc175d108bcc43ac14b783ad5ddcb79913a",
+      "functions": [
+        {
+          "name": "run",
+          "params": [
+            "cwd",
+            "args",
+            "env"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "runExpectFail",
+          "params": [
+            "cwd",
+            "args",
+            "env"
+          ],
+          "returnType": "number | null",
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "pkgSource",
+          "params": [
+            "rel"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdtempSync",
+            "mkdirSync",
+            "readFileSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "dirname",
+            "join",
+            "resolve"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:url",
+          "specifiers": [
+            "fileURLToPath"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 98,
+      "hasStructuralAnalysis": true
+    },
+    "tests/tasks.test.ts": {
+      "filePath": "tests/tasks.test.ts",
+      "contentHash": "97ff492db62c3bae2bc907702e9b8f7fe662633d3282510b6023c10872752ea0",
+      "functions": [
+        {
+          "name": "makeVault",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "assertRegistryError",
+          "params": [
+            "fn",
+            "code"
+          ],
+          "returnType": "TaskRegistryError",
+          "exported": false,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "existsSync",
+            "mkdirSync",
+            "mkdtempSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/tasks/index.js",
+          "specifiers": [
+            "TaskRegistryError",
+            "attachBranch",
+            "getTask",
+            "listOpenTasks",
+            "migrateTaskLayout",
+            "recommendNext",
+            "recommendResume",
+            "registerSubtask",
+            "registerTask",
+            "resolveTaskDir",
+            "setTaskStatus"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 201,
+      "hasStructuralAnalysis": true
+    },
+    "tests/tools.test.ts": {
+      "filePath": "tests/tools.test.ts",
+      "contentHash": "da867ff38e0292b35a6d9f0b83b060208ea3eff8ca93e37d343f16c91bc9a35a",
+      "functions": [
+        {
+          "name": "makeCtx",
+          "params": [
+            "repo"
+          ],
+          "exported": false,
+          "lineCount": 18
+        },
+        {
+          "name": "setup",
+          "params": [],
+          "returnType": "{ repo: string; config: ResolvedConfig; cleanup: () => void }",
+          "exported": false,
+          "lineCount": 23
+        },
+        {
+          "name": "git",
+          "params": [
+            "cwd",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "parse",
+          "params": [
+            "content"
+          ],
+          "returnType": "any",
+          "exported": false,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdtempSync",
+            "mkdirSync",
+            "rmSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/tools.js",
+          "specifiers": [
+            "registerOlcTools"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 212,
+      "hasStructuralAnalysis": true
+    },
+    "tests/validation.test.ts": {
+      "filePath": "tests/validation.test.ts",
+      "contentHash": "b2a11d1ac8bcb1053ddeaa68070c2b7856a0ac9ccfa209f927fae756a33e1991",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "dir",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "makeRepo",
+          "params": [
+            "tag",
+            "branch"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "makeVault",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "addProject",
+          "params": [
+            "vault",
+            "projectId",
+            "repoRoot"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "configFor",
+          "params": [
+            "vaultRoot",
+            "projectId"
+          ],
+          "returnType": "ResolvedConfig",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "commitCount",
+          "params": [
+            "repo"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdirSync",
+            "mkdtempSync",
+            "readFileSync",
+            "rmSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/core/project-identity.js",
+          "specifiers": [
+            "IdentityError"
+          ]
+        },
+        {
+          "source": "../src/git/checkpoint.js",
+          "specifiers": [
+            "createCheckpoint"
+          ]
+        },
+        {
+          "source": "../src/validation/index.js",
+          "specifiers": [
+            "ValidationError",
+            "assertContextCurrent",
+            "startSession"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 149,
+      "hasStructuralAnalysis": true
+    },
+    "tests/vault.test.ts": {
+      "filePath": "tests/vault.test.ts",
+      "contentHash": "253fddcaa7ab7e12faebfb7028287919f22771d19f3c186217008d6e41bf2adc",
+      "functions": [
+        {
+          "name": "makeVault",
+          "params": [],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "assertVaultError",
+          "params": [
+            "fn",
+            "code"
+          ],
+          "returnType": "VaultError",
+          "exported": false,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdtempSync",
+            "readFileSync",
+            "readdirSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/vault/index.js",
+          "specifiers": [
+            "BUNDLED_TEMPLATES",
+            "VaultError",
+            "findTemplatesDir",
+            "parseFrontmatter",
+            "readVaultDoc",
+            "renderTemplate",
+            "resolveVaultDoc",
+            "withFrontmatter",
+            "writeVaultDoc"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 143,
+      "hasStructuralAnalysis": true
+    },
+    "tests/verify.test.ts": {
+      "filePath": "tests/verify.test.ts",
+      "contentHash": "e7e87eb765f47c1e28314ca92db5d2537663b6f39f68bde263b7d22a3ee42e6b",
+      "functions": [
+        {
+          "name": "git",
+          "params": [
+            "dir",
+            "...args"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "setup",
+          "params": [
+            "taskId"
+          ],
+          "returnType": "{ repo: string; config: ResolvedConfig }",
+          "exported": false,
+          "lineCount": 27
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "node:child_process",
+          "specifiers": [
+            "execFileSync"
+          ]
+        },
+        {
+          "source": "node:fs",
+          "specifiers": [
+            "mkdirSync",
+            "mkdtempSync",
+            "writeFileSync"
+          ]
+        },
+        {
+          "source": "node:os",
+          "specifiers": [
+            "tmpdir"
+          ]
+        },
+        {
+          "source": "node:path",
+          "specifiers": [
+            "join"
+          ]
+        },
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "../src/build/index.js",
+          "specifiers": [
+            "beginTask"
+          ]
+        },
+        {
+          "source": "../src/config/index.js",
+          "specifiers": [
+            "ResolvedConfig"
+          ]
+        },
+        {
+          "source": "../src/planning/index.js",
+          "specifiers": [
+            "approveTaskDocs",
+            "draftTaskDocs"
+          ]
+        },
+        {
+          "source": "../src/tasks/index.js",
+          "specifiers": [
+            "getTask",
+            "registerTask",
+            "setTaskStatus"
+          ]
+        },
+        {
+          "source": "../src/verify/index.js",
+          "specifiers": [
+            "completeTaskWithVerification",
+            "formatVerifyReport",
+            "runCheck",
+            "verifyChecks"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 144,
+      "hasStructuralAnalysis": true
+    },
+    "tsconfig.json": {
+      "filePath": "tsconfig.json",
+      "contentHash": "3cf44cbbcb076e81db75b3e24839461e1f4f3a4a683482896f2d48dd02408a51",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": false
+    },
+    "tsconfig.tests.json": {
+      "filePath": "tsconfig.tests.json",
+      "contentHash": "9fa6d3cdd37fe05de0fc8e0c480d5310dd978ae0c3b8fdf0a67844ea58a12c29",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 11,
+      "hasStructuralAnalysis": false
+    }
+  }
+}

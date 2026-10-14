@@ -1,0 +1,44 @@
+{
+  "nodes": [
+    {
+      "id": "document:docs/DECISIONS.md",
+      "type": "document",
+      "name": "DECISIONS.md",
+      "filePath": "docs/DECISIONS.md",
+      "summary": "Project documentation covering DECISIONS.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/PRD.md",
+      "type": "document",
+      "name": "PRD.md",
+      "filePath": "docs/PRD.md",
+      "summary": "Project documentation covering PRD.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/TASKS.md",
+      "type": "document",
+      "name": "TASKS.md",
+      "filePath": "docs/TASKS.md",
+      "summary": "Project documentation covering TASKS.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "complex"
+    }
+  ],
+  "edges": []
+}

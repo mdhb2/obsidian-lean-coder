@@ -1,0 +1,182 @@
+{
+  "projectRoot": "/home/mdhb2/workspace/projects/personal/olc",
+  "batchFiles": [
+    {
+      "path": ".opencode/goals/state.json.sessions/.migration-v1-complete",
+      "language": "unknown",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".opencode/goals/state.json.sessions/669477566eb181eda20d119cd719c38cc84773e680d74501de8e33dee2eb4cbd/state.json",
+      "language": "json",
+      "sizeLines": 6,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".uteke/uteke-rule.md",
+      "language": "markdown",
+      "sizeLines": 55,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".uteke/uteke.toml",
+      "language": "toml",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": "agents/olc-build.md",
+      "language": "markdown",
+      "sizeLines": 57,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "agents/olc-plan.md",
+      "language": "markdown",
+      "sizeLines": 44,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "bin/olc-setup.js",
+      "language": "javascript",
+      "sizeLines": 131,
+      "fileCategory": "code"
+    },
+    {
+      "path": "skills/olc-explore/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 35,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "skills/olc-init/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 41,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "skills/olc-log/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 29,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "skills/olc-task/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 56,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/approval/index.ts",
+      "language": "typescript",
+      "sizeLines": 179,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/config/index.ts",
+      "language": "typescript",
+      "sizeLines": 205,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/core/project-identity.ts",
+      "language": "typescript",
+      "sizeLines": 205,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/finalize/index.ts",
+      "language": "typescript",
+      "sizeLines": 232,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/git/checkpoint.ts",
+      "language": "typescript",
+      "sizeLines": 199,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/git/inspection.ts",
+      "language": "typescript",
+      "sizeLines": 99,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/git/policy.ts",
+      "language": "typescript",
+      "sizeLines": 147,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/git/restore.ts",
+      "language": "typescript",
+      "sizeLines": 226,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/index.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/init/index.ts",
+      "language": "typescript",
+      "sizeLines": 254,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/log/index.ts",
+      "language": "typescript",
+      "sizeLines": 276,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/planning/index.ts",
+      "language": "typescript",
+      "sizeLines": 301,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/plugin.ts",
+      "language": "typescript",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/resume/index.ts",
+      "language": "typescript",
+      "sizeLines": 178,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    ".opencode/goals/state.json.sessions/.migration-v1-complete": [],
+    ".opencode/goals/state.json.sessions/669477566eb181eda20d119cd719c38cc84773e680d74501de8e33dee2eb4cbd/state.json": [],
+    ".uteke/uteke-rule.md": [],
+    ".uteke/uteke.toml": [],
+    "agents/olc-build.md": [],
+    "agents/olc-plan.md": [],
+    "bin/olc-setup.js": [],
+    "skills/olc-explore/SKILL.md": [],
+    "skills/olc-init/SKILL.md": [],
+    "skills/olc-log/SKILL.md": [],
+    "skills/olc-task/SKILL.md": [],
+    "src/approval/index.ts": [],
+    "src/config/index.ts": [],
+    "src/core/project-identity.ts": [],
+    "src/finalize/index.ts": [],
+    "src/git/checkpoint.ts": [],
+    "src/git/inspection.ts": [],
+    "src/git/policy.ts": [],
+    "src/git/restore.ts": [],
+    "src/index.ts": [],
+    "src/init/index.ts": [],
+    "src/log/index.ts": [],
+    "src/planning/index.ts": [],
+    "src/plugin.ts": [],
+    "src/resume/index.ts": []
+  }
+}

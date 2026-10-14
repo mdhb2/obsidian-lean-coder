@@ -1,0 +1,70 @@
+{
+  "nodes": [
+    {
+      "id": "file:tests/tasks.test.ts",
+      "type": "file",
+      "name": "tasks.test.ts",
+      "filePath": "tests/tasks.test.ts",
+      "summary": "Code file implementing project logic in tasks.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/tools.test.ts",
+      "type": "file",
+      "name": "tools.test.ts",
+      "filePath": "tests/tools.test.ts",
+      "summary": "Code file implementing project logic in tools.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/validation.test.ts",
+      "type": "file",
+      "name": "validation.test.ts",
+      "filePath": "tests/validation.test.ts",
+      "summary": "Code file implementing project logic in validation.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/vault.test.ts",
+      "type": "file",
+      "name": "vault.test.ts",
+      "filePath": "tests/vault.test.ts",
+      "summary": "Code file implementing project logic in vault.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/verify.test.ts",
+      "type": "file",
+      "name": "verify.test.ts",
+      "filePath": "tests/verify.test.ts",
+      "summary": "Code file implementing project logic in verify.test.ts.",
+      "tags": [
+        "test",
+        "code",
+        "module"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,83 @@
+{
+  "nodes": [
+    {
+      "id": "document:AGENTS.md",
+      "type": "document",
+      "name": "AGENTS.md",
+      "filePath": "AGENTS.md",
+      "summary": "Project documentation covering AGENTS.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:CHANGELOG.md",
+      "type": "document",
+      "name": "CHANGELOG.md",
+      "filePath": "CHANGELOG.md",
+      "summary": "Project documentation covering CHANGELOG.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "Project documentation covering README.md.",
+      "tags": [
+        "documentation",
+        "project",
+        "overview"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "package.json",
+      "summary": "Configuration file controlling runtime or build behavior for package.json.",
+      "tags": [
+        "configuration",
+        "project",
+        "runtime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "tsconfig.json",
+      "summary": "Configuration file controlling runtime or build behavior for tsconfig.json.",
+      "tags": [
+        "configuration",
+        "project",
+        "runtime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:tsconfig.tests.json",
+      "type": "config",
+      "name": "tsconfig.tests.json",
+      "filePath": "tsconfig.tests.json",
+      "summary": "Configuration file controlling runtime or build behavior for tsconfig.tests.json.",
+      "tags": [
+        "configuration",
+        "project",
+        "runtime"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": []
+}
